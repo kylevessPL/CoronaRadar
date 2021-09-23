@@ -11,10 +11,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CoronaRadar">
         <activity
+            android:name=".ui.example.view.ExampleActivity"
+            android:exported="true"
+            android:label="@string/title_activity_example"
+            android:theme="@style/Theme.CoronaRadar.NoActionBar" />
+        <activity
+            android:name=".ui.main.ExampleActivity"
+            android:exported="true"
+            android:label="@string/title_activity_example"
+            android:theme="@style/Theme.CoronaRadar.NoActionBar" />
+        <activity
             android:name=".ui.main.view.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
