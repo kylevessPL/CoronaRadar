@@ -16,7 +16,7 @@ buildscript {
         classpath("com.google.firebase:firebase-crashlytics-gradle:2.7.1")
         classpath("com.google.firebase:perf-plugin:1.4.0")
         classpath("org.jlleitschuh.gradle:ktlint-gradle:10.2.0")
-        classpath("com.google.dagger:hilt-android-gradle-plugin:2.38.1")
+        classpath("com.google.dagger:hilt-android-gradle-plugin:2.39")
         classpath("com.chaquo.python:gradle:10.0.1")
         classpath("de.mannodermaus.gradle.plugins:android-junit5:1.8.0.0")
     }
