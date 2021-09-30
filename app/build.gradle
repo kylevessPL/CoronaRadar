@@ -1,5 +1,8 @@
 plugins {
     id 'com.android.application'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
+    id 'com.google.firebase.firebase-perf'
     id 'dagger.hilt.android.plugin'
     id 'de.mannodermaus.android-junit5'
     id 'com.chaquo.python'
@@ -68,6 +71,8 @@ android {
 
 dependencies {
     def materialVersion = '1.4.0'
+    def firebaseVersion = '28.4.1'
+    def gmsAuthVersion = '19.2.0'
     def appCompatVersion = '1.3.1'
     def coreVersion = '1.6.0'
     def activityVersion = '1.3.1'
@@ -89,6 +94,13 @@ dependencies {
     def jUnitVersion = '5.8.1'
 
     implementation "com.google.android.material:material:$materialVersion"
+    implementation platform("com.google.firebase:firebase-bom:$firebaseVersion")
+    implementation "com.google.firebase:firebase-analytics-ktx"
+    implementation "com.google.firebase:firebase-crashlytics-ktx"
+    implementation "com.google.firebase:firebase-perf-ktx"
+    implementation "com.google.firebase:firebase-auth-ktx"
+    implementation "com.google.firebase:firebase-firestore"
+    implementation "com.google.android.gms:play-services-auth:$gmsAuthVersion"
     implementation "androidx.appcompat:appcompat:$appCompatVersion"
     implementation "androidx.core:core-ktx:$coreVersion"
     implementation "androidx.activity:activity-ktx:$activityVersion"

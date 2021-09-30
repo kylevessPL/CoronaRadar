@@ -344,3 +344,8 @@ Thumbs.db
 ### AndroidStudio Patch ###
 
 !/gradle/wrapper/gradle-wrapper.jar
+
+### Firebase
+
+# Google Services config
+google-services.json
