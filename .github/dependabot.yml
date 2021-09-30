@@ -1,0 +1,14 @@
+version: 1
+updates:
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: daily
+      time: "01:00"
+      timezone: Europe/Warsaw
+  - package-ecosystem: gradle
+    directory: "/"
+    schedule:
+      interval: daily
+      time: "01:00"
+      timezone: Europe/Warsaw
