@@ -81,7 +81,7 @@ dependencies {
     def navigationVersion = '2.3.5'
     def constraintlayoutVersion = '2.1.1'
     def mockkVersion = '1.12.0'
-    def hiltVersion = '2.39'
+    def hiltVersion = '2.39.1'
     def coroutinesVersion = '1.5.2'
     def tensorflowVersion = '2.6.0'
     def tensorflowSupportVersion = '0.2.0'
