@@ -18,4 +18,9 @@
     <style name="Theme.CoronaRadar.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.CoronaRadar.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="Theme.CoronaRadar.TextAppearance.NavHeader" parent="TextAppearance.AppCompat.Display1">
+        <item name="fontFamily">sans-serif-condensed-light</item>
+        <item name="android:textSize">@dimen/abc_text_size_display_2_material</item>
+    </style>
 </resources>

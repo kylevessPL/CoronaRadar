@@ -1,12 +1,19 @@
 <resources>
     <string name="app_name">CoronaRadar</string>
-    <string name="title_activity_example">ExampleActivity</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
-
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="menu_radar">Radar</string>
+    <string name="menu_history">My History</string>
+    <string name="menu_stats">Statistics</string>
+    <string name="menu_account">My Account</string>
+    <string name="menu_login">Sign In</string>
+    <string name="menu_settings">Settings</string>
+    <string name="updates_header">Updates</string>
+    <string name="coronakit_update_frequency">CoronaKit update frequency</string>
+    <string name="coronakit_update_wifi_only">Update CoronaKit on Wi-Fi only</string>
+    <string name="stats_header">Statistics</string>
+    <string name="stats_records_number">Number of records to fetch</string>
+    <string name="stats_all_hide_mine">Do not show my records in full view</string>
+    <string name="title_activity_main">Main activity</string>
+    <string name="title_activity_settings">Settings activity</string>
+    <string name="title_activity_account">Account activity</string>
 </resources>
