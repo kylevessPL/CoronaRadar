@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModel
+import pl.piasta.coronaradar.BR
 
 abstract class BaseActivity<DB : ViewDataBinding, VM : ViewModel?>(@LayoutRes private val layoutRes: Int) :
     AppCompatActivity() {
@@ -19,5 +20,7 @@ abstract class BaseActivity<DB : ViewDataBinding, VM : ViewModel?>(@LayoutRes pr
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, layoutRes)
+        binding.lifecycleOwner = this@BaseActivity
+        viewModel?.let { binding.setVariable(BR.ViewModel, viewModel) }
     }
 }

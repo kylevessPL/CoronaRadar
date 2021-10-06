@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
+import pl.piasta.coronaradar.BR
 
 abstract class BaseFragment<DB : ViewDataBinding, VM : ViewModel?>(@LayoutRes private val layoutRes: Int) :
     Fragment() {
@@ -33,7 +34,7 @@ abstract class BaseFragment<DB : ViewDataBinding, VM : ViewModel?>(@LayoutRes pr
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = this@BaseFragment
-        //binding.setVariable(BR.viewModel, viewModel)
+        viewModel?.let { binding.setVariable(BR.ViewModel, viewModel) }
     }
 
     @CallSuper
