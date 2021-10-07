@@ -20,9 +20,23 @@
         android:contentDescription="@string/nav_header_desc"
         app:srcCompat="@drawable/ic_covid_19" />
 
-    <TextView
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/app_name"
-        android:textAppearance="@style/Theme.CoronaRadar.TextAppearance.NavHeader" />
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/abc_text_size_display_2_material"
+            android:includeFontPadding="false"
+            android:text="@string/app_name_pt1"
+            android:textAppearance="@style/Theme.CoronaRadar.TextAppearance.NavHeader" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/abc_text_size_display_2_material"
+            android:includeFontPadding="false"
+            android:text="@string/app_name_pt2"
+            android:textAppearance="@style/Theme.CoronaRadar.TextAppearance.NavHeader" />
+    </LinearLayout>
 </LinearLayout>

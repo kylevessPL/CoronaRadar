@@ -2,46 +2,46 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_login"
-    app:startDestination="@id/AccountFragment">
+    android:id="@+id/nav_graph_login"
+    app:startDestination="@id/nav_account">
 
     <fragment
-        android:id="@+id/AccountFragment"
+        android:id="@+id/nav_account"
         android:name="pl.piasta.coronaradar.ui.account.AccountFragment"
         android:label="@string/menu_account"
         tools:layout="@layout/fragment_account">
 
         <action
             android:id="@+id/action_AccountFragment_to_LoginFragment"
-            app:destination="@id/LoginFragment"
-            app:popUpTo="@+id/AccountFragment"
+            app:destination="@id/nav_login"
+            app:popUpTo="@id/nav_account"
             app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
-        android:id="@+id/LoginFragment"
+        android:id="@+id/nav_login"
         android:name="pl.piasta.coronaradar.ui.login.LoginFragment"
         android:label="@string/menu_login"
         tools:layout="@layout/fragment_login">
 
         <action
             android:id="@+id/action_LoginFragment_to_RegisterFragment"
-            app:destination="@id/RegisterFragment" />
+            app:destination="@id/nav_register" />
         <action
             android:id="@+id/action_LoginFragment_to_AccountFragment"
-            app:destination="@id/AccountFragment"
-            app:popUpTo="@+id/LoginFragment"
+            app:destination="@id/nav_account"
+            app:popUpTo="@+id/nav_login"
             app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
-        android:id="@+id/RegisterFragment"
+        android:id="@+id/nav_register"
         android:name="pl.piasta.coronaradar.ui.register.RegisterFragment"
         android:label="Register"
         tools:layout="@layout/fragment_register">
 
         <action
             android:id="@+id/action_RegisterFragment_to_LoginFragment"
-            app:destination="@id/LoginFragment" />
+            app:destination="@id/nav_login" />
     </fragment>
 </navigation>

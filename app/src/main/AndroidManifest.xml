@@ -23,7 +23,6 @@
         <activity
             android:name=".ui.main.MainActivity"
             android:exported="true"
-            android:label="@string/title_activity_main"
             android:theme="@style/Theme.CoronaRadar.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,11 +32,14 @@
         <activity
             android:name=".ui.account.AccountActivity"
             android:exported="true"
-            android:label="@string/title_activity_account" />
+            android:label="@string/title_activity_account"
+            android:parentActivityName="pl.piasta.coronaradar.ui.main.MainActivity"
+            android:theme="@style/Theme.CoronaRadar.NoActionBar" />
         <activity
             android:name=".ui.settings.SettingsActivity"
             android:exported="true"
-            android:label="@string/title_activity_settings" />
+            android:label="@string/title_activity_settings"
+            android:parentActivityName="pl.piasta.coronaradar.ui.main.MainActivity" />
     </application>
 
 </manifest>

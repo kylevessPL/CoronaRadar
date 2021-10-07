@@ -4,8 +4,8 @@
         <item name="colorPrimary">@color/picton_blue_500</item>
         <item name="colorPrimaryVariant">@color/picton_blue_800</item>
         <item name="colorOnPrimary">@color/white</item>
-        <item name="colorSecondary">@color/trout_600</item>
-        <item name="colorSecondaryVariant">@color/trout_800</item>
+        <item name="colorSecondary">@color/carrot_orange_600</item>
+        <item name="colorSecondaryVariant">@color/carrot_orange_800</item>
         <item name="colorOnSecondary">@color/black</item>
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
     </style>

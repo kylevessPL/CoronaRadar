@@ -2,9 +2,8 @@
 <resources>
     <color name="picton_blue_500">#33A3DE</color>
     <color name="picton_blue_800">#2472A9</color>
-    <color name="carrot_orange_600">#F48E1E</color>
-    <color name="trout_600">#7F7F91</color>
-    <color name="trout_800">#4B4B5B</color>
+    <color name="carrot_orange_600">#F48D1E</color>
+    <color name="carrot_orange_800">#E76E19</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 </resources>
