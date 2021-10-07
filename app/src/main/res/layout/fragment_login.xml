@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable
+
+    <variable
             name="ViewModel"
             type="pl.piasta.coronaradar.ui.login.LoginViewModel" />
     </data>
