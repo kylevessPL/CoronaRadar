@@ -10,7 +10,7 @@
         <item name="itemTextColor">?attr/colorOnSecondary</item>
         <item name="colorNavigationItemBackgroundPressed">@color/picton_blue_50</item>
         <item name="colorNavigationItemBackgroundSelected">@color/picton_blue_100</item>
-        <item name="colorNavigationItemIconTintSelected">@color/picton_blue_500</item>
+        <item name="colorNavigationItemIconTintSelected">@color/picton_blue_800</item>
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
     </style>
 
