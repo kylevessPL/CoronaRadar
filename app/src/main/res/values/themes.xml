@@ -11,7 +11,7 @@
         <item name="itemIconTint">?attr/colorOnSecondary</item>
         <item name="colorNavigationItemBackgroundPressed">@color/picton_blue_50</item>
         <item name="colorNavigationItemBackgroundSelected">@color/picton_blue_100</item>
-        <item name="colorNavigationItemIconTintSelected">@color/picton_blue_800</item>
+        <item name="colorNavigationItemIconTintSelected">?attr/colorPrimaryVariant</item>
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
     </style>
 
@@ -36,7 +36,7 @@
         <item name="colorControlHighlight">@android:color/transparent</item>
     </style>
 
-    <style name="Theme.CoronaRadar.Widget.NavigationView.Ripple" parent="">
+    <style name="Theme.CoronaRadar.Widget.NoRipple" parent="">
         <item name="colorControlHighlight">@android:color/transparent</item>
     </style>
 </resources>

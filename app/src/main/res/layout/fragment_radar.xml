@@ -5,7 +5,7 @@
 
     <data>
 
-    <variable
+        <variable
             name="ViewModel"
             type="pl.piasta.coronaradar.ui.radar.RadarViewModel" />
     </data>
