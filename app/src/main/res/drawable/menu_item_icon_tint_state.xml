@@ -2,5 +2,5 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:color="?attr/colorNavigationItemIconTintSelected" android:state_checked="true" />
 
-    <item android:color="?attr/itemTextColor" />
+    <item android:color="?attr/itemIconTint" />
 </selector>
