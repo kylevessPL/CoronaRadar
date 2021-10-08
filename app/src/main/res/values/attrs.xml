@@ -1,0 +1,5 @@
+<resources>
+    <attr name="colorNavigationItemBackgroundPressed" format="color" />
+    <attr name="colorNavigationItemBackgroundSelected" format="color" />
+    <attr name="colorNavigationItemIconTintSelected" format="color" />
+</resources>

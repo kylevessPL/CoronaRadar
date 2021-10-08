@@ -7,6 +7,10 @@
         <item name="colorSecondary">@color/carrot_orange_600</item>
         <item name="colorSecondaryVariant">@color/carrot_orange_800</item>
         <item name="colorOnSecondary">@color/black</item>
+        <item name="itemTextColor">?attr/colorOnSecondary</item>
+        <item name="colorNavigationItemBackgroundPressed">@color/picton_blue_50</item>
+        <item name="colorNavigationItemBackgroundSelected">@color/picton_blue_100</item>
+        <item name="colorNavigationItemIconTintSelected">@color/picton_blue_500</item>
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
     </style>
 
@@ -22,5 +26,16 @@
     <style name="Theme.CoronaRadar.TextAppearance.NavHeader" parent="TextAppearance.AppCompat.Display1">
         <item name="fontFamily">sans-serif-condensed-light</item>
         <item name="android:textSize">@dimen/abc_text_size_display_2_material</item>
+    </style>
+
+    <style name="Theme.CoronaRadar.Widget.NavigationView" parent="Widget.MaterialComponents.NavigationView">
+        <item name="itemTextColor">?attr/itemTextColor</item>
+        <item name="itemIconTint">@drawable/menu_item_icon_tint_state</item>
+        <item name="itemBackground">@drawable/menu_item_background_color_state</item>
+        <item name="colorControlHighlight">@android:color/transparent</item>
+    </style>
+
+    <style name="Theme.CoronaRadar.Widget.NavigationView.Ripple" parent="">
+        <item name="colorControlHighlight">@android:color/transparent</item>
     </style>
 </resources>

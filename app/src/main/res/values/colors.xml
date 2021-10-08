@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="picton_blue_50">#E1F4FB</color>
+    <color name="picton_blue_100">#B4E3F5</color>
     <color name="picton_blue_500">#33A3DE</color>
     <color name="picton_blue_800">#2472A9</color>
     <color name="carrot_orange_600">#F48D1E</color>
