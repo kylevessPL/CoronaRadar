@@ -34,7 +34,7 @@ abstract class BaseFragment<DB : ViewDataBinding, VM : ViewModel?>(@LayoutRes pr
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = this@BaseFragment
-        viewModel?.let { binding.setVariable(BR.ViewModel, viewModel) }
+        viewModel?.let { binding.setVariable(BR.viewModel, viewModel) }
     }
 
     @CallSuper

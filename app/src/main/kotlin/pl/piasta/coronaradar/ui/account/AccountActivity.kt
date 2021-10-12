@@ -22,9 +22,12 @@ class AccountActivity : BaseActivity<ActivityAccountBinding, Nothing>(R.layout.a
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         setupNavController()
-        val action = AccountFragmentDirections.actionAccountFragmentToLoginFragment()
-        if (auth.currentUser == null)
-            navController.navigate(action)
+        // var action = AccountFragmentDirections.actionAccountFragmentToLoginFragment()
+        // if (auth.currentUser == null) {
+        //     navController.navigate(action)
+        //     // action = LoginFragmentDirections.actionLoginFragmentToRegisterFragment()
+        //     // navController.navigate(action)
+        // }
     }
 
     private fun setupNavController() {

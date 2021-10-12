@@ -25,7 +25,7 @@
         <item
             android:id="@+id/nav_login"
             android:icon="@drawable/ic_baseline_login_24"
-            android:title="@string/menu_login" />
+            android:title="@string/signin" />
     </group>
 
     <group

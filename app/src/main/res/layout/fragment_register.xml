@@ -6,28 +6,171 @@
     <data>
 
         <variable
-            name="ViewModel"
+            name="viewModel"
             type="pl.piasta.coronaradar.ui.register.RegisterViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.register.RegisterFragment">
+        android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+        android:orientation="vertical"
+        tools:context=".ui.login.LoginFragment">
 
-        <TextView
-            android:id="@+id/text_gallery"
+        <ImageView
+            android:id="@+id/register_fragment_header_icon"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:gravity="center"
+            android:contentDescription="@string/app_icon"
+            app:srcCompat="@drawable/ic_covid_200"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/register_fragment_header_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/register_fragment_header_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:textAlignment="center"
-            android:textSize="20sp"
-            android:text="Sign Up"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:gravity="center"
+            android:text="@string/signup_header"
+            android:textStyle="bold"
+            android:textSize="40sp"
+            app:layout_constraintTop_toBottomOf="@+id/register_fragment_header_icon"
+            app:layout_constraintBottom_toTopOf="@+id/register_fragment_content"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/register_fragment_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/register_fragment_header_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:id="@+id/display_name_input_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/display_name"
+                android:layout_marginBottom="8dp"
+                app:startIconDrawable="@drawable/ic_baseline_face_24"
+                app:startIconContentDescription="@string/display_name_icon"
+                app:errorEnabled="true"
+                app:helperTextEnabled="true"
+                app:helperText="@string/display_name_helper">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/display_name_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPersonName"
+                    tools:ignore="TextContrastCheck" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:id="@+id/email_input_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/email"
+                android:layout_marginBottom="8dp"
+                app:startIconDrawable="@drawable/ic_baseline_email_24"
+                app:startIconContentDescription="@string/email_icon"
+                app:errorEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/email_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress"
+                    tools:ignore="TextContrastCheck" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:id="@+id/password_input_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/password"
+                android:layout_marginBottom="8dp"
+                app:startIconDrawable="@drawable/ic_baseline_lock_24"
+                app:startIconContentDescription="@string/password_icon"
+                app:endIconMode="password_toggle"
+                app:errorEnabled="true"
+                app:counterEnabled="true"
+                app:helperTextEnabled="true"
+                app:helperText="@string/password_helper">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/password_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    tools:ignore="TextContrastCheck" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:id="@+id/password_confirm_input_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/password_confirm"
+                android:layout_marginBottom="8dp"
+                app:startIconDrawable="@drawable/ic_baseline_lock_24"
+                app:startIconContentDescription="@string/password_icon"
+                app:endIconMode="password_toggle"
+                app:errorEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/password_confirm_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    tools:ignore="TextContrastCheck" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/signup_button"
+                android:layout_width="match_parent"
+                android:layout_height="58dp"
+                android:backgroundTint="@color/carrot_orange_600"
+                android:text="@string/signup"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                tools:ignore="TextContrastCheck" />
+
+            <LinearLayout
+                android:id="@+id/login_link_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/login_pt1"
+                    android:textStyle="bold"
+                    android:layout_marginEnd="6dp" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/login_link"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/signin"
+                    android:textColor="@color/text_link_color_state"
+                    android:textStyle="bold"
+                    android:clickable="true"
+                    android:theme="@style/Theme.CoronaRadar.Widget.NoRipple"
+                    tools:ignore="TextContrastCheck,TouchTargetSizeCheck" />
+            </LinearLayout>
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

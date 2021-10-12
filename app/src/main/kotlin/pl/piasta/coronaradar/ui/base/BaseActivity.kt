@@ -21,6 +21,6 @@ abstract class BaseActivity<DB : ViewDataBinding, VM : ViewModel?>(@LayoutRes pr
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, layoutRes)
         binding.lifecycleOwner = this@BaseActivity
-        viewModel?.let { binding.setVariable(BR.ViewModel, viewModel) }
+        viewModel?.let { binding.setVariable(BR.viewModel, viewModel) }
     }
 }

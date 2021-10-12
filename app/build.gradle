@@ -41,6 +41,10 @@ android {
         }
     }
 
+    androidResources {
+        noCompress 'tflite'
+    }
+
     buildTypes {
         release {
             minifyEnabled true
@@ -54,9 +58,6 @@ android {
         mlModelBinding true
     }
 
-    aaptOptions {
-        noCompress "tflite"
-    }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_11
@@ -72,6 +73,7 @@ android {
             useJUnitPlatform()
         }
     }
+
     kotlinOptions {
         jvmTarget = '1.8'
     }

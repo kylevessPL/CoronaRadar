@@ -2,12 +2,11 @@
     <string name="app_name">CoronaRadar</string>
     <string name="app_name_pt1">Corona</string>
     <string name="app_name_pt2">Radar</string>
-    <string name="nav_header_desc">Navigation header</string>
     <string name="menu_radar">Radar</string>
     <string name="menu_history">My History</string>
     <string name="menu_stats">Statistics</string>
     <string name="menu_account">My Account</string>
-    <string name="menu_login">Sign In</string>
+    <string name="signin">Sign In</string>
     <string name="updates_header">Updates</string>
     <string name="coronakit_update_frequency">CoronaKit update frequency</string>
     <string name="coronakit_update_wifi_only">Update CoronaKit on Wi-Fi only</string>
@@ -18,7 +17,6 @@
     <string name="title_activity_account">Account</string>
     <string name="google_signin">Sign In with Google</string>
     <string name="facebook_signin">Continue with Facebook</string>
-    <string name="email_signin">Sign In</string>
     <string name="password">Password</string>
     <string name="password_icon">Password icon</string>
     <string name="email">Email</string>
@@ -29,5 +27,21 @@
     <string name="register_pt1">Don\'t have an account yet?</string>
     <string name="register_pt2">Sign Up</string>
     <string name="signin_header">Sign In to See More</string>
-    <string name="signin_header_icon">Sign In header icon</string>
+    <string name="app_icon">CoronaRadar icon</string>
+    <string name="password_confirm">Confirm password</string>
+    <string name="signup">Sign Up</string>
+    <string name="login_pt1">Already have an account?</string>
+    <string name="signup_header">Sign Up to CoronaRadar</string>
+    <string name="display_name">Display name</string>
+    <string name="display_name_icon">Display name icon</string>
+    <string name="display_name_helper">This is what we call you</string>
+    <string name="password_helper">Must be at least 6 characters</string>
+    <string name="signout">Sign Out</string>
+    <string name="avatar_image">Avatar image</string>
+    <string name="save_user_info">Save changes</string>
+    <string name="account_header">Your profile</string>
+    <string name="edit">Edit</string>
+    <string name="upload_avatar">Upload avatar</string>
+    <string name="password_new_confirm">Confirm new password</string>
+    <string name="password_new">New password</string>
 </resources>
