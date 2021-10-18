@@ -100,7 +100,7 @@ dependencies {
     def tensorflowSupportVersion = '0.2.0'
     def tensorflowMetadataVersion = '0.2.1'
     def testVersion = '1.4.0'
-    def koTestVersion = '5.0.0.M2'
+    def koTestVersion = '5.0.0.M3'
     def kaspressoVersion = '1.3.0'
     def mannodermausVersion = '1.3.0'
     def jUnitVersion = '5.8.1'
