@@ -15,7 +15,7 @@
         android:layout_height="match_parent"
         android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
         android:orientation="vertical"
-        tools:context=".ui.login.LoginFragment">
+        tools:context=".ui.account.AccountFragment">
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/account_fragment_header_title"
@@ -89,11 +89,14 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:id="@+id/display_name_input_layout"
+                android:id="@+id/account_display_name_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/display_name"
                 android:layout_marginBottom="8dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                app:placeholderText="@string/display_name"
                 app:startIconDrawable="@drawable/ic_baseline_face_24"
                 app:startIconContentDescription="@string/display_name_icon"
                 app:endIconDrawable="@{viewModel.displayNameEnabled ? @drawable/ic_baseline_edit_off_24 : @drawable/ic_baseline_edit_24}"
@@ -104,7 +107,6 @@
                 app:hintTextAppearance="@style/Base.TextAppearance.AppCompat.Caption">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/display_name_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName"
@@ -113,18 +115,19 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:id="@+id/email_input_layout"
+                android:id="@+id/account_email_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/email"
                 android:layout_marginBottom="8dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 app:startIconDrawable="@drawable/ic_baseline_email_24"
                 app:startIconContentDescription="@string/email_icon"
                 app:errorEnabled="true"
                 app:expandedHintEnabled="false">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/email_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textEmailAddress"
@@ -133,11 +136,13 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:id="@+id/password_input_layout"
+                android:id="@+id/account_password_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/password"
                 android:layout_marginBottom="8dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 app:placeholderText="@string/password_new"
                 app:startIconDrawable="@drawable/ic_baseline_lock_24"
                 app:startIconContentDescription="@string/password_icon"
@@ -148,7 +153,6 @@
                 app:expandedHintEnabled="false">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/password_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textVisiblePassword"
@@ -157,11 +161,13 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:id="@+id/password_confirm_input_layout"
+                android:id="@+id/account_password_confirm_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/password_confirm"
                 android:layout_marginBottom="8dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 app:placeholderText="@string/password_new_confirm"
                 app:startIconDrawable="@drawable/ic_baseline_lock_24"
                 app:startIconContentDescription="@string/password_icon"
@@ -169,7 +175,6 @@
                 app:expandedHintEnabled="false">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/password_confirm_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textVisiblePassword"

@@ -15,7 +15,17 @@
         android:layout_height="match_parent"
         android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
         android:orientation="vertical"
-        tools:context=".ui.login.LoginFragment">
+        tools:context=".ui.register.RegisterFragment">
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="@{viewModel.progressIndicationVisibility, default=gone}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <ImageView
             android:id="@+id/register_fragment_header_icon"
@@ -55,84 +65,75 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:id="@+id/display_name_input_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/display_name"
-                android:layout_marginBottom="8dp"
-                app:startIconDrawable="@drawable/ic_baseline_face_24"
-                app:startIconContentDescription="@string/display_name_icon"
-                app:errorEnabled="true"
-                app:helperTextEnabled="true"
-                app:helperText="@string/display_name_helper">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/display_name_input"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPersonName"
-                    tools:ignore="TextContrastCheck" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:id="@+id/email_input_layout"
+                android:id="@+id/register_email_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/email"
                 android:layout_marginBottom="8dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 app:startIconDrawable="@drawable/ic_baseline_email_24"
                 app:startIconContentDescription="@string/email_icon"
-                app:errorEnabled="true">
+                app:errorEnabled="true"
+                android:errorText="@{viewModel.registerForm.error.email}"
+                android:onFocusChange="@{viewModel::validateEmail}">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/email_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textEmailAddress"
+                    android:text="@={viewModel.registerForm.input.email}"
                     tools:ignore="TextContrastCheck" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:id="@+id/password_input_layout"
+                android:id="@+id/register_password_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/password"
                 android:layout_marginBottom="8dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 app:startIconDrawable="@drawable/ic_baseline_lock_24"
                 app:startIconContentDescription="@string/password_icon"
                 app:endIconMode="password_toggle"
-                app:errorEnabled="true"
                 app:counterEnabled="true"
                 app:helperTextEnabled="true"
-                app:helperText="@string/password_helper">
+                app:helperText="@string/password_helper"
+                app:errorEnabled="true"
+                android:errorText="@{viewModel.registerForm.error.password}"
+                android:onFocusChange="@{viewModel::validatePassword}">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/password_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"
+                    android:text="@={viewModel.registerForm.input.password}"
                     tools:ignore="TextContrastCheck" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:id="@+id/password_confirm_input_layout"
+                android:id="@+id/register_password_confirm_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/password_confirm"
                 android:layout_marginBottom="8dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 app:startIconDrawable="@drawable/ic_baseline_lock_24"
                 app:startIconContentDescription="@string/password_icon"
                 app:endIconMode="password_toggle"
-                app:errorEnabled="true">
+                app:errorEnabled="true"
+                android:errorText="@{viewModel.registerForm.error.repeatPassword}"
+                android:onFocusChange="@{viewModel::validateRepeatPassword}">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/password_confirm_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"
+                    android:text="@={viewModel.registerForm.input.repeatPassword}"
                     tools:ignore="TextContrastCheck" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -144,6 +145,8 @@
                 android:text="@string/signup"
                 android:textAllCaps="true"
                 android:textColor="@color/white"
+                android:enabled="@{viewModel.registerForm.registerFormValid}"
+                android:onClick="@{() -> viewModel.signUp()}"
                 tools:ignore="TextContrastCheck" />
 
             <LinearLayout
@@ -168,6 +171,7 @@
                     android:textColor="@color/text_link_color_state"
                     android:textStyle="bold"
                     android:clickable="true"
+                    android:onClick="@{() -> viewModel.signInEvent()}"
                     android:theme="@style/Theme.CoronaRadar.Widget.NoRipple"
                     tools:ignore="TextContrastCheck,TouchTargetSizeCheck" />
             </LinearLayout>

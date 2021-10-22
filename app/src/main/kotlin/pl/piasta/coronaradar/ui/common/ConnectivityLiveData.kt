@@ -4,6 +4,8 @@ import android.Manifest
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.Network
+import android.net.NetworkCapabilities
+import android.net.NetworkRequest
 import androidx.annotation.RequiresPermission
 import androidx.lifecycle.LiveData
 
@@ -31,7 +33,15 @@ class ConnectivityLiveData @RequiresPermission(Manifest.permission.ACCESS_NETWOR
     override fun onActive() {
         super.onActive()
         postValue(true)
-        connectivityManager.registerDefaultNetworkCallback(networkCallback)
+        connectivityManager.registerNetworkCallback(
+            NetworkRequest.Builder()
+                .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
+                .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
+                .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+                .addCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
+                .build(),
+            networkCallback
+        )
     }
 
     override fun onInactive() {

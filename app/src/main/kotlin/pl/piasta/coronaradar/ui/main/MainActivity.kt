@@ -1,6 +1,5 @@
 package pl.piasta.coronaradar.ui.main
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -13,24 +12,35 @@ import androidx.navigation.ui.NavigationUI.setupWithNavController
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.google.android.material.navigation.NavigationView
+import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.AndroidEntryPoint
 import pl.piasta.coronaradar.R
 import pl.piasta.coronaradar.databinding.ActivityMainBinding
 import pl.piasta.coronaradar.ui.base.BaseActivity
 import pl.piasta.coronaradar.ui.settings.SettingsActivity
+import pl.piasta.coronaradar.ui.util.observeNotNull
+import splitties.activities.start
+import splitties.resources.txt
+import splitties.toast.toast
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.activity_main) {
 
-    override val viewModel: MainViewModel by viewModels()
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var navController: NavController
+    private lateinit var navView: NavigationView
+    private lateinit var connectivitySnackbar: Snackbar
+
+    override val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setSupportActionBar(binding.appBarMain.toolbar)
         setupNavController()
         setupNavDrawer()
+        setupView()
+        updateUI()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -41,8 +51,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.action_settings -> {
-                val settingsActivity = Intent(this@MainActivity, SettingsActivity::class.java)
-                startActivity(settingsActivity)
+                start<SettingsActivity>()
                 return true
             }
         }
@@ -53,6 +62,14 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
+    private fun setupView() {
+        connectivitySnackbar = Snackbar.make(
+            findViewById(android.R.id.content),
+            txt(R.string.network_lost),
+            Snackbar.LENGTH_INDEFINITE
+        )
+    }
+
     private fun setupNavController() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(binding.appBarMain.contentMain.navHostMain.id) as NavHostFragment
@@ -60,8 +77,8 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
     }
 
     private fun setupNavDrawer() {
+        navView = binding.navView
         val drawerLayout: DrawerLayout = binding.drawerLayout
-        val navView: NavigationView = binding.navView
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.nav_radar,
@@ -75,5 +92,39 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         setupWithNavController(navView, navController)
+    }
+
+    private fun updateUI() {
+        viewModel.connectivity.observeNotNull(this@MainActivity, { isConnected ->
+            switchConnectivitySnackbarDisplay(isConnected)
+        })
+        viewModel.connectivitySnackbarDisplay.observeNotNull(this@MainActivity, { display ->
+            displayConnectivitySnackbar(display)
+        })
+        viewModel.firebaseUser.observeNotNull(this@MainActivity, { user ->
+            switchNavMenu(user)
+        })
+    }
+
+    private fun switchConnectivitySnackbarDisplay(isConnected: Boolean) =
+        viewModel.setConnectivitySnackbarDisplay(!isConnected)
+
+    private fun switchNavMenu(user: FirebaseUser?) {
+        navView.menu.clear()
+        user?.also {
+            navView.inflateMenu(R.menu.activity_main_logged_in_drawer)
+        } ?: run {
+            navView.inflateMenu(R.menu.activity_main_not_logged_in_drawer)
+        }
+    }
+
+    private fun displayConnectivitySnackbar(display: Boolean) {
+        when (display) {
+            true -> connectivitySnackbar.show()
+            false -> {
+                connectivitySnackbar.dismiss()
+                toast(R.string.network_restored)
+            }
+        }
     }
 }

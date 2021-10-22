@@ -30,15 +30,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.account.AccountActivity"
+            android:name=".ui.user.UserActivity"
             android:exported="true"
-            android:label="@string/title_activity_account"
+            android:label="@string/account"
             android:parentActivityName="pl.piasta.coronaradar.ui.main.MainActivity"
             android:theme="@style/Theme.CoronaRadar.NoActionBar" />
         <activity
             android:name=".ui.settings.SettingsActivity"
             android:exported="true"
-            android:label="@string/title_activity_settings"
+            android:label="@string/settings"
             android:parentActivityName="pl.piasta.coronaradar.ui.main.MainActivity" />
     </application>
 

@@ -32,6 +32,6 @@
             android:fitsSystemWindows="true"
             android:theme="@style/Theme.CoronaRadar.Widget.NoRipple"
             app:headerLayout="@layout/nav_header_main"
-            app:menu="@menu/activity_main_drawer" />
+            app:menu="@menu/activity_main_logged_in_drawer" />
     </androidx.drawerlayout.widget.DrawerLayout>
 </layout>

@@ -6,7 +6,7 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.account.AccountActivity">
+        tools:context=".ui.user.UserActivity">
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
@@ -23,8 +23,8 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <include
-            layout="@layout/content_account"
-            android:id="@+id/content_account" />
+            layout="@layout/content_user"
+            android:id="@+id/content_user" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

@@ -5,6 +5,10 @@
 
     <data>
 
+        <import type="androidx.navigation.Navigation" />
+
+        <import type="pl.piasta.coronaradar.R" />
+
         <variable
             name="viewModel"
             type="pl.piasta.coronaradar.ui.login.LoginViewModel" />
@@ -16,6 +20,16 @@
         android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
         android:orientation="vertical"
         tools:context=".ui.login.LoginFragment">
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="@{viewModel.progressIndicationVisibility, default=gone}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <ImageView
             android:id="@+id/login_fragment_header_icon"
@@ -38,12 +52,12 @@
             android:textStyle="bold"
             android:textSize="40sp"
             app:layout_constraintTop_toBottomOf="@+id/login_fragment_header_icon"
-            app:layout_constraintBottom_toTopOf="@+id/register_fragment_content"
+            app:layout_constraintBottom_toTopOf="@+id/login_fragment_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
         <LinearLayout
-            android:id="@+id/register_fragment_content"
+            android:id="@+id/login_fragment_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -63,6 +77,7 @@
                 android:textColor="@color/black"
                 android:layout_marginHorizontal="1dp"
                 android:layout_marginBottom="8dp"
+                android:onClick="@{() -> viewModel.signInWithGoogleEvent()}"
                 app:icon="@drawable/ic_google_27"
                 app:iconTintMode="multiply"
                 app:iconGravity="textStart" />
@@ -76,6 +91,7 @@
                 android:textAllCaps="true"
                 android:drawablePadding="60dp"
                 android:textColor="@color/white"
+                android:onClick="@{() -> viewModel.signInWithFacebookEvent()}"
                 app:icon="@drawable/ic_facebook_27"
                 app:iconTintMode="multiply"
                 app:iconGravity="textStart"
@@ -103,38 +119,48 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:id="@+id/email_input_layout"
+                android:id="@+id/login_email_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/email"
                 android:layout_marginBottom="8dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 app:startIconDrawable="@drawable/ic_baseline_email_24"
-                app:startIconContentDescription="@string/email_icon">
+                app:startIconContentDescription="@string/email_icon"
+                app:errorEnabled="true"
+                android:errorText="@{viewModel.loginForm.error.email}"
+                android:onFocusChange="@{viewModel::validateEmail}">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/email_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textEmailAddress"
+                    android:text="@={viewModel.loginForm.input.email}"
                     tools:ignore="TextContrastCheck" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:id="@+id/password_input_layout"
+                android:id="@+id/login_password_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/password"
                 android:layout_marginBottom="8dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 app:startIconDrawable="@drawable/ic_baseline_lock_24"
                 app:startIconContentDescription="@string/password_icon"
-                app:endIconMode="password_toggle">
+                app:endIconMode="password_toggle"
+                app:errorEnabled="true"
+                android:errorText="@{viewModel.loginForm.error.password}"
+                android:onFocusChange="@{viewModel::validatePassword}">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/password_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"
+                    android:text="@={viewModel.loginForm.input.password}"
                     tools:ignore="TextContrastCheck" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -146,6 +172,8 @@
                 android:text="@string/signin"
                 android:textAllCaps="true"
                 android:textColor="@color/white"
+                android:enabled="@{viewModel.loginForm.loginFormValid}"
+                android:onClick="@{() -> viewModel.signIn()}"
                 app:icon="@drawable/ic_baseline_login_24"
                 app:iconGravity="textStart"
                 tools:ignore="TextContrastCheck" />
@@ -171,6 +199,7 @@
                     android:textColor="@color/text_link_color_state"
                     android:textStyle="bold"
                     android:clickable="true"
+                    android:onClick="@{() -> viewModel.resetPasswordEvent()}"
                     android:theme="@style/Theme.CoronaRadar.Widget.NoRipple"
                     tools:ignore="TextContrastCheck,TouchTargetSizeCheck" />
             </LinearLayout>
@@ -196,6 +225,7 @@
                     android:textColor="@color/text_link_color_state"
                     android:textStyle="bold"
                     android:clickable="true"
+                    android:onClick="@{() -> viewModel.signUpEvent()}"
                     android:theme="@style/Theme.CoronaRadar.Widget.NoRipple"
                     tools:ignore="TextContrastCheck,TouchTargetSizeCheck" />
             </LinearLayout>

@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/nav_account"
         android:name="pl.piasta.coronaradar.ui.account.AccountFragment"
-        android:label="@string/menu_account"
+        android:label="@string/my_account"
         tools:layout="@layout/fragment_account">
 
         <action
@@ -37,7 +37,7 @@
     <fragment
         android:id="@+id/nav_register"
         android:name="pl.piasta.coronaradar.ui.register.RegisterFragment"
-        android:label="Register"
+        android:label="@string/signup"
         tools:layout="@layout/fragment_register">
 
         <action

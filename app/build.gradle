@@ -76,12 +76,14 @@ android {
 
     kotlinOptions {
         jvmTarget = '1.8'
+        freeCompilerArgs += ['-Xopt-in=splitties.toast.UnreliableToastApi', '-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi']
     }
 }
 
 dependencies {
     def materialVersion = '1.4.0'
     def firebaseVersion = '28.4.1'
+    def facebookSdkVersion = '12.0.0'
     def mlKitVersion = '16.1.1'
     def gmsAuthVersion = '19.2.0'
     def gmsMlKitVersion = '16.0.0-beta1'
@@ -93,6 +95,8 @@ dependencies {
     def navigationVersion = '2.3.5'
     def preferenceVersion = '1.1.1'
     def constraintlayoutVersion = '2.1.1'
+    def splittiesVersion = '3.0.0'
+    def liveEventVersion = '1.3.0'
     def mockkVersion = '1.12.0'
     def hiltVersion = '2.39.1'
     def coroutinesVersion = '1.5.2'
@@ -112,6 +116,7 @@ dependencies {
     implementation "com.google.firebase:firebase-perf-ktx"
     implementation "com.google.firebase:firebase-auth-ktx"
     implementation "com.google.firebase:firebase-firestore"
+    implementation "com.facebook.android:facebook-login:$facebookSdkVersion"
     implementation "com.google.mlkit:linkfirebase:$mlKitVersion"
     implementation "com.google.android.gms:play-services-mlkit-image-labeling-custom:$gmsMlKitVersion"
     implementation "com.google.android.gms:play-services-auth:$gmsAuthVersion"
@@ -126,11 +131,18 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
     implementation "androidx.preference:preference-ktx:$preferenceVersion"
     implementation "androidx.constraintlayout:constraintlayout:$constraintlayoutVersion"
+    implementation "com.louiscad.splitties:splitties-views-material:$splittiesVersion"
+    implementation "com.louiscad.splitties:splitties-activities:$splittiesVersion"
+    implementation "com.louiscad.splitties:splitties-resources:$splittiesVersion"
+    implementation "com.louiscad.splitties:splitties-toast:$splittiesVersion"
+    implementation "com.louiscad.splitties:splitties-alertdialog-material:$splittiesVersion"
+    implementation "com.github.hadilq:live-event:$liveEventVersion"
     implementation "org.tensorflow:tensorflow-lite-gpu:$tensorflowVersion"
     implementation "org.tensorflow:tensorflow-lite-support:$tensorflowSupportVersion"
     implementation "org.tensorflow:tensorflow-lite-metadata:$tensorflowMetadataVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$coroutinesVersion"
     implementation "com.google.dagger:hilt-android:$hiltVersion"
     kapt "com.google.dagger:hilt-android-compiler:$hiltVersion"
     testImplementation "io.kotest:kotest-runner-junit5-jvm:$koTestVersion"

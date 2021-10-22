@@ -1,38 +1,36 @@
-package pl.piasta.coronaradar.ui.account
+package pl.piasta.coronaradar.ui.user
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import pl.piasta.coronaradar.R
-import pl.piasta.coronaradar.databinding.ActivityAccountBinding
+import pl.piasta.coronaradar.databinding.ActivityUserBinding
 import pl.piasta.coronaradar.ui.base.BaseActivity
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class AccountActivity : BaseActivity<ActivityAccountBinding, Nothing>(R.layout.activity_account) {
+class UserActivity : BaseActivity<ActivityUserBinding, UserViewModel>(R.layout.activity_user) {
 
     @Inject
     lateinit var auth: FirebaseAuth
+
     private lateinit var navController: NavController
+
+    override val viewModel: UserViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         setupNavController()
-        // var action = AccountFragmentDirections.actionAccountFragmentToLoginFragment()
-        // if (auth.currentUser == null) {
-        //     navController.navigate(action)
-        //     // action = LoginFragmentDirections.actionLoginFragmentToRegisterFragment()
-        //     // navController.navigate(action)
-        // }
     }
 
     private fun setupNavController() {
         val navHostFragment =
-            supportFragmentManager.findFragmentById(binding.contentAccount.navHostAccount.id) as NavHostFragment
+            supportFragmentManager.findFragmentById(binding.contentUser.navHostUser.id) as NavHostFragment
         navController = navHostFragment.navController
     }
 }

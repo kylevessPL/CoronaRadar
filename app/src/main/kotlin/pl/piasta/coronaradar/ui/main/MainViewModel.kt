@@ -1,13 +1,35 @@
 package pl.piasta.coronaradar.ui.main
 
 import android.app.Application
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
+import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
-import pl.piasta.coronaradar.ui.base.BaseViewModel
+import pl.piasta.coronaradar.ui.common.ConnectivityLiveData
+import pl.piasta.coronaradar.ui.common.FirebaseUserLiveData
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val application: Application,
+    application: Application,
     private val savedStateHandle: SavedStateHandle
-) : BaseViewModel()
+) : ViewModel() {
+
+    private var _connectivity = ConnectivityLiveData(application)
+    val connectivity: LiveData<Boolean>
+        get() = _connectivity
+
+    private var _firebaseUser = FirebaseUserLiveData()
+    val firebaseUser: LiveData<FirebaseUser?>
+        get() = _firebaseUser
+
+    private var _connectivitySnackbarDisplay = MutableLiveData<Boolean>()
+    val connectivitySnackbarDisplay: LiveData<Boolean>
+        get() = _connectivitySnackbarDisplay
+
+    fun setConnectivitySnackbarDisplay(display: Boolean) {
+        _connectivitySnackbarDisplay.value = display
+    }
+}
