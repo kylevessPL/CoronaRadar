@@ -4,6 +4,7 @@ import android.content.Context
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
 import dagger.Provides
@@ -38,4 +39,8 @@ class FirebaseModule {
         FirebaseCrashlytics.getInstance().apply {
             setCrashlyticsCollectionEnabled(!BuildConfig.DEBUG)
         }
+
+    @Provides
+    @Singleton
+    fun provideFirebaseDynamicLinks(): FirebaseDynamicLinks = FirebaseDynamicLinks.getInstance()
 }

@@ -18,14 +18,10 @@ class LoginForm : BaseObservable() {
     val error: ErrorFields
         get() = _error
 
-    fun validateEmail() = isEmailValid()
-
-    fun validatePassword() = isPasswordValid()
-
     @Bindable
-    fun isLoginFormValid(): Boolean = isEmailValid(false) && isPasswordValid(false)
+    fun isLoginFormValid(): Boolean = validateEmail(false) && validatePassword(false)
 
-    private fun isEmailValid(showError: Boolean = true): Boolean {
+    fun validateEmail(showError: Boolean = true): Boolean {
         with(_input.email) {
             return when {
                 this.isNullOrBlank() -> {
@@ -44,7 +40,7 @@ class LoginForm : BaseObservable() {
         }
     }
 
-    private fun isPasswordValid(showError: Boolean = false): Boolean {
+    fun validatePassword(showError: Boolean = true): Boolean {
         with(_input.password) {
             return when {
                 this.isNullOrBlank() -> {

@@ -13,7 +13,7 @@ sealed class ResultState<out R> {
         return when (this) {
             is Success -> "Success[data=$data]"
             is Error -> "Error[exception=$ex]"
-            is Loading -> "Loading"
+            Loading -> "Loading"
         }
     }
 }

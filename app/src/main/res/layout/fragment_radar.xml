@@ -7,13 +7,13 @@
 
         <variable
             name="viewModel"
-            type="pl.piasta.coronaradar.ui.radar.RadarViewModel" />
+            type="pl.piasta.coronaradar.ui.radar.viewmodel.RadarViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.radar.RadarFragment">
+        tools:context=".ui.radar.view.RadarFragment">
 
         <TextView
             android:id="@+id/text_gallery"

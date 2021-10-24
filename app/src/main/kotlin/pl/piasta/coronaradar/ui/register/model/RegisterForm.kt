@@ -18,17 +18,11 @@ class RegisterForm : BaseObservable() {
     val error: ErrorFields
         get() = _error
 
-    fun validateEmail() = isEmailValid()
-
-    fun validatePassword() = isPasswordValid()
-
-    fun validateRepeatPassword() = isRepeatPasswordValid()
-
     @Bindable
     fun isRegisterFormValid(): Boolean =
-        isEmailValid(false) && isPasswordValid(false) && isRepeatPasswordValid(false)
+        validateEmail(false) && validatePassword(false) && validatePasswordConfirm(false)
 
-    private fun isEmailValid(showError: Boolean = true): Boolean {
+    fun validateEmail(showError: Boolean = true): Boolean {
         with(_input.email) {
             return when {
                 this.isNullOrBlank() -> {
@@ -47,8 +41,8 @@ class RegisterForm : BaseObservable() {
         }
     }
 
-    private fun isPasswordValid(showError: Boolean = false): Boolean {
-        isRepeatPasswordValid()
+    fun validatePassword(showError: Boolean = true): Boolean {
+        validatePasswordConfirm()
         with(_input.password) {
             return when {
                 this.isNullOrBlank() -> {
@@ -67,19 +61,19 @@ class RegisterForm : BaseObservable() {
         }
     }
 
-    private fun isRepeatPasswordValid(showError: Boolean = false): Boolean {
-        with(_input.repeatPassword) {
+    fun validatePasswordConfirm(showError: Boolean = true): Boolean {
+        with(_input.passwordConfirm) {
             return when {
                 this.isNullOrBlank() -> {
-                    showError.ifTrue { _error.repeatPassword.set(R.string.empty_not_allowed) }
+                    showError.ifTrue { _error.passwordConfirm.set(R.string.empty_not_allowed) }
                     false
                 }
                 this != _input.password && !_input.password.isNullOrBlank() -> {
-                    showError.ifTrue { _error.repeatPassword.set(R.string.passwords_not_match) }
+                    showError.ifTrue { _error.passwordConfirm.set(R.string.passwords_not_match) }
                     false
                 }
                 else -> {
-                    _error.repeatPassword.set(null)
+                    _error.passwordConfirm.set(null)
                     true
                 }
             }
@@ -100,7 +94,7 @@ class RegisterForm : BaseObservable() {
                 onChange()
             }
 
-        var repeatPassword: String? = null
+        var passwordConfirm: String? = null
             set(value) {
                 field = value
                 onChange()
@@ -111,6 +105,6 @@ class RegisterForm : BaseObservable() {
 
         val email: ObservableField<Int> by lazy { ObservableField<Int>() }
         val password: ObservableField<Int> by lazy { ObservableField<Int>() }
-        val repeatPassword: ObservableField<Int> by lazy { ObservableField<Int>() }
+        val passwordConfirm: ObservableField<Int> by lazy { ObservableField<Int>() }
     }
 }

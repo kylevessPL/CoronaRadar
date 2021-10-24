@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="pl.piasta.coronaradar.ui.register.RegisterViewModel" />
+            type="pl.piasta.coronaradar.ui.register.viewmodel.RegisterViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,17 +15,7 @@
         android:layout_height="match_parent"
         android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
         android:orientation="vertical"
-        tools:context=".ui.register.RegisterFragment">
-
-        <com.google.android.material.progressindicator.CircularProgressIndicator
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:indeterminate="true"
-            android:visibility="@{viewModel.progressIndicationVisibility, default=gone}"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+        tools:context=".ui.register.view.RegisterFragment">
 
         <ImageView
             android:id="@+id/register_fragment_header_icon"
@@ -126,14 +116,14 @@
                 app:startIconContentDescription="@string/password_icon"
                 app:endIconMode="password_toggle"
                 app:errorEnabled="true"
-                android:errorText="@{viewModel.registerForm.error.repeatPassword}"
-                android:onFocusChange="@{viewModel::validateRepeatPassword}">
+                android:errorText="@{viewModel.registerForm.error.passwordConfirm}"
+                android:onFocusChange="@{viewModel::validatePasswordConfirm}">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"
-                    android:text="@={viewModel.registerForm.input.repeatPassword}"
+                    android:text="@={viewModel.registerForm.input.passwordConfirm}"
                     tools:ignore="TextContrastCheck" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -145,7 +135,7 @@
                 android:text="@string/signup"
                 android:textAllCaps="true"
                 android:textColor="@color/white"
-                android:enabled="@{viewModel.registerForm.registerFormValid}"
+                android:enabled="@{viewModel.registerForm.registerFormValid, default=false}"
                 android:onClick="@{() -> viewModel.signUp()}"
                 tools:ignore="TextContrastCheck" />
 

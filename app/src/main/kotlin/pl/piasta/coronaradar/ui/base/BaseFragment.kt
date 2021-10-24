@@ -37,6 +37,7 @@ abstract class BaseFragment<DB : ViewDataBinding, VM : ViewModel?>(@LayoutRes pr
         viewModel?.let {
             binding.setVariable(BR.viewModel, viewModel)
         }
+        updateUI()
     }
 
     @CallSuper
@@ -44,4 +45,6 @@ abstract class BaseFragment<DB : ViewDataBinding, VM : ViewModel?>(@LayoutRes pr
         super.onDestroyView()
         _binding = null
     }
+
+    protected abstract fun updateUI()
 }

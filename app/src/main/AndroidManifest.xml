@@ -19,27 +19,59 @@
         <meta-data
             android:name="com.google.mlkit.vision.DEPENDENCIES"
             android:value="custom_ica" />
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
 
         <activity
-            android:name=".ui.main.MainActivity"
+            android:name=".ui.main.view.MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.CoronaRadar.NoActionBar">
+            android:theme="@style/Theme.CoronaRadar.NoActionBar"
+            android:launchMode="singleTop">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.user.UserActivity"
+            android:name=".ui.user.view.UserActivity"
             android:exported="true"
             android:label="@string/account"
-            android:parentActivityName="pl.piasta.coronaradar.ui.main.MainActivity"
-            android:theme="@style/Theme.CoronaRadar.NoActionBar" />
+            android:parentActivityName="pl.piasta.coronaradar.ui.main.view.MainActivity"
+            android:theme="@style/Theme.CoronaRadar.NoActionBar">
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <data
+                    android:host="coronaradar.ml"
+                    android:scheme="https" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity
-            android:name=".ui.settings.SettingsActivity"
+            android:name=".ui.settings.view.SettingsActivity"
             android:exported="true"
             android:label="@string/settings"
-            android:parentActivityName="pl.piasta.coronaradar.ui.main.MainActivity" />
+            android:parentActivityName="pl.piasta.coronaradar.ui.main.view.MainActivity" />
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name" />
+        <activity
+            android:name="com.facebook.CustomTabActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="@string/fb_login_protocol_scheme" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

@@ -24,5 +24,11 @@ abstract class BaseActivity<DB : ViewDataBinding, VM : ViewModel?>(@LayoutRes pr
         viewModel?.let {
             binding.setVariable(BR.viewModel, viewModel)
         }
+        setupNavController()
+        updateUI()
     }
+
+    protected open fun updateUI() {}
+
+    protected open fun setupNavController() {}
 }

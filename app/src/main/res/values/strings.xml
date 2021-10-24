@@ -45,17 +45,16 @@
     <string name="password_new">New password</string>
     <string name="password_reset">Password reset</string>
     <string name="send">Send</string>
-    <string name="cancel">Cancel</string>
-    <string name="password_reset_message">Enter the email address associated with your account and we\'ll send you a link to reset your password</string>
-    <string name="password_reset_complete_message">Password reset email sent. Check your inbox</string>
+    <string name="password_reset_email_message">Enter the email address associated with your account and we\'ll send you a link to reset your password</string>
+    <string name="password_reset_email_complete_message">Password reset email sent. Check your inbox</string>
     <string name="login_failure">Login failure</string>
-    <string name="login_failure_message">Sign-in failed. Check your credentials and try again</string>
+    <string name="login_failure_bad_credentials_message">Sign-in failed. Check your credentials and try again</string>
     <string name="register_success">Registration success</string>
     <string name="register_success_message">You\'ve been successfully registered. Check your inbox for verification email</string>
     <string name="register_failure_email_exists_message">Account with that email already exists</string>
     <string name="register_failure">Registration failure</string>
-    <string name="general_failure_message">We were unable to process your request. Try again later</string>
-    <string name="user_not_verified">Account is not verified. Verify first or request new verification email</string>
+    <string name="general_failure_message">Request processing failed. Try again later</string>
+    <string name="verification_email_message">Account is not verified. Verify first or request new verification email</string>
     <string name="resend_verification_email">Resend verification email</string>
     <string name="verification_email_success_message">Verification email resent. Check your inbox</string>
     <string name="google_web_client_id">615431991272-ttqadtd5dvghndcfeborsqoj6bul857m.apps.googleusercontent.com</string>
@@ -66,4 +65,8 @@
     <string name="empty_not_allowed">Cannot be empty</string>
     <string name="min_six_chars_allowed">Must be at least 6 characters</string>
     <string name="passwords_not_match">Passwords do not match</string>
+    <string name="login_failure_other_provider">Account is already registered with another provider</string>
+    <string name="update">Update</string>
+    <string name="password_reset_message">Set new password</string>
+    <string name="password_reset_complete_message">Password updated. You can sign-in now</string>
 </resources>

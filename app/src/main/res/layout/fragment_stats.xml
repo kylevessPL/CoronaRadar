@@ -7,13 +7,13 @@
 
         <variable
             name="viewModel"
-            type="pl.piasta.coronaradar.ui.stats.StatsViewModel" />
+            type="pl.piasta.coronaradar.ui.stats.viewmodel.StatsViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.stats.StatsFragment">
+        tools:context=".ui.stats.view.StatsFragment">
 
         <TextView
             android:id="@+id/text_gallery"

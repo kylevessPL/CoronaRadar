@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="pl.piasta.coronaradar.ui.account.AccountViewModel" />
+            type="pl.piasta.coronaradar.ui.account.viewmodel.AccountViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,7 +15,7 @@
         android:layout_height="match_parent"
         android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
         android:orientation="vertical"
-        tools:context=".ui.account.AccountFragment">
+        tools:context=".ui.account.view.AccountFragment">
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/account_fragment_header_title"
@@ -99,7 +99,7 @@
                 app:placeholderText="@string/display_name"
                 app:startIconDrawable="@drawable/ic_baseline_face_24"
                 app:startIconContentDescription="@string/display_name_icon"
-                app:endIconDrawable="@{viewModel.displayNameEnabled ? @drawable/ic_baseline_edit_off_24 : @drawable/ic_baseline_edit_24}"
+                app:endIconDrawable="@{viewModel.displayNameEnabled ? @drawable/ic_baseline_edit_off_24 : @drawable/ic_baseline_edit_24, default=@drawable/ic_baseline_edit_24}"
                 app:endIconContentDescription="@string/edit"
                 app:endIconMode="custom"
                 app:errorEnabled="true"
@@ -110,7 +110,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName"
-                    android:enabled="@{viewModel.displayNameEnabled}" />
+                    android:enabled="@{viewModel.displayNameEnabled, default=false}"
+                    tools:ignore="DuplicateSpeakableTextCheck" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -146,7 +147,7 @@
                 app:placeholderText="@string/password_new"
                 app:startIconDrawable="@drawable/ic_baseline_lock_24"
                 app:startIconContentDescription="@string/password_icon"
-                app:endIconDrawable="@{viewModel.passwordEnabled ? @drawable/ic_baseline_edit_off_24 : @drawable/ic_baseline_edit_24}"
+                app:endIconDrawable="@{viewModel.passwordEnabled ? @drawable/ic_baseline_edit_off_24 : @drawable/ic_baseline_edit_24, default=@drawable/ic_baseline_edit_24}"
                 app:endIconContentDescription="@string/edit"
                 app:endIconMode="custom"
                 app:errorEnabled="true"
@@ -156,7 +157,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textVisiblePassword"
-                    android:enabled="@{viewModel.passwordEnabled}" />
+                    android:enabled="@{viewModel.passwordEnabled, default=false}" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -178,7 +179,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textVisiblePassword"
-                    android:enabled="@{viewModel.passwordEnabled}" />
+                    android:enabled="@{viewModel.passwordEnabled, default=false}" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton
