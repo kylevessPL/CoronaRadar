@@ -5,7 +5,6 @@ plugins {
     id 'kotlin-parcelize'
     id 'androidx.navigation.safeargs.kotlin'
     id 'com.google.gms.google-services'
-    id 'com.google.firebase.crashlytics'
     id 'com.google.firebase.firebase-perf'
     id 'dagger.hilt.android.plugin'
     id 'de.mannodermaus.android-junit5'
@@ -113,7 +112,6 @@ dependencies {
     implementation "com.google.android.material:material:$materialVersion"
     implementation platform("com.google.firebase:firebase-bom:$firebaseVersion")
     implementation "com.google.firebase:firebase-analytics-ktx"
-    implementation "com.google.firebase:firebase-crashlytics-ktx"
     implementation "com.google.firebase:firebase-perf-ktx"
     implementation "com.google.firebase:firebase-auth-ktx"
     implementation "com.google.firebase:firebase-dynamic-links-ktx"

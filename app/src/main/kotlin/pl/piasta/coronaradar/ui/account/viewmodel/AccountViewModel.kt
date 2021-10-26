@@ -6,7 +6,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
-import pl.piasta.coronaradar.ui.common.FirebaseUserLiveData
+import pl.piasta.coronaradar.ui.common.viewmodel.FirebaseUserLiveData
 import javax.inject.Inject
 
 @HiltViewModel

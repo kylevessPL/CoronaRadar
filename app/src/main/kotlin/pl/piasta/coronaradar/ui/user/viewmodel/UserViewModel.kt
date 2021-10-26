@@ -14,8 +14,8 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import pl.piasta.coronaradar.data.auth.model.ActionCode
 import pl.piasta.coronaradar.data.auth.repository.AuthRepository
-import pl.piasta.coronaradar.ui.common.ConnectivityLiveData
-import pl.piasta.coronaradar.ui.common.FirebaseUserLiveData
+import pl.piasta.coronaradar.ui.common.viewmodel.ConnectivityLiveData
+import pl.piasta.coronaradar.ui.common.viewmodel.FirebaseUserLiveData
 import pl.piasta.coronaradar.util.ResultState
 import javax.inject.Inject
 

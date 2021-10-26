@@ -1,4 +1,4 @@
-package pl.piasta.coronaradar.ui.common
+package pl.piasta.coronaradar.ui.common.viewmodel
 
 import androidx.lifecycle.LiveData
 import com.google.firebase.auth.FirebaseAuth

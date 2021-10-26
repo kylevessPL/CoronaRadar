@@ -9,7 +9,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import pl.piasta.coronaradar.R
 import pl.piasta.coronaradar.databinding.FragmentRegisterBinding
 import pl.piasta.coronaradar.ui.base.BaseFragment
-import pl.piasta.coronaradar.ui.common.OkDialog
+import pl.piasta.coronaradar.ui.common.model.OkDialogData
+import pl.piasta.coronaradar.ui.common.view.OkDialog
 import pl.piasta.coronaradar.ui.register.viewmodel.RegisterViewModel
 import pl.piasta.coronaradar.ui.user.viewmodel.UserViewModel
 import pl.piasta.coronaradar.ui.util.observeNotNull
@@ -55,9 +56,11 @@ class RegisterFragment :
             is Error -> {
                 activityViewModel.setProgressIndicationVisibility(false)
                 when (result.ex) {
-                    is FirebaseAuthUserCollisionException -> OkDialog(
-                        str(R.string.register_failure),
-                        str(R.string.register_failure_email_exists_message)
+                    is FirebaseAuthUserCollisionException -> OkDialog.newInstance(
+                        OkDialogData(
+                            str(R.string.register_failure),
+                            str(R.string.register_failure_email_exists_message)
+                        )
                     ).show(
                         parentFragmentManager,
                         OkDialog::class.TAG
@@ -73,10 +76,10 @@ class RegisterFragment :
         when (result) {
             is Success -> {
                 activityViewModel.setProgressIndicationVisibility(false)
-                OkDialog(
+                OkDialog.newInstance(OkDialogData(
                     str(R.string.register_success),
                     str(R.string.register_success_message)
-                ) { navigateToLoginFragment() }.show(
+                ) { navigateToLoginFragment() }).show(
                     parentFragmentManager,
                     OkDialog::class.TAG
                 )

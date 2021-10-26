@@ -111,17 +111,17 @@
                 android:layout_marginBottom="8dp"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
+                android:errorText="@{viewModel.loginForm.error.email}"
                 app:startIconDrawable="@drawable/ic_baseline_email_24"
                 app:startIconContentDescription="@string/email_icon"
-                app:errorEnabled="true"
-                android:errorText="@{viewModel.loginForm.error.email}"
-                android:onFocusChange="@{viewModel::validateEmail}">
+                app:errorEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textEmailAddress"
                     android:text="@={viewModel.loginForm.input.email}"
+                    android:onFocusChange="@{viewModel::validateEmail}"
                     tools:ignore="TextContrastCheck" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -134,18 +134,18 @@
                 android:layout_marginBottom="8dp"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
+                android:errorText="@{viewModel.loginForm.error.password}"
                 app:startIconDrawable="@drawable/ic_baseline_lock_24"
                 app:startIconContentDescription="@string/password_icon"
                 app:endIconMode="password_toggle"
-                app:errorEnabled="true"
-                android:errorText="@{viewModel.loginForm.error.password}"
-                android:onFocusChange="@{viewModel::validatePassword}">
+                app:errorEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"
                     android:text="@={viewModel.loginForm.input.password}"
+                    android:onFocusChange="@{viewModel::validatePassword}"
                     tools:ignore="TextContrastCheck" />
             </com.google.android.material.textfield.TextInputLayout>
 

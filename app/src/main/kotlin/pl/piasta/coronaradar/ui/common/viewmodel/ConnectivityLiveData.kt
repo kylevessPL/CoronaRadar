@@ -1,4 +1,4 @@
-package pl.piasta.coronaradar.ui.common
+package pl.piasta.coronaradar.ui.common.viewmodel
 
 import android.Manifest
 import android.content.Context

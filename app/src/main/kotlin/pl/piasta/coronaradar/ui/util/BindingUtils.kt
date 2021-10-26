@@ -10,10 +10,10 @@ import androidx.transition.Slide
 import androidx.transition.TransitionManager
 import androidx.transition.Visibility.MODE_IN
 import androidx.transition.Visibility.MODE_OUT
+import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import pl.piasta.coronaradar.util.ifTrue
 import splitties.resources.str
-import splitties.views.material.string
 
 @BindingAdapter("android:errorText")
 fun setErrorText(input: TextInputLayout, @StringRes errorText: Int?) {
@@ -21,9 +21,9 @@ fun setErrorText(input: TextInputLayout, @StringRes errorText: Int?) {
 }
 
 @BindingAdapter("android:onFocusChange")
-fun onFocusChange(input: TextInputLayout, block: () -> Unit) {
+fun onFocusChange(input: TextInputEditText, block: () -> Unit) {
     input.onFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
-        (!hasFocus && (view as TextInputLayout).string.isNotBlank()).ifTrue {
+        (!hasFocus && !(view as TextInputEditText).text.isNullOrBlank()).ifTrue {
             block()
         }
     }

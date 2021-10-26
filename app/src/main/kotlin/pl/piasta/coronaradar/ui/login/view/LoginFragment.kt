@@ -20,7 +20,8 @@ import pl.piasta.coronaradar.R
 import pl.piasta.coronaradar.data.auth.exception.EmailNotVerifiedException
 import pl.piasta.coronaradar.databinding.FragmentLoginBinding
 import pl.piasta.coronaradar.ui.base.BaseFragment
-import pl.piasta.coronaradar.ui.common.OkDialog
+import pl.piasta.coronaradar.ui.common.model.OkDialogData
+import pl.piasta.coronaradar.ui.common.view.OkDialog
 import pl.piasta.coronaradar.ui.login.viewmodel.LoginViewModel
 import pl.piasta.coronaradar.ui.user.view.PasswordResetEmailDialog
 import pl.piasta.coronaradar.ui.user.view.VerificationEmailDialog
@@ -120,7 +121,12 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(R.layou
                             true -> R.string.login_failure_other_provider
                             false -> R.string.login_failure_bad_credentials_message
                         }
-                        OkDialog(str(R.string.login_failure), str(messageId)).show(
+                        OkDialog.newInstance(
+                            OkDialogData(
+                                str(R.string.login_failure),
+                                str(messageId)
+                            )
+                        ).show(
                             parentFragmentManager,
                             OkDialog::class.TAG
                         )

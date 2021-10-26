@@ -1,11 +1,9 @@
 package pl.piasta.coronaradar.ui.user.view
 
-import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.databinding.Observable
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
@@ -36,15 +34,6 @@ class PasswordResetEmailDialog : DialogFragment() {
 
     private val viewModel: PasswordResetEmailViewModel by viewModels()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _viewBinding = PasswordResetEmailDialogBinding.inflate(inflater, container, false)
-        return super.onCreateView(inflater, container, savedInstanceState)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewBinding.lifecycleOwner = this@PasswordResetEmailDialog
@@ -63,6 +52,7 @@ class PasswordResetEmailDialog : DialogFragment() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        _viewBinding = PasswordResetEmailDialogBinding.inflate(layoutInflater)
         return requireContext().materialAlertDialog {
             setView(viewBinding.root)
             titleResource = R.string.password_reset

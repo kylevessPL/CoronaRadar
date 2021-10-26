@@ -5,6 +5,7 @@ import androidx.databinding.Bindable
 import androidx.databinding.ObservableField
 import pl.piasta.coronaradar.BR
 import pl.piasta.coronaradar.R
+import pl.piasta.coronaradar.util.EMAIL_REGEX
 import pl.piasta.coronaradar.util.ifTrue
 import pl.piasta.coronaradar.util.isMaxExclusive
 
@@ -30,6 +31,10 @@ class LoginForm : BaseObservable() {
                 }
                 this.isMaxExclusive(6) -> {
                     showError.ifTrue { _error.email.set(R.string.min_six_chars_allowed) }
+                    false
+                }
+                !this.matches(EMAIL_REGEX.toRegex()) -> {
+                    showError.ifTrue { _error.email.set(R.string.email_not_valid) }
                     false
                 }
                 else -> {

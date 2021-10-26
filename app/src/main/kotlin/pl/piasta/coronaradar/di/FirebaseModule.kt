@@ -3,7 +3,6 @@ package pl.piasta.coronaradar.di
 import android.content.Context
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
@@ -31,13 +30,6 @@ class FirebaseModule {
     fun provideFirebaseAnalytics(@ApplicationContext ctx: Context): FirebaseAnalytics =
         FirebaseAnalytics.getInstance(ctx).apply {
             setAnalyticsCollectionEnabled(!BuildConfig.DEBUG)
-        }
-
-    @Provides
-    @Singleton
-    fun provideFirebaseCrashlytics(): FirebaseCrashlytics =
-        FirebaseCrashlytics.getInstance().apply {
-            setCrashlyticsCollectionEnabled(!BuildConfig.DEBUG)
         }
 
     @Provides
