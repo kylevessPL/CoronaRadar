@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="pl.piasta.coronaradar.ui.account.viewmodel.AccountViewModel" />
@@ -202,7 +204,18 @@
                 android:textAllCaps="true"
                 app:icon="@drawable/ic_baseline_logout_24"
                 app:iconGravity="textStart"
+                android:onClick="@{() -> viewModel.signOutEvent()}"
                 tools:ignore="TextContrastCheck" />
         </LinearLayout>
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="@{viewModel.progressIndicationVisibility ? View.VISIBLE : View.GONE}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

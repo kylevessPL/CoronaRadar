@@ -8,12 +8,10 @@ class FirebaseUserLiveData : LiveData<FirebaseUser?>(), FirebaseAuth.AuthStateLi
 
     private val auth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
 
-    override fun onAuthStateChanged(auth: FirebaseAuth) {
-        val user = auth.currentUser
-        value = when (user?.providerId != "password") {
-            true -> user
-            else -> user?.takeIf { it.isEmailVerified }
-        }
+    override fun onAuthStateChanged(auth: FirebaseAuth) = updateUser(auth)
+
+    init {
+        updateUser(auth)
     }
 
     override fun onActive() {
@@ -24,5 +22,13 @@ class FirebaseUserLiveData : LiveData<FirebaseUser?>(), FirebaseAuth.AuthStateLi
     override fun onInactive() {
         super.onInactive()
         auth.removeAuthStateListener(this)
+    }
+
+    private fun updateUser(auth: FirebaseAuth) {
+        val user = auth.currentUser
+        value = when (user?.providerId != "password") {
+            true -> user
+            else -> user?.takeIf { it.isEmailVerified }
+        }
     }
 }

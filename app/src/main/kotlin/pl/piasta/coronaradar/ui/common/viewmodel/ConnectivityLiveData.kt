@@ -27,12 +27,11 @@ class ConnectivityLiveData @RequiresPermission(Manifest.permission.ACCESS_NETWOR
     }
 
     init {
-        value = true
+        init()
     }
 
     override fun onActive() {
         super.onActive()
-        init()
         connectivityManager.registerNetworkCallback(
             NetworkRequest.Builder()
                 .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
@@ -48,12 +47,10 @@ class ConnectivityLiveData @RequiresPermission(Manifest.permission.ACCESS_NETWOR
     }
 
     private fun init() {
-        val isConnected =
-            connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
-                ?.let { network ->
-                    network.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
-                        network.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
-                } ?: false
-        postValue(isConnected)
+        value = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+            ?.let { network ->
+                network.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
+                    network.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
+            } ?: false
     }
 }

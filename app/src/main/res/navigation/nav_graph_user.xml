@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_graph_login"
+    android:id="@+id/nav_graph_user"
     app:startDestination="@id/nav_login">
 
     <fragment
@@ -14,7 +14,7 @@
         <action
             android:id="@+id/action_AccountFragment_to_LoginFragment"
             app:destination="@id/nav_login"
-            app:popUpTo="@id/nav_login"
+            app:popUpTo="@id/nav_account"
             app:popUpToInclusive="true" />
     </fragment>
 
@@ -30,7 +30,7 @@
         <action
             android:id="@+id/action_LoginFragment_to_AccountFragment"
             app:destination="@id/nav_account"
-            app:popUpTo="@+id/nav_account"
+            app:popUpTo="@+id/nav_login"
             app:popUpToInclusive="true" />
     </fragment>
 
@@ -46,7 +46,7 @@
         <action
             android:id="@+id/action_RegisterFragment_to_AccountFragment"
             app:destination="@id/nav_account"
-            app:popUpTo="@+id/nav_account"
+            app:popUpTo="@+id/nav_register"
             app:popUpToInclusive="true" />
     </fragment>
 </navigation>

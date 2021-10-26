@@ -1,6 +1,7 @@
 package pl.piasta.coronaradar.ui.register.viewmodel
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -25,6 +26,10 @@ class RegisterViewModel @Inject constructor(
     val registerForm: RegisterForm
         get() = _registerForm
 
+    private val _progressIndicationVisibility = MutableLiveData(false)
+    val progressIndicationVisibility: LiveData<Boolean>
+        get() = _progressIndicationVisibility
+
     private val _signIn = LiveEvent<Boolean>()
     val signIn: LiveData<Boolean>
         get() = _signIn
@@ -36,6 +41,10 @@ class RegisterViewModel @Inject constructor(
     private val _verificationEmailResult = LiveEvent<ResultState<Nothing>>()
     val verificationEmailResult: LiveData<ResultState<Nothing>>
         get() = _verificationEmailResult
+
+    fun setProgressIndicationVisibility(visible: Boolean) {
+        _progressIndicationVisibility.value = visible
+    }
 
     fun validateEmail() {
         viewModelScope.launch {

@@ -3,7 +3,6 @@ package pl.piasta.coronaradar.ui.user.view
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -25,8 +24,6 @@ import splitties.toast.longToast
 @AndroidEntryPoint
 class UserActivity : BaseActivity<ActivityUserBinding, UserViewModel>(R.layout.activity_user) {
 
-    private lateinit var navController: NavController
-
     override val viewModel: UserViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,7 +40,12 @@ class UserActivity : BaseActivity<ActivityUserBinding, UserViewModel>(R.layout.a
     override fun setupNavController() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(binding.contentUser.navHostUser.id) as NavHostFragment
-        navController = navHostFragment.navController
+        val graph = navHostFragment.navController.graph
+        graph.startDestination = when (viewModel.firebaseUser.value) {
+            null -> R.id.nav_login
+            else -> R.id.nav_account
+        }
+        navHostFragment.navController.graph = graph
     }
 
     override fun updateUI() {

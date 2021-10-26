@@ -1,6 +1,7 @@
 package pl.piasta.coronaradar.ui.login.viewmodel
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -27,6 +28,10 @@ class LoginViewModel @Inject constructor(
     val loginForm: LoginForm
         get() = _loginForm
 
+    private val _progressIndicationVisibility = MutableLiveData(false)
+    val progressIndicationVisibility: LiveData<Boolean>
+        get() = _progressIndicationVisibility
+
     private val _signUp = LiveEvent<Boolean>()
     val signUp: LiveData<Boolean>
         get() = _signUp
@@ -46,6 +51,10 @@ class LoginViewModel @Inject constructor(
     private val _signInResult = LiveEvent<ResultState<FirebaseUser>>()
     val signInResult: LiveData<ResultState<FirebaseUser>>
         get() = _signInResult
+
+    fun setProgressIndicationVisibility(visible: Boolean) {
+        _progressIndicationVisibility.value = visible
+    }
 
     fun validateEmail() {
         viewModelScope.launch {

@@ -110,11 +110,9 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(R.layou
 
     private fun displaySignInResult(result: ResultState<FirebaseUser>) {
         when (result) {
-            is Success -> {
-                activityViewModel.setProgressIndicationVisibility(false)
-            }
+            is Success -> viewModel.setProgressIndicationVisibility(false)
             is Error -> {
-                activityViewModel.setProgressIndicationVisibility(false)
+                viewModel.setProgressIndicationVisibility(false)
                 when (result.ex) {
                     is FirebaseAuthException -> {
                         val messageId = when (result.ex is FirebaseAuthUserCollisionException) {
@@ -138,7 +136,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(R.layou
                     else -> longToast(R.string.general_failure_message)
                 }
             }
-            Loading -> activityViewModel.setProgressIndicationVisibility(true)
+            Loading -> viewModel.setProgressIndicationVisibility(true)
         }
     }
 }

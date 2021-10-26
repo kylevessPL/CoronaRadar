@@ -54,7 +54,7 @@ class RegisterFragment :
         when (result) {
             is Success -> viewModel.sendVerificationEmail()
             is Error -> {
-                activityViewModel.setProgressIndicationVisibility(false)
+                viewModel.setProgressIndicationVisibility(false)
                 when (result.ex) {
                     is FirebaseAuthUserCollisionException -> OkDialog.newInstance(
                         OkDialogData(
@@ -68,14 +68,14 @@ class RegisterFragment :
                     else -> longToast(R.string.general_failure_message)
                 }
             }
-            Loading -> activityViewModel.setProgressIndicationVisibility(true)
+            Loading -> viewModel.setProgressIndicationVisibility(true)
         }
     }
 
     private fun displayVerificationEmailResult(result: ResultState<FirebaseUser>) {
         when (result) {
             is Success -> {
-                activityViewModel.setProgressIndicationVisibility(false)
+                viewModel.setProgressIndicationVisibility(false)
                 OkDialog.newInstance(OkDialogData(
                     str(R.string.register_success),
                     str(R.string.register_success_message)
@@ -85,7 +85,7 @@ class RegisterFragment :
                 )
             }
             is Error -> {
-                activityViewModel.setProgressIndicationVisibility(false)
+                viewModel.setProgressIndicationVisibility(false)
                 longToast(R.string.general_failure_message)
             }
             else -> {
