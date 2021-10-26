@@ -13,6 +13,6 @@ class StatsFragment : BaseFragment<FragmentStatsBinding, StatsViewModel>(R.layou
     override val viewModel: StatsViewModel by viewModels()
 
     override fun updateUI() {
-        TODO("Not yet implemented")
+        //TODO("Not yet implemented")
     }
 }

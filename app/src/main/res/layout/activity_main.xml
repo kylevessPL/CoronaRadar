@@ -3,6 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="viewModel"
+            type="pl.piasta.coronaradar.ui.main.viewmodel.MainViewModel" />
+    </data>
+
     <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
@@ -14,7 +21,8 @@
             layout="@layout/app_bar_main"
             android:id="@+id/app_bar_main"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            app:viewModel="@{viewModel}" />
 
         <com.google.android.material.navigation.NavigationView
             style="@style/Theme.CoronaRadar.Widget.NavigationView"

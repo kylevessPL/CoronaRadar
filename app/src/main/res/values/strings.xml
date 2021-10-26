@@ -61,7 +61,6 @@
     <string name="facebook_app_id">297438641790189</string>
     <string name="fb_login_protocol_scheme">fb297438641790189</string>
     <string name="network_lost">No internet connection</string>
-    <string name="network_restored">Internet connection restored</string>
     <string name="empty_not_allowed">Cannot be empty</string>
     <string name="min_six_chars_allowed">Must be at least 6 characters</string>
     <string name="passwords_not_match">Passwords do not match</string>

@@ -1,10 +1,10 @@
 package pl.piasta.coronaradar.data.auth.repository
 
+import android.net.Uri
 import com.facebook.CallbackManager
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.dynamiclinks.PendingDynamicLinkData
 import kotlinx.coroutines.flow.Flow
 import pl.piasta.coronaradar.data.auth.model.ActionCode
 import pl.piasta.coronaradar.util.ResultState
@@ -18,7 +18,7 @@ interface AuthRepository {
     fun sendVerificationEmail(): Flow<ResultState<Nothing>>
     fun loginWithGoogle(task: Task<GoogleSignInAccount>): Flow<ResultState<FirebaseUser>>
     fun loginWithFacebook(callbackManager: CallbackManager): Flow<ResultState<FirebaseUser>>
-    fun verifyActionCode(task: Task<PendingDynamicLinkData>): Flow<ResultState<ActionCode>>
+    fun verifyActionCode(data: Uri): Flow<ResultState<ActionCode?>>
     fun verifyEmail(actionCode: String): Flow<ResultState<Nothing>>
     fun resetPassword(actionCode: String, newPassword: String): Flow<ResultState<Nothing>>
 }

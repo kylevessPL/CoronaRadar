@@ -13,6 +13,6 @@ class RadarFragment : BaseFragment<FragmentRadarBinding, RadarViewModel>(R.layou
     override val viewModel: RadarViewModel by viewModels()
 
     override fun updateUI() {
-        TODO("Not yet implemented")
+        //TODO("Not yet implemented")
     }
 }

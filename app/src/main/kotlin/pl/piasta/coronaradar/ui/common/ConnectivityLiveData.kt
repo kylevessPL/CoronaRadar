@@ -21,22 +21,20 @@ class ConnectivityLiveData @RequiresPermission(Manifest.permission.ACCESS_NETWOR
             postValue(true)
         }
 
-        override fun onUnavailable() {
-            postValue(false)
-        }
-
         override fun onLost(network: Network) {
             postValue(false)
         }
     }
 
+    init {
+        value = true
+    }
+
     override fun onActive() {
         super.onActive()
-        postValue(true)
+        init()
         connectivityManager.registerNetworkCallback(
             NetworkRequest.Builder()
-                .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
-                .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
                 .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
                 .addCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
                 .build(),
@@ -47,5 +45,15 @@ class ConnectivityLiveData @RequiresPermission(Manifest.permission.ACCESS_NETWOR
     override fun onInactive() {
         super.onInactive()
         connectivityManager.unregisterNetworkCallback(networkCallback)
+    }
+
+    private fun init() {
+        val isConnected =
+            connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+                ?.let { network ->
+                    network.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
+                        network.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
+                } ?: false
+        postValue(isConnected)
     }
 }

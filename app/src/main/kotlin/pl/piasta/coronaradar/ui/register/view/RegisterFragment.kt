@@ -29,6 +29,9 @@ class RegisterFragment :
     private val activityViewModel: UserViewModel by activityViewModels()
 
     override fun updateUI() {
+        activityViewModel.firebaseUser.observeNotNull(
+            viewLifecycleOwner,
+            { navigateToAccountFragment() })
         viewModel.signIn.observeNotNull(viewLifecycleOwner, { navigateToLoginFragment() })
         viewModel.signUpResult.observeNotNull(viewLifecycleOwner, { displaySignUpResult(it) })
         viewModel.verificationEmailResult.observeNotNull(
@@ -41,7 +44,12 @@ class RegisterFragment :
         findNavController().navigate(action)
     }
 
-    private fun displaySignUpResult(result: ResultState<FirebaseUser>?) {
+    private fun navigateToAccountFragment() {
+        val action = RegisterFragmentDirections.actionRegisterFragmentToAccountFragment()
+        findNavController().navigate(action)
+    }
+
+    private fun displaySignUpResult(result: ResultState<FirebaseUser>) {
         when (result) {
             is Success -> viewModel.sendVerificationEmail()
             is Error -> {
@@ -61,7 +69,7 @@ class RegisterFragment :
         }
     }
 
-    private fun displayVerificationEmailResult(result: ResultState<FirebaseUser>?) {
+    private fun displayVerificationEmailResult(result: ResultState<FirebaseUser>) {
         when (result) {
             is Success -> {
                 activityViewModel.setProgressIndicationVisibility(false)

@@ -99,7 +99,7 @@
                 app:placeholderText="@string/display_name"
                 app:startIconDrawable="@drawable/ic_baseline_face_24"
                 app:startIconContentDescription="@string/display_name_icon"
-                app:endIconDrawable="@{viewModel.displayNameEnabled ? @drawable/ic_baseline_edit_off_24 : @drawable/ic_baseline_edit_24, default=@drawable/ic_baseline_edit_24}"
+                app:endIconDrawable="@{viewModel.displayNameEnabled ? @drawable/ic_baseline_edit_off_24 : @drawable/ic_baseline_edit_24}"
                 app:endIconContentDescription="@string/edit"
                 app:endIconMode="custom"
                 app:errorEnabled="true"
@@ -110,7 +110,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName"
-                    android:enabled="@{viewModel.displayNameEnabled, default=false}"
+                    android:enabled="@{viewModel.displayNameEnabled}"
                     tools:ignore="DuplicateSpeakableTextCheck" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -147,7 +147,7 @@
                 app:placeholderText="@string/password_new"
                 app:startIconDrawable="@drawable/ic_baseline_lock_24"
                 app:startIconContentDescription="@string/password_icon"
-                app:endIconDrawable="@{viewModel.passwordEnabled ? @drawable/ic_baseline_edit_off_24 : @drawable/ic_baseline_edit_24, default=@drawable/ic_baseline_edit_24}"
+                app:endIconDrawable="@{viewModel.passwordEnabled ? @drawable/ic_baseline_edit_off_24 : @drawable/ic_baseline_edit_24}"
                 app:endIconContentDescription="@string/edit"
                 app:endIconMode="custom"
                 app:errorEnabled="true"
@@ -157,7 +157,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textVisiblePassword"
-                    android:enabled="@{viewModel.passwordEnabled, default=false}" />
+                    android:enabled="@{viewModel.passwordEnabled}" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -179,29 +179,27 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textVisiblePassword"
-                    android:enabled="@{viewModel.passwordEnabled, default=false}" />
+                    android:enabled="@{viewModel.passwordEnabled}" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton
+                android:theme="@style/BlueButtonThemeOverlay"
                 android:id="@+id/save_user_info_button"
                 android:layout_width="match_parent"
                 android:layout_height="58dp"
-                android:backgroundTint="@color/picton_blue_600"
                 android:text="@string/save_user_info"
                 android:textAllCaps="true"
-                android:textColor="@color/white"
                 app:icon="@drawable/ic_baseline_task_24"
                 app:iconGravity="textStart"
                 tools:ignore="TextContrastCheck" />
 
             <com.google.android.material.button.MaterialButton
+                android:theme="@style/OrangeButtonThemeOverlay"
                 android:id="@+id/signout_button"
                 android:layout_width="match_parent"
                 android:layout_height="58dp"
-                android:backgroundTint="@color/carrot_orange_600"
                 android:text="@string/signout"
                 android:textAllCaps="true"
-                android:textColor="@color/white"
                 app:icon="@drawable/ic_baseline_logout_24"
                 app:iconGravity="textStart"
                 tools:ignore="TextContrastCheck" />

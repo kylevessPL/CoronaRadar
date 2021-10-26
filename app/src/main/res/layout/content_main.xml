@@ -3,21 +3,50 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="pl.piasta.coronaradar.ui.main.viewmodel.MainViewModel" />
+    </data>
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:showIn="@layout/app_bar_main">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/network_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
+            android:animatedVisibility="@{!viewModel.connectivity}"
+            app:cardBackgroundColor="@color/red_600"
+            app:cardElevation="0dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/network_lost"
+                android:textColor="@color/white"
+                android:drawablePadding="@dimen/drawable_text"
+                app:drawableStartCompat="@drawable/outline_cloud_off_24"
+                app:drawableTint="@color/white" />
+        </androidx.cardview.widget.CardView>
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/nav_host_main"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_below="@id/network_info"
             app:defaultNavHost="true"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:navGraph="@navigation/nav_graph_main" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
 </layout>

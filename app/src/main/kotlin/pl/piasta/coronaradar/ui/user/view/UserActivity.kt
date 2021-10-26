@@ -5,7 +5,6 @@ import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -22,13 +21,9 @@ import pl.piasta.coronaradar.util.ResultState.Success
 import pl.piasta.coronaradar.util.TAG
 import pl.piasta.coronaradar.util.ifTrue
 import splitties.toast.longToast
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class UserActivity : BaseActivity<ActivityUserBinding, UserViewModel>(R.layout.activity_user) {
-
-    @Inject
-    lateinit var firebaseDynamicLinks: FirebaseDynamicLinks
 
     private lateinit var navController: NavController
 
@@ -39,9 +34,8 @@ class UserActivity : BaseActivity<ActivityUserBinding, UserViewModel>(R.layout.a
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         lifecycleScope.launchWhenStarted {
-            val task = firebaseDynamicLinks.getDynamicLink(intent)
             withContext(Dispatchers.IO) {
-                viewModel.verifyActionCode(task)
+                intent.data?.let { viewModel.verifyActionCode(it) }
             }
         }
     }
@@ -55,7 +49,7 @@ class UserActivity : BaseActivity<ActivityUserBinding, UserViewModel>(R.layout.a
     override fun updateUI() {
         viewModel.verifyActionCodeResult.observeNotNull(this@UserActivity, { result ->
             when (result) {
-                is Success -> when (val data = result.data!!) {
+                is Success -> when (val data = result.data) {
                     is PasswordReset -> PasswordResetDialog(data.oob).show(
                         supportFragmentManager,
                         PasswordResetDialog::class.TAG

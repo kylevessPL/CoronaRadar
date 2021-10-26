@@ -1,5 +1,6 @@
 package pl.piasta.coronaradar.ui.login.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -27,23 +28,23 @@ class LoginViewModel @Inject constructor(
         get() = _loginForm
 
     private val _signUp = LiveEvent<Boolean>()
-    val signUp: LiveEvent<Boolean>
+    val signUp: LiveData<Boolean>
         get() = _signUp
 
     private val _signInWithGoogle = LiveEvent<Boolean>()
-    val signInWithGoogle: LiveEvent<Boolean>
+    val signInWithGoogle: LiveData<Boolean>
         get() = _signInWithGoogle
 
     private val _signInWithFacebook = LiveEvent<Boolean>()
-    val signInWithFacebook: LiveEvent<Boolean>
+    val signInWithFacebook: LiveData<Boolean>
         get() = _signInWithFacebook
 
     private val _resetPassword = LiveEvent<Boolean>()
-    val resetPassword: LiveEvent<Boolean>
+    val resetPassword: LiveData<Boolean>
         get() = _resetPassword
 
     private val _signInResult = LiveEvent<ResultState<FirebaseUser>>()
-    val signInResult: LiveEvent<ResultState<FirebaseUser>>
+    val signInResult: LiveData<ResultState<FirebaseUser>>
         get() = _signInResult
 
     fun validateEmail() {

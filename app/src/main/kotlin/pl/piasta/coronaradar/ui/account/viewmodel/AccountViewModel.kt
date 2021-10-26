@@ -13,8 +13,8 @@ import javax.inject.Inject
 class AccountViewModel @Inject constructor(private val savedStateHandle: SavedStateHandle) :
     ViewModel() {
 
-    val displayNameEnabled = MutableLiveData<Boolean>()
-    val passwordEnabled = MutableLiveData<Boolean>()
+    val displayNameEnabled = MutableLiveData(false)
+    val passwordEnabled = MutableLiveData(false)
 
     private var _firebaseUser = FirebaseUserLiveData()
     val firebaseUser: LiveData<FirebaseUser?>

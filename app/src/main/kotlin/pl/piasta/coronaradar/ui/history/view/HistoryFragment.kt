@@ -14,6 +14,6 @@ class HistoryFragment :
     override val viewModel: HistoryViewModel by viewModels()
 
     override fun updateUI() {
-        TODO("Not yet implemented")
+        //TODO("Not yet implemented")
     }
 }

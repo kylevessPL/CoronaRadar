@@ -20,10 +20,10 @@ abstract class BaseActivity<DB : ViewDataBinding, VM : ViewModel?>(@LayoutRes pr
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, layoutRes)
-        binding.lifecycleOwner = this@BaseActivity
         viewModel?.let {
             binding.setVariable(BR.viewModel, viewModel)
         }
+        binding.lifecycleOwner = this
         setupNavController()
         updateUI()
     }

@@ -1,5 +1,6 @@
 package pl.piasta.coronaradar.data.auth.repository
 
+import android.net.Uri
 import android.util.Log
 import com.facebook.CallbackManager
 import com.facebook.login.LoginManager
@@ -14,7 +15,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.dynamiclinks.PendingDynamicLinkData
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -23,7 +24,6 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.tasks.await
 import pl.piasta.coronaradar.data.auth.exception.EmailNotVerifiedException
 import pl.piasta.coronaradar.data.auth.model.ActionCode
-import pl.piasta.coronaradar.data.auth.model.ActionCode.None
 import pl.piasta.coronaradar.data.auth.model.ActionCode.PasswordReset
 import pl.piasta.coronaradar.data.auth.model.ActionCode.VerifyEmail
 import pl.piasta.coronaradar.data.auth.util.registerMCallback
@@ -35,6 +35,7 @@ import javax.inject.Inject
 
 class FirebaseAuthRepository @Inject constructor(
     private val auth: FirebaseAuth,
+    private val dynamicLinks: FirebaseDynamicLinks,
     private val googleSignInClient: GoogleSignInClient,
     private val facebookLoginManager: LoginManager,
     @VerificationEmailSettings private val verificationEmailActionCodeSettings: ActionCodeSettings,
@@ -48,7 +49,7 @@ class FirebaseAuthRepository @Inject constructor(
         Log.d(this@FirebaseAuthRepository.TAG, "login:success")
         emit(ResultState.Success(result.user!!))
     }.catch { ex ->
-        Log.d(this@FirebaseAuthRepository.TAG, "login:failure")
+        Log.w(this@FirebaseAuthRepository.TAG, "login:failure", ex)
         emit(ResultState.Error(ex))
     }.flowOn(Dispatchers.IO)
 
@@ -61,7 +62,7 @@ class FirebaseAuthRepository @Inject constructor(
         Log.d(this@FirebaseAuthRepository.TAG, "register:success")
         emit(ResultState.Success(result.user!!))
     }.catch { ex ->
-        Log.d(this@FirebaseAuthRepository.TAG, "register:failure")
+        Log.w(this@FirebaseAuthRepository.TAG, "register:failure", ex)
         emit(ResultState.Error(ex))
     }.flowOn(Dispatchers.IO)
 
@@ -73,7 +74,7 @@ class FirebaseAuthRepository @Inject constructor(
         Log.d(this@FirebaseAuthRepository.TAG, "logout:success")
         emit(ResultState.Success())
     }.catch { ex ->
-        Log.d(this@FirebaseAuthRepository.TAG, "logout:failure")
+        Log.w(this@FirebaseAuthRepository.TAG, "logout:failure", ex)
         emit(ResultState.Error(ex))
     }.flowOn(Dispatchers.IO)
 
@@ -109,7 +110,7 @@ class FirebaseAuthRepository @Inject constructor(
             Log.d(this@FirebaseAuthRepository.TAG, "loginWithGoogle:success")
             emit(ResultState.Success(result.user!!))
         }.catch { ex ->
-            Log.d(this@FirebaseAuthRepository.TAG, "loginWithGoogle:failure")
+            Log.w(this@FirebaseAuthRepository.TAG, "loginWithGoogle:failure", ex)
             emit(ResultState.Error(ex))
         }.flowOn(Dispatchers.IO)
 
@@ -122,23 +123,22 @@ class FirebaseAuthRepository @Inject constructor(
             Log.d(this@FirebaseAuthRepository.TAG, "loginWithFacebook:success")
             emit(ResultState.Success(result.user!!))
         }.catch { ex ->
-            Log.d(this@FirebaseAuthRepository.TAG, "loginWithFacebook:failure")
+            Log.w(this@FirebaseAuthRepository.TAG, "loginWithFacebook:failure", ex)
             emit(ResultState.Error(ex))
         }.flowOn(Dispatchers.IO)
 
-    override fun verifyActionCode(task: Task<PendingDynamicLinkData>): Flow<ResultState<ActionCode>> =
-        flow {
-            emit(ResultState.Loading)
-            val data = task.getResult(ApiException::class.java)
-            val oob = data.link?.getQueryParameter("oobCode")
-            val result = oob?.let { auth.checkActionCode(it).await() }
-            val actionCode = toActionCode(result, oob.orEmpty())
-            Log.d(this@FirebaseAuthRepository.TAG, "verifyActionCode:success")
-            emit(ResultState.Success(actionCode))
-        }.catch { ex ->
-            Log.d(this@FirebaseAuthRepository.TAG, "verifyActionCode:failure")
-            emit(ResultState.Error(ex))
-        }.flowOn(Dispatchers.IO)
+    override fun verifyActionCode(data: Uri): Flow<ResultState<ActionCode?>> = flow {
+        emit(ResultState.Loading)
+        val dynamicLink = dynamicLinks.getDynamicLink(data).await()
+        val oob = dynamicLink.link?.getQueryParameter("oobCode")
+        val result = oob?.let { auth.checkActionCode(it).await() }
+        val actionCode = result?.let { toActionCode(oob, it.operation) }
+        Log.d(this@FirebaseAuthRepository.TAG, "verifyActionCode:success")
+        emit(ResultState.Success(actionCode))
+    }.catch { ex ->
+        Log.w(this@FirebaseAuthRepository.TAG, "verifyActionCode:failure", ex)
+        emit(ResultState.Error(ex))
+    }.flowOn(Dispatchers.IO)
 
     override fun verifyEmail(actionCode: String): Flow<ResultState<Nothing>> = flow {
         emit(ResultState.Loading)
@@ -147,7 +147,7 @@ class FirebaseAuthRepository @Inject constructor(
         Log.d(this@FirebaseAuthRepository.TAG, "verifyEmail:success")
         emit(ResultState.Success())
     }.catch { ex ->
-        Log.d(this@FirebaseAuthRepository.TAG, "verifyEmail:failure")
+        Log.w(this@FirebaseAuthRepository.TAG, "verifyEmail:failure", ex)
         emit(ResultState.Error(ex))
     }.flowOn(Dispatchers.IO)
 
@@ -160,17 +160,17 @@ class FirebaseAuthRepository @Inject constructor(
         Log.d(this@FirebaseAuthRepository.TAG, "resetPassword:success")
         emit(ResultState.Success())
     }.catch { ex ->
-        Log.d(this@FirebaseAuthRepository.TAG, "resetPassword:failure")
+        Log.w(this@FirebaseAuthRepository.TAG, "resetPassword:failure", ex)
         emit(ResultState.Error(ex))
     }.flowOn(Dispatchers.IO)
 
     private fun toActionCode(
-        result: ActionCodeResult?,
-        oob: String
-    ) = when (result?.operation) {
+        oob: String,
+        operation: Int
+    ) = when (operation) {
         ActionCodeResult.PASSWORD_RESET -> PasswordReset(oob)
         ActionCodeResult.VERIFY_EMAIL -> VerifyEmail(oob)
-        else -> None
+        else -> null
     }
 
     private fun verificationCheck(user: FirebaseUser): Boolean =

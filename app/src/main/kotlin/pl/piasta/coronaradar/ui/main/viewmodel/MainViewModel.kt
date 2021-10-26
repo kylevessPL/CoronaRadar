@@ -2,7 +2,6 @@ package pl.piasta.coronaradar.ui.main.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseUser
@@ -24,12 +23,4 @@ class MainViewModel @Inject constructor(
     private var _firebaseUser = FirebaseUserLiveData()
     val firebaseUser: LiveData<FirebaseUser?>
         get() = _firebaseUser
-
-    private var _connectivitySnackbarDisplay = MutableLiveData<Boolean>()
-    val connectivitySnackbarDisplay: LiveData<Boolean>
-        get() = _connectivitySnackbarDisplay
-
-    fun setConnectivitySnackbarDisplay(display: Boolean) {
-        _connectivitySnackbarDisplay.value = display
-    }
 }

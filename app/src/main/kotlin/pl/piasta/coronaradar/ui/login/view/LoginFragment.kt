@@ -60,6 +60,9 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(R.layou
     private val activityViewModel: UserViewModel by activityViewModels()
 
     override fun updateUI() {
+        activityViewModel.firebaseUser.observeNotNull(
+            viewLifecycleOwner,
+            { navigateToAccountFragment() })
         viewModel.signUp.observeNotNull(viewLifecycleOwner, { navigateToRegisterFragment() })
         viewModel.signInWithGoogle.observeNotNull(
             viewLifecycleOwner,
@@ -99,7 +102,12 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(R.layou
         findNavController().navigate(action)
     }
 
-    private fun displaySignInResult(result: ResultState<FirebaseUser>?) {
+    private fun navigateToAccountFragment() {
+        val action = LoginFragmentDirections.actionLoginFragmentToAccountFragment()
+        findNavController().navigate(action)
+    }
+
+    private fun displaySignInResult(result: ResultState<FirebaseUser>) {
         when (result) {
             is Success -> {
                 activityViewModel.setProgressIndicationVisibility(false)
