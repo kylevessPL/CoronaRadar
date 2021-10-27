@@ -84,11 +84,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
     }
 
     private fun switchNavMenu(user: FirebaseUser?) {
-        navView.menu.clear()
-        user?.also {
-            navView.inflateMenu(R.menu.activity_main_logged_in_drawer)
-        } ?: run {
-            navView.inflateMenu(R.menu.activity_main_not_logged_in_drawer)
-        }
+        navView.menu.setGroupVisible(R.id.menu_group_logged_in, user != null)
+        navView.menu.setGroupVisible(R.id.menu_group_not_logged_in, user == null)
     }
 }

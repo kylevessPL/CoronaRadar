@@ -18,10 +18,25 @@
             android:id="@+id/nav_stats"
             android:icon="@drawable/ic_baseline_query_stats_24"
             android:title="@string/stats" />
+    </group>
+
+    <group
+        android:id="@+id/menu_group_logged_in"
+        android:checkableBehavior="single"
+        android:listDivider="@null">
         <item
             android:id="@+id/nav_account"
             android:icon="@drawable/ic_baseline_account_circle_24"
             android:title="@string/my_account" />
+    </group>
+
+    <group
+        android:id="@+id/menu_group_not_logged_in"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_login"
+            android:icon="@drawable/ic_baseline_login_24"
+            android:title="@string/signin" />
     </group>
 
     <group
