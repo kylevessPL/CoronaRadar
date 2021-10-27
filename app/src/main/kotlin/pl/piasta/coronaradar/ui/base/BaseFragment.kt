@@ -46,5 +46,5 @@ abstract class BaseFragment<DB : ViewDataBinding, VM : ViewModel?>(@LayoutRes pr
         _binding = null
     }
 
-    protected abstract fun updateUI()
+    protected open fun updateUI() {}
 }

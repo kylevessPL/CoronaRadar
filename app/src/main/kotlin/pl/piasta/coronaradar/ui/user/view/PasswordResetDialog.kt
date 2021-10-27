@@ -2,7 +2,6 @@ package pl.piasta.coronaradar.ui.user.view
 
 import android.app.Dialog
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.Observable
 import androidx.fragment.app.DialogFragment
@@ -17,6 +16,7 @@ import pl.piasta.coronaradar.util.ResultState.Error
 import pl.piasta.coronaradar.util.ResultState.Success
 import splitties.alertdialog.appcompat.cancelButton
 import splitties.alertdialog.appcompat.messageResource
+import splitties.alertdialog.appcompat.onShow
 import splitties.alertdialog.appcompat.positiveButton
 import splitties.alertdialog.appcompat.titleResource
 import splitties.alertdialog.material.materialAlertDialog
@@ -34,16 +34,12 @@ class PasswordResetDialog(private val oob: String) : DialogFragment() {
 
     private val viewModel: PasswordResetViewModel by viewModels()
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        viewBinding.lifecycleOwner = this@PasswordResetDialog
-        viewBinding.viewModel = viewModel
-        updateUI()
-    }
-
     override fun onStart() {
         super.onStart()
+        viewBinding.lifecycleOwner = this
+        viewBinding.viewModel = viewModel
         registerOnPropertyChangedCallback()
+        updateUI()
     }
 
     override fun onStop() {
@@ -64,7 +60,7 @@ class PasswordResetDialog(private val oob: String) : DialogFragment() {
                 )
             }
             cancelButton()
-        }
+        }.onShow { positiveButton.isEnabled = false }
     }
 
     override fun onDestroyView() {
@@ -74,7 +70,7 @@ class PasswordResetDialog(private val oob: String) : DialogFragment() {
 
     private fun updateUI() {
         viewModel.passwordResetResult.observeNotNull(
-            viewLifecycleOwner,
+            this,
             { displayPasswordResetResult(it) })
     }
 

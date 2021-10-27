@@ -2,7 +2,6 @@ package pl.piasta.coronaradar.ui.user.view
 
 import android.app.Dialog
 import android.os.Bundle
-import android.view.View
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,8 +23,8 @@ class VerificationEmailDialog : DialogFragment() {
 
     private val viewModel: VerificationEmailViewModel by viewModels()
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onStart() {
+        super.onStart()
         updateUI()
     }
 
@@ -40,7 +39,7 @@ class VerificationEmailDialog : DialogFragment() {
 
     private fun updateUI() {
         viewModel.verificationEmailResult.observeNotNull(
-            viewLifecycleOwner,
+            this,
             { displayVerificationEmailResult(it) })
     }
 
