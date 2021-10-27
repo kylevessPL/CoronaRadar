@@ -5,7 +5,7 @@
     <string name="my_account">Moje Konto</string>
     <string name="signin">Zaloguj Się</string>
     <string name="updates">Aktualizacje</string>
-    <string name="coronakit_update_frequency">Częstotliwośc aktualizacji CoronaKit</string>
+    <string name="coronakit_update_frequency">Częstotliwość aktualizacji CoronaKit</string>
     <string name="coronakit_update_wifi_only">Aktualizuj CoronaKit tylko poprzez Wi-Fi</string>
     <string name="stats_records_number">Ilość wyświetlanych rekordów</string>
     <string name="stats_all_hide_mine">Uwzględniaj moje wyniki</string>

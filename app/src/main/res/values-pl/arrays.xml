@@ -1,0 +1,11 @@
+<resources>
+    <string-array name="coronakit_update_frequency_entries">
+        <item>1 godzina</item>
+        <item>6 godzin</item>
+        <item>12 godzin</item>
+        <item>24 godziny</item>
+        <item>raz w tygodniu</item>
+        <item>raz w miesiącu</item>
+        <item>nigdy</item>
+    </string-array>
+</resources>
