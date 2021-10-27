@@ -10,6 +10,7 @@ import com.facebook.CallbackManager
 import com.facebook.login.LoginManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseUser
@@ -32,6 +33,7 @@ import pl.piasta.coronaradar.util.ResultState.Error
 import pl.piasta.coronaradar.util.ResultState.Loading
 import pl.piasta.coronaradar.util.ResultState.Success
 import pl.piasta.coronaradar.util.TAG
+import pl.piasta.coronaradar.util.ifTrue
 import splitties.resources.str
 import splitties.toast.longToast
 import javax.inject.Inject
@@ -45,7 +47,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(R.layou
     @Inject
     lateinit var facebookLoginManager: LoginManager
 
-    private val googleLoginLauncher by lazy {
+    private val googleLoginLauncher =
         registerForActivityResult(StartActivityForResult()) { result ->
             val data: Intent? = result.data
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
@@ -55,7 +57,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(R.layou
                 }
             }
         }
-    }
 
     override val viewModel: LoginViewModel by viewModels()
     private val activityViewModel: UserViewModel by activityViewModels()
@@ -113,9 +114,9 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(R.layou
             is Success -> viewModel.setProgressIndicationVisibility(false)
             is Error -> {
                 viewModel.setProgressIndicationVisibility(false)
-                when (result.ex) {
+                when (val ex = result.ex) {
                     is FirebaseAuthException -> {
-                        val messageId = when (result.ex is FirebaseAuthUserCollisionException) {
+                        val messageId = when (ex is FirebaseAuthUserCollisionException) {
                             true -> R.string.login_failure_other_provider
                             false -> R.string.login_failure_bad_credentials_message
                         }
@@ -133,7 +134,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(R.layou
                         parentFragmentManager,
                         VerificationEmailDialog::class.TAG
                     )
-                    else -> longToast(R.string.general_failure_message)
+                    else -> !(ex is ApiException && ex.status.isCanceled).ifTrue { longToast(R.string.general_failure_message) }!!
                 }
             }
             Loading -> viewModel.setProgressIndicationVisibility(true)

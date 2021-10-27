@@ -15,7 +15,9 @@ suspend fun LoginManager.registerMCallback(
         override fun onSuccess(result: LoginResult) =
             continuation.resume(result, continuation::resumeWithException)
 
-        override fun onCancel() {}
+        override fun onCancel() {
+            continuation.cancel()
+        }
 
         override fun onError(error: FacebookException) = continuation.resumeWithException(error)
     }
