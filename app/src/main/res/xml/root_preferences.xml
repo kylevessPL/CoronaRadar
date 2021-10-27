@@ -1,6 +1,6 @@
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory app:title="@string/updates_header">
+    <PreferenceCategory app:title="@string/updates">
 
         <ListPreference
             app:key="coronakit_update_frequency"
@@ -16,7 +16,7 @@
             app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/stats_header">
+    <PreferenceCategory app:title="@string/stats">
 
         <ListPreference
             app:key="stats_records_number"

@@ -93,7 +93,7 @@
                 app:endIconMode="password_toggle"
                 app:counterEnabled="true"
                 app:helperTextEnabled="true"
-                app:helperText="@string/password_helper"
+                app:helperText="@string/min_six_chars_allowed"
                 app:errorEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
