@@ -28,7 +28,7 @@ class LoginForm : BaseObservable() {
     }
 
     fun validatePassword(showError: Boolean = true): Boolean {
-        return passwordValidationMessage(_input.password).let { message ->
+        return passwordValidationMessage(_input.password, false).let { message ->
             { _error.password.set(message) }.takeUnless { message != null && !showError }?.invoke()
             message == null
         }

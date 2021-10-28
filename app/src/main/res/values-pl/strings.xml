@@ -57,4 +57,5 @@
     <string name="email_not_valid">Musi być prawidłowym adresem email</string>
     <string name="signout_message">Czy na pewno chcesz się wylogować?</string>
     <string name="signin_link">Zaloguj się</string>
+    <string name="language">Język</string>
 </resources>

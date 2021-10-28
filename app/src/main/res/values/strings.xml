@@ -68,4 +68,6 @@
     <string name="email_not_valid">Must be a valid email address</string>
     <string name="signout_message">Are you sure you want to sign out?</string>
     <string name="signin_link">Sign in</string>
+    <string name="language">Language</string>
+    <string name="region" translatable="false">Region</string>
 </resources>

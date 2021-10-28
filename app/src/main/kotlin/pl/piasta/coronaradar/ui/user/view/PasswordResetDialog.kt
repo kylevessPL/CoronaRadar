@@ -1,7 +1,8 @@
 package pl.piasta.coronaradar.ui.user.view
 
 import android.app.Dialog
-import android.content.DialogInterface
+import android.content.DialogInterface.BUTTON_NEGATIVE
+import android.content.DialogInterface.BUTTON_POSITIVE
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.Observable
@@ -52,10 +53,10 @@ class PasswordResetDialog(private val oob: String) : DialogFragment() {
             setView(viewBinding.root)
             setTitle(R.string.password_reset)
             setMessage(str(R.string.password_reset_message))
-            setButton(DialogInterface.BUTTON_POSITIVE, str(R.string.update)) { _, _ ->
+            setButton(BUTTON_POSITIVE, str(R.string.update)) { _, _ ->
                 viewModel.resetPassword(oob, viewBinding.passwordResetPasswordInput.string)
             }
-            setButton(DialogInterface.BUTTON_NEGATIVE, str(android.R.string.cancel)) { _, _ -> }
+            setButton(BUTTON_NEGATIVE, str(android.R.string.cancel)) { _, _ -> }
         }.onShow { positiveButton.isEnabled = false }
     }
 
@@ -78,7 +79,7 @@ class PasswordResetDialog(private val oob: String) : DialogFragment() {
     }
 
     private fun registerOnPropertyChangedCallback() {
-        val positiveButton = (dialog as AlertDialog).getButton(AlertDialog.BUTTON_POSITIVE)
+        val positiveButton = (dialog as AlertDialog).positiveButton
         _onPropertyChangedCallback = object : Observable.OnPropertyChangedCallback() {
 
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {

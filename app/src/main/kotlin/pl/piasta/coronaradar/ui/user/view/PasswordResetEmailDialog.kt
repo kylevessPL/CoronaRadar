@@ -79,7 +79,7 @@ class PasswordResetEmailDialog : DialogFragment() {
     }
 
     private fun registerOnPropertyChangedCallback() {
-        val positiveButton = (dialog as AlertDialog).getButton(AlertDialog.BUTTON_POSITIVE)
+        val positiveButton = (dialog as AlertDialog).positiveButton
         _onPropertyChangedCallback = object : Observable.OnPropertyChangedCallback() {
 
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {

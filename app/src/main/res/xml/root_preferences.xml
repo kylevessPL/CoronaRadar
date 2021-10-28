@@ -1,5 +1,16 @@
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <PreferenceCategory app:title="@string/region">
+
+        <ListPreference
+            app:key="language"
+            app:title="@string/language"
+            app:entries="@array/language_entries"
+            app:entryValues="@array/language_values"
+            app:defaultValue="default"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
+
     <PreferenceCategory app:title="@string/updates">
 
         <ListPreference
@@ -21,8 +32,8 @@
         <ListPreference
             app:key="stats_records_number"
             app:title="@string/stats_records_number"
-            app:entries="@array/stats_records_number"
-            app:entryValues="@array/stats_records_number"
+            app:entries="@array/stats_records_number_entries_values"
+            app:entryValues="@array/stats_records_number_entries_values"
             app:defaultValue="5"
             app:useSimpleSummaryProvider="true" />
         <SwitchPreference

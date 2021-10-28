@@ -10,18 +10,17 @@ fun emailValidationMessage(email: String?): Int? {
     with(email) {
         return when {
             this.isNullOrBlank() -> R.string.empty_not_allowed
-            this.isMaxExclusive(6) -> R.string.min_six_chars_allowed
             !this.matches(EMAIL_REGEX.toRegex()) -> R.string.email_not_valid
             else -> null
         }
     }
 }
 
-fun passwordValidationMessage(password: String?): Int? {
+fun passwordValidationMessage(password: String?, registration: Boolean): Int? {
     with(password) {
         return when {
             this.isNullOrBlank() -> R.string.empty_not_allowed
-            this.isMaxExclusive(6) -> R.string.min_six_chars_allowed
+            this.isMaxExclusive(6) && registration -> R.string.min_six_chars_allowed
             else -> null
         }
     }

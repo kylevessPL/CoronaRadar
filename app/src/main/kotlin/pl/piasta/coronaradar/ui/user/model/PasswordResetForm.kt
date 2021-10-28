@@ -23,7 +23,7 @@ class PasswordResetForm : BaseObservable() {
 
     fun validatePassword(showError: Boolean = true): Boolean {
         validatePasswordConfirm()
-        return passwordValidationMessage(_input.password).let { message ->
+        return passwordValidationMessage(_input.password, true).let { message ->
             { _error.password.set(message) }.takeUnless { message != null && !showError }?.invoke()
             message == null
         }
