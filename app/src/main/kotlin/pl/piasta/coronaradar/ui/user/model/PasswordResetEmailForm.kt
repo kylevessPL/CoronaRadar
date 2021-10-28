@@ -21,8 +21,8 @@ class PasswordResetEmailForm : BaseObservable() {
 
     fun validateEmail(showError: Boolean = true): Boolean {
         return emailValidationMessage(_input.email).let { message ->
-            message.takeUnless { it != null && !showError }?.let { _error.email.set(it) }
-            message != null
+            { _error.email.set(message) }.takeUnless { message != null && !showError }?.invoke()
+            message == null
         }
     }
 

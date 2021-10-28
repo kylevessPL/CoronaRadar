@@ -25,16 +25,13 @@ fun setErrorText(input: TextInputLayout, @StringRes errorText: Int?) {
 
 @BindingAdapter("android:onFocusChange")
 fun onFocusChange(input: TextInputEditText, block: () -> Unit) {
-    input.onFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
-        (!hasFocus && !(view as TextInputEditText).text.isNullOrBlank()).ifTrue {
-            block()
-        }
-    }
+    input.onFocusChangeListener =
+        View.OnFocusChangeListener { _, hasFocus -> block.takeUnless { hasFocus }?.invoke() }
 }
 
 @BindingAdapter("android:loseFocusOnDone")
 fun loseFocusOnDone(input: TextInputEditText, value: Boolean) {
-    value.ifTrue {
+    {
         input.setOnEditorActionListener { view, actionId, _ ->
             (actionId == EditorInfo.IME_ACTION_DONE).also {
                 it.ifTrue {
@@ -45,7 +42,7 @@ fun loseFocusOnDone(input: TextInputEditText, value: Boolean) {
                 }
             }
         }
-    }
+    }.takeIf { value }?.invoke()
 }
 
 @BindingAdapter("android:animatedVisibility")

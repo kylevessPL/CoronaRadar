@@ -24,14 +24,14 @@ fun <T> LiveData<T>.observeNull(owner: LifecycleOwner, observer: (t: T) -> Unit)
 
 fun Window.dispatchActionDownTouchEvent(event: MotionEvent) {
     (event.action == MotionEvent.ACTION_DOWN).ifTrue {
-        currentFocus?.takeIf { it is EditText }.let {
+        currentFocus?.takeIf { it is EditText }?.let {
             val outRect = Rect()
-            it?.getGlobalVisibleRect(outRect)
+            it.getGlobalVisibleRect(outRect)
             (!outRect.contains(event.rawX.toInt(), event.rawY.toInt())).ifTrue {
-                it?.clearFocus()
+                it.clearFocus()
                 val imm =
                     context.getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(it?.windowToken, 0)
+                imm.hideSoftInputFromWindow(it.windowToken, 0)
             }
         }
     }

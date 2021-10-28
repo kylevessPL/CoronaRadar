@@ -70,9 +70,12 @@
                 android:errorText="@{viewModel.registerForm.error.email}">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/register_email_input_edit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textEmailAddress"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@id/register_password_input_edit"
                     android:text="@={viewModel.registerForm.input.email}"
                     android:onFocusChange="@{viewModel::validateEmail}"
                     tools:ignore="TextContrastCheck" />
@@ -97,9 +100,12 @@
                 app:errorEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/register_password_input_edit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@id/register_password_confirm_input_edit"
                     android:text="@={viewModel.registerForm.input.password}"
                     android:onFocusChange="@{viewModel::validatePassword}"
                     tools:ignore="TextContrastCheck" />
@@ -121,9 +127,11 @@
                 app:errorEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/register_password_confirm_input_edit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"
+                    android:imeOptions="actionDone"
                     android:text="@={viewModel.registerForm.input.passwordConfirm}"
                     android:onFocusChange="@{viewModel::validatePasswordConfirm}"
                     android:loseFocusOnDone="@{true}"

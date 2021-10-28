@@ -22,15 +22,15 @@ class LoginForm : BaseObservable() {
 
     fun validateEmail(showError: Boolean = true): Boolean {
         return emailValidationMessage(_input.email).let { message ->
-            message.takeUnless { it != null && !showError }?.let { _error.email.set(it) }
-            message != null
+            { _error.email.set(message) }.takeUnless { message != null && !showError }?.invoke()
+            message == null
         }
     }
 
     fun validatePassword(showError: Boolean = true): Boolean {
         return passwordValidationMessage(_input.password).let { message ->
-            message.takeUnless { it != null && !showError }?.let { _error.password.set(it) }
-            message != null
+            { _error.password.set(message) }.takeUnless { message != null && !showError }?.invoke()
+            message == null
         }
     }
 
