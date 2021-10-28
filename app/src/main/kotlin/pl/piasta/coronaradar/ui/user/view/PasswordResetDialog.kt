@@ -1,6 +1,7 @@
 package pl.piasta.coronaradar.ui.user.view
 
 import android.app.Dialog
+import android.content.DialogInterface
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.Observable
@@ -9,17 +10,15 @@ import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import pl.piasta.coronaradar.R
 import pl.piasta.coronaradar.databinding.PasswordResetDialogBinding
+import pl.piasta.coronaradar.ui.common.view.TouchBehaviorDialog
 import pl.piasta.coronaradar.ui.user.viewmodel.PasswordResetViewModel
 import pl.piasta.coronaradar.ui.util.observeNotNull
 import pl.piasta.coronaradar.util.ResultState
 import pl.piasta.coronaradar.util.ResultState.Error
 import pl.piasta.coronaradar.util.ResultState.Success
-import splitties.alertdialog.appcompat.cancelButton
-import splitties.alertdialog.appcompat.messageResource
 import splitties.alertdialog.appcompat.onShow
 import splitties.alertdialog.appcompat.positiveButton
-import splitties.alertdialog.appcompat.titleResource
-import splitties.alertdialog.material.materialAlertDialog
+import splitties.resources.str
 import splitties.toast.longToast
 import splitties.views.material.string
 
@@ -49,17 +48,14 @@ class PasswordResetDialog(private val oob: String) : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         _viewBinding = PasswordResetDialogBinding.inflate(layoutInflater)
-        return requireContext().materialAlertDialog {
+        return TouchBehaviorDialog(requireContext(), theme).apply {
             setView(viewBinding.root)
-            titleResource = R.string.password_reset
-            messageResource = R.string.password_reset_message
-            positiveButton(R.string.update) {
-                viewModel.resetPassword(
-                    oob,
-                    viewBinding.passwordResetPasswordInput.string
-                )
+            setTitle(R.string.password_reset)
+            setMessage(str(R.string.password_reset_message))
+            setButton(DialogInterface.BUTTON_POSITIVE, str(R.string.update)) { _, _ ->
+                viewModel.resetPassword(oob, viewBinding.passwordResetPasswordInput.string)
             }
-            cancelButton()
+            setButton(DialogInterface.BUTTON_NEGATIVE, str(android.R.string.cancel)) { _, _ -> }
         }.onShow { positiveButton.isEnabled = false }
     }
 

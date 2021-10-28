@@ -1,6 +1,8 @@
 package pl.piasta.coronaradar.ui.user.view
 
 import android.app.Dialog
+import android.content.DialogInterface.BUTTON_NEGATIVE
+import android.content.DialogInterface.BUTTON_POSITIVE
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.Observable
@@ -9,17 +11,15 @@ import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import pl.piasta.coronaradar.R
 import pl.piasta.coronaradar.databinding.PasswordResetEmailDialogBinding
+import pl.piasta.coronaradar.ui.common.view.TouchBehaviorDialog
 import pl.piasta.coronaradar.ui.user.viewmodel.PasswordResetEmailViewModel
 import pl.piasta.coronaradar.ui.util.observeNotNull
 import pl.piasta.coronaradar.util.ResultState
 import pl.piasta.coronaradar.util.ResultState.Error
 import pl.piasta.coronaradar.util.ResultState.Success
-import splitties.alertdialog.appcompat.cancelButton
-import splitties.alertdialog.appcompat.messageResource
 import splitties.alertdialog.appcompat.onShow
 import splitties.alertdialog.appcompat.positiveButton
-import splitties.alertdialog.appcompat.titleResource
-import splitties.alertdialog.material.materialAlertDialog
+import splitties.resources.str
 import splitties.toast.longToast
 import splitties.views.material.string
 
@@ -49,12 +49,14 @@ class PasswordResetEmailDialog : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         _viewBinding = PasswordResetEmailDialogBinding.inflate(layoutInflater)
-        return requireContext().materialAlertDialog {
+        return TouchBehaviorDialog(requireContext(), theme).apply {
             setView(viewBinding.root)
-            titleResource = R.string.password_reset
-            messageResource = R.string.password_reset_email_message
-            positiveButton(R.string.send) { viewModel.sendPasswordResetEmail(viewBinding.passwordResetEmailInput.string) }
-            cancelButton()
+            setTitle(R.string.password_reset)
+            setMessage(str(R.string.password_reset_email_message))
+            setButton(BUTTON_POSITIVE, str(R.string.send)) { _, _ ->
+                viewModel.sendPasswordResetEmail(viewBinding.passwordResetEmailInput.string)
+            }
+            setButton(BUTTON_NEGATIVE, str(android.R.string.cancel)) { _, _ -> }
         }.onShow { positiveButton.isEnabled = false }
     }
 

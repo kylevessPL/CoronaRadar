@@ -1,6 +1,7 @@
 package pl.piasta.coronaradar.ui.user.view
 
 import android.os.Bundle
+import android.view.MotionEvent
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
@@ -13,6 +14,7 @@ import pl.piasta.coronaradar.data.auth.model.ActionCode.VerifyEmail
 import pl.piasta.coronaradar.databinding.ActivityUserBinding
 import pl.piasta.coronaradar.ui.base.BaseActivity
 import pl.piasta.coronaradar.ui.user.viewmodel.UserViewModel
+import pl.piasta.coronaradar.ui.util.dispatchActionDownTouchEvent
 import pl.piasta.coronaradar.ui.util.observeNotNull
 import pl.piasta.coronaradar.util.ResultState.Error
 import pl.piasta.coronaradar.util.ResultState.Loading
@@ -75,5 +77,10 @@ class UserActivity : BaseActivity<ActivityUserBinding, UserViewModel>(R.layout.a
                 }
             }
         })
+    }
+
+    override fun dispatchTouchEvent(event: MotionEvent): Boolean {
+        window.dispatchActionDownTouchEvent(event)
+        return super.dispatchTouchEvent(event)
     }
 }

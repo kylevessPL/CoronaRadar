@@ -3,7 +3,10 @@ package pl.piasta.coronaradar.ui.util
 import android.view.Gravity.TOP
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import androidx.annotation.StringRes
+import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.databinding.BindingAdapter
 import androidx.transition.Slide
@@ -25,6 +28,22 @@ fun onFocusChange(input: TextInputEditText, block: () -> Unit) {
     input.onFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
         (!hasFocus && !(view as TextInputEditText).text.isNullOrBlank()).ifTrue {
             block()
+        }
+    }
+}
+
+@BindingAdapter("android:loseFocusOnDone")
+fun loseFocusOnDone(input: TextInputEditText, value: Boolean) {
+    value.ifTrue {
+        input.setOnEditorActionListener { view, actionId, _ ->
+            (actionId == EditorInfo.IME_ACTION_DONE).also {
+                it.ifTrue {
+                    view.clearFocus()
+                    val imm =
+                        view.context.getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.hideSoftInputFromWindow(view.windowToken, 0)
+                }
+            }
         }
     }
 }

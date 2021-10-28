@@ -148,6 +148,7 @@
                     android:inputType="textPassword"
                     android:text="@={viewModel.loginForm.input.password}"
                     android:onFocusChange="@{viewModel::validatePassword}"
+                    android:loseFocusOnDone="@{true}"
                     tools:ignore="TextContrastCheck" />
             </com.google.android.material.textfield.TextInputLayout>
 

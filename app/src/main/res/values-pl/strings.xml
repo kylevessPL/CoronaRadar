@@ -17,7 +17,7 @@
     <string name="email">Email</string>
     <string name="or">lub</string>
     <string name="forgot_your_password_pt1">Zapomniałeś hasła?</string>
-    <string name="forgot_your_password_pt2">Zresetuj je tutaj</string>
+    <string name="forgot_your_password_pt2">Zresetuj tutaj</string>
     <string name="register_pt1">Nie masz konta?</string>
     <string name="signup">Zarejestruj się</string>
     <string name="signin_header">Zaloguj Się i Zobacz Więcej</string>

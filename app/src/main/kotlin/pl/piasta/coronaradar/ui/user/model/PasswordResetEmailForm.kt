@@ -4,9 +4,7 @@ import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import androidx.databinding.ObservableField
 import pl.piasta.coronaradar.BR
-import pl.piasta.coronaradar.R
-import pl.piasta.coronaradar.util.ifTrue
-import pl.piasta.coronaradar.util.isMaxExclusive
+import pl.piasta.coronaradar.ui.util.emailValidationMessage
 
 class PasswordResetEmailForm : BaseObservable() {
 
@@ -22,21 +20,9 @@ class PasswordResetEmailForm : BaseObservable() {
     fun isPasswordResetEmailFormValid(): Boolean = validateEmail(false)
 
     fun validateEmail(showError: Boolean = true): Boolean {
-        with(_input.email) {
-            return when {
-                this.isNullOrBlank() -> {
-                    showError.ifTrue { _error.email.set(R.string.empty_not_allowed) }
-                    false
-                }
-                this.isMaxExclusive(6) -> {
-                    showError.ifTrue { _error.email.set(R.string.min_six_chars_allowed) }
-                    false
-                }
-                else -> {
-                    _error.email.set(null)
-                    true
-                }
-            }
+        return emailValidationMessage(_input.email).let { message ->
+            message.takeUnless { it != null && !showError }?.let { _error.email.set(it) }
+            message != null
         }
     }
 

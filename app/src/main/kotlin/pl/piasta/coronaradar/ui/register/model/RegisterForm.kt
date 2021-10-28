@@ -4,10 +4,9 @@ import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import androidx.databinding.ObservableField
 import pl.piasta.coronaradar.BR
-import pl.piasta.coronaradar.R
-import pl.piasta.coronaradar.util.EMAIL_REGEX
-import pl.piasta.coronaradar.util.ifTrue
-import pl.piasta.coronaradar.util.isMaxExclusive
+import pl.piasta.coronaradar.ui.util.emailValidationMessage
+import pl.piasta.coronaradar.ui.util.passwordConfirmValidationMessage
+import pl.piasta.coronaradar.ui.util.passwordValidationMessage
 
 class RegisterForm : BaseObservable() {
 
@@ -24,64 +23,27 @@ class RegisterForm : BaseObservable() {
         validateEmail(false) && validatePassword(false) && validatePasswordConfirm(false)
 
     fun validateEmail(showError: Boolean = true): Boolean {
-        with(_input.email) {
-            return when {
-                this.isNullOrBlank() -> {
-                    showError.ifTrue { _error.email.set(R.string.empty_not_allowed) }
-                    false
-                }
-                this.isMaxExclusive(6) -> {
-                    showError.ifTrue { _error.email.set(R.string.min_six_chars_allowed) }
-                    false
-                }
-                !this.matches(EMAIL_REGEX.toRegex()) -> {
-                    showError.ifTrue { _error.email.set(R.string.email_not_valid) }
-                    false
-                }
-                else -> {
-                    _error.email.set(null)
-                    true
-                }
-            }
+        return emailValidationMessage(_input.email).let { message ->
+            message.takeUnless { it != null && !showError }?.let { _error.email.set(it) }
+            message != null
         }
     }
 
     fun validatePassword(showError: Boolean = true): Boolean {
         validatePasswordConfirm()
-        with(_input.password) {
-            return when {
-                this.isNullOrBlank() -> {
-                    showError.ifTrue { _error.password.set(R.string.empty_not_allowed) }
-                    false
-                }
-                this.isMaxExclusive(6) -> {
-                    showError.ifTrue { _error.password.set(R.string.min_six_chars_allowed) }
-                    false
-                }
-                else -> {
-                    _error.password.set(null)
-                    true
-                }
-            }
+        return passwordValidationMessage(_input.password).let { message ->
+            message.takeUnless { it != null && !showError }?.let { _error.password.set(it) }
+            message != null
         }
     }
 
     fun validatePasswordConfirm(showError: Boolean = true): Boolean {
-        with(_input.passwordConfirm) {
-            return when {
-                this.isNullOrBlank() -> {
-                    showError.ifTrue { _error.passwordConfirm.set(R.string.empty_not_allowed) }
-                    false
-                }
-                this != _input.password && !_input.password.isNullOrBlank() -> {
-                    showError.ifTrue { _error.passwordConfirm.set(R.string.passwords_not_match) }
-                    false
-                }
-                else -> {
-                    _error.passwordConfirm.set(null)
-                    true
-                }
-            }
+        return passwordConfirmValidationMessage(
+            input.password,
+            _input.passwordConfirm
+        ).let { message ->
+            message.takeUnless { it != null && !showError }?.let { _error.passwordConfirm.set(it) }
+            message != null
         }
     }
 
