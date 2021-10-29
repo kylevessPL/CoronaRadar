@@ -4,11 +4,11 @@ import androidx.lifecycle.LiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 
-class FirebaseUserLiveData : LiveData<FirebaseUser?>(), FirebaseAuth.AuthStateListener {
+class FirebaseUserLiveData : LiveData<FirebaseUser?>(), FirebaseAuth.IdTokenListener {
 
     private val auth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
 
-    override fun onAuthStateChanged(auth: FirebaseAuth) = updateUser(auth)
+    override fun onIdTokenChanged(auth: FirebaseAuth) = updateUser(auth)
 
     init {
         updateUser(auth)
@@ -16,12 +16,12 @@ class FirebaseUserLiveData : LiveData<FirebaseUser?>(), FirebaseAuth.AuthStateLi
 
     override fun onActive() {
         super.onActive()
-        auth.addAuthStateListener(this)
+        auth.addIdTokenListener(this)
     }
 
     override fun onInactive() {
         super.onInactive()
-        auth.removeAuthStateListener(this)
+        auth.removeIdTokenListener(this)
     }
 
     private fun updateUser(auth: FirebaseAuth) {

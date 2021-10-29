@@ -144,6 +144,7 @@ class FirebaseAuthRepository @Inject constructor(
         emit(ResultState.Loading)
         auth.applyActionCode(actionCode).await()
         auth.currentUser?.reload()?.await()
+        auth.currentUser?.getIdToken(true)?.await()
         Log.d(this@FirebaseAuthRepository.TAG, "verifyEmail:success")
         emit(ResultState.Success())
     }.catch { ex ->
