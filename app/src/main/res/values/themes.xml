@@ -48,7 +48,7 @@
     </style>
 
     <style name="Theme.CoronaRadar.AlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
-        <item name="dialogCornerRadius">@dimen/abc_dialog_corner_radius_material</item>
+        <item name="dialogCornerRadius">4dp</item>
         <item name="buttonBarPositiveButtonStyle">
             @style/Theme.CoronaRadar.AlertDialog.Button.Positive
         </item>
