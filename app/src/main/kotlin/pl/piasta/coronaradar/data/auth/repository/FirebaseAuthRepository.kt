@@ -69,8 +69,8 @@ class FirebaseAuthRepository @Inject constructor(
     override fun logout(): Flow<ResultState<Nothing>> = flow {
         emit(ResultState.Loading)
         auth.signOut()
-        facebookLoginManager.logOut()
         googleSignInClient.signOut().await()
+        facebookLoginManager.logOut()
         Log.d(this@FirebaseAuthRepository.TAG, "logout:success")
         emit(ResultState.Success())
     }.catch { ex ->

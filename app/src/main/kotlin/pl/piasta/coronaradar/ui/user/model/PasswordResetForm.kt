@@ -6,6 +6,7 @@ import androidx.databinding.ObservableField
 import pl.piasta.coronaradar.BR
 import pl.piasta.coronaradar.ui.util.passwordConfirmValidationMessage
 import pl.piasta.coronaradar.ui.util.passwordValidationMessage
+import pl.piasta.coronaradar.util.ifTrue
 
 class PasswordResetForm : BaseObservable() {
 
@@ -22,7 +23,7 @@ class PasswordResetForm : BaseObservable() {
         validatePassword(false) && validatePasswordConfirm(false)
 
     fun validatePassword(showError: Boolean = true): Boolean {
-        validatePasswordConfirm()
+        (!_input.passwordConfirm.isNullOrBlank()).ifTrue { validatePasswordConfirm() }
         return passwordValidationMessage(_input.password, true).let { message ->
             { _error.password.set(message) }.takeUnless { message != null && !showError }?.invoke()
             message == null

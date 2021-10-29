@@ -58,5 +58,5 @@
     <string name="signout_message">Czy na pewno chcesz się wylogować?</string>
     <string name="signin_link">Zaloguj się</string>
     <string name="language">Język</string>
-    <string name="auth_code_failure_invalid_message">Kod jest nieprawidłowy, stracił waźność lub został juz wykorzystany</string>
+    <string name="auth_code_failure_invalid_message">Kod jest nieprawidłowy, stracił ważność lub został juz wykorzystany</string>
 </resources>
