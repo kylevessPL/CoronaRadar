@@ -7,15 +7,18 @@ import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.Observable
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import pl.piasta.coronaradar.R
 import pl.piasta.coronaradar.databinding.PasswordResetDialogBinding
 import pl.piasta.coronaradar.ui.common.view.TouchBehaviorDialog
 import pl.piasta.coronaradar.ui.user.viewmodel.PasswordResetViewModel
+import pl.piasta.coronaradar.ui.user.viewmodel.UserViewModel
 import pl.piasta.coronaradar.ui.util.observeNotNull
 import pl.piasta.coronaradar.util.ResultState
 import pl.piasta.coronaradar.util.ResultState.Error
+import pl.piasta.coronaradar.util.ResultState.Loading
 import pl.piasta.coronaradar.util.ResultState.Success
 import splitties.alertdialog.appcompat.onShow
 import splitties.alertdialog.appcompat.positiveButton
@@ -33,6 +36,7 @@ class PasswordResetDialog(private val oob: String) : DialogFragment() {
     private val onPropertyChangedCallback get() = _onPropertyChangedCallback!!
 
     private val viewModel: PasswordResetViewModel by viewModels()
+    private val activityViewModel: UserViewModel by activityViewModels()
 
     override fun onStart() {
         super.onStart()
@@ -72,10 +76,15 @@ class PasswordResetDialog(private val oob: String) : DialogFragment() {
     }
 
     private fun displayPasswordResetResult(result: ResultState<Boolean>) = when (result) {
-        is Success -> longToast(R.string.password_reset_complete_message)
-        is Error -> longToast(R.string.general_failure_message)
-        else -> {
+        is Success -> {
+            activityViewModel.setProgressIndicationVisibility(false)
+            longToast(R.string.password_reset_complete_message)
         }
+        is Error -> {
+            activityViewModel.setProgressIndicationVisibility(false)
+            longToast(R.string.general_failure_message)
+        }
+        Loading -> activityViewModel.setProgressIndicationVisibility(true)
     }
 
     private fun registerOnPropertyChangedCallback() {

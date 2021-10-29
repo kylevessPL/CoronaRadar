@@ -117,7 +117,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(R.layou
                 when (val ex = result.ex) {
                     is FirebaseAuthException -> {
                         val messageId = when (ex is FirebaseAuthUserCollisionException) {
-                            true -> R.string.login_failure_other_provider
+                            true -> R.string.login_failure_other_provider_message
                             false -> R.string.login_failure_bad_credentials_message
                         }
                         OkDialog.newInstance(

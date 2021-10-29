@@ -25,7 +25,7 @@
     <string name="login_pt1">Masz już konto?</string>
     <string name="signup_header">Zarejestruj Się w CoronaRadar</string>
     <string name="display_name">Nazwa wyświetlana</string>
-    <string name="signout">Wyloguj się</string>
+    <string name="signout">Wyloguj</string>
     <string name="save_user_info">Zapisz zmiany</string>
     <string name="account_header">Twój profil</string>
     <string name="edit">Edytuj</string>
@@ -47,10 +47,10 @@
     <string name="resend_verification_email">Wyślij ponownie email z linkiem weryfikacyjnym</string>
     <string name="verification_email_success_message">Wysłaliśmy email z linkiem weryfikacyjnym. Sprawdź skrzynkę mailową</string>
     <string name="network_lost">Brak połączenia z internetem</string>
-    <string name="empty_not_allowed">Nie może byc puste</string>
+    <string name="empty_not_allowed">Nie może być puste</string>
     <string name="min_six_chars_allowed">Minimum 6 znaków</string>
     <string name="passwords_not_match">Hasła nie sa zgodne</string>
-    <string name="login_failure_other_provider">Konto jest już zarejestrowane za pomocą innego dostawcy</string>
+    <string name="login_failure_other_provider_message">Konto jest już zarejestrowane za pomocą innego dostawcy</string>
     <string name="update">Zaktualizuj</string>
     <string name="password_reset_message">Ustaw nowe hasło</string>
     <string name="password_reset_complete_message">Hasło zostało zmienione. Możesz się teraz zalogować</string>
@@ -58,4 +58,5 @@
     <string name="signout_message">Czy na pewno chcesz się wylogować?</string>
     <string name="signin_link">Zaloguj się</string>
     <string name="language">Język</string>
+    <string name="auth_code_failure_invalid_message">Kod jest nieprawidłowy, stracił waźność lub został juz wykorzystany</string>
 </resources>

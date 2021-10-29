@@ -5,6 +5,7 @@ import android.view.MotionEvent
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
+import com.google.firebase.auth.FirebaseAuthActionCodeException
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -53,17 +54,22 @@ class UserActivity : BaseActivity<ActivityUserBinding, UserViewModel>(R.layout.a
     override fun updateUI() {
         viewModel.verifyActionCodeResult.observeNotNull(this@UserActivity, { result ->
             when (result) {
-                is Success -> when (val data = result.data) {
-                    is PasswordReset -> PasswordResetDialog(data.oob).show(
-                        supportFragmentManager,
-                        PasswordResetDialog::class.TAG
-                    )
-                    is VerifyEmail -> viewModel.verifyEmail(data.oob)
-                    else -> viewModel.setProgressIndicationVisibility(false)
+                is Success -> {
+                    viewModel.setProgressIndicationVisibility(false)
+                    when (val data = result.data) {
+                        is PasswordReset -> PasswordResetDialog(data.oob).show(
+                            supportFragmentManager,
+                            PasswordResetDialog::class.TAG
+                        )
+                        is VerifyEmail -> viewModel.verifyEmail(data.oob)
+                    }
                 }
                 is Error -> {
                     viewModel.setProgressIndicationVisibility(false)
-                    longToast(R.string.general_failure_message)
+                    when (result.ex) {
+                        is FirebaseAuthActionCodeException -> longToast(R.string.auth_code_failure_invalid_message)
+                        else -> longToast(R.string.general_failure_message)
+                    }
                 }
                 Loading -> viewModel.setProgressIndicationVisibility(true)
             }
