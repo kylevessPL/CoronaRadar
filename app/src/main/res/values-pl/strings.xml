@@ -44,12 +44,12 @@
     <string name="register_failure">Rejestracja zakończona niepowodzeniem</string>
     <string name="general_failure_message">Wystąpil błąd podczas przetwarzania żądania. Spróbuj ponownie później</string>
     <string name="verification_email_message">Konto nie zostało jeszcze zweryfikowane. Sprawdź skrzynkę mailową lub poproś o wysłanie nowego linku weryfikacyjnego</string>
-    <string name="resend_verification_email">Wyślij ponownie</string>
+    <string name="resend_verification_email">Wyślij</string>
     <string name="verification_email_success_message">Wysłaliśmy email z linkiem weryfikacyjnym. Sprawdź skrzynkę mailową</string>
     <string name="network_lost">Brak połączenia z internetem</string>
     <string name="empty_not_allowed">Nie może być puste</string>
     <string name="min_six_chars_allowed">Minimum 6 znaków</string>
-    <string name="passwords_not_match">Hasła nie sa zgodne</string>
+    <string name="passwords_not_match">Hasła nie są zgodne</string>
     <string name="login_failure_other_provider_message">Konto jest już zarejestrowane za pomocą innego dostawcy</string>
     <string name="update">Zaktualizuj</string>
     <string name="password_reset_message">Ustaw nowe hasło</string>
