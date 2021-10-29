@@ -55,12 +55,14 @@ class UserActivity : BaseActivity<ActivityUserBinding, UserViewModel>(R.layout.a
         viewModel.verifyActionCodeResult.observeNotNull(this@UserActivity, { result ->
             when (result) {
                 is Success -> {
-                    viewModel.setProgressIndicationVisibility(false)
                     when (val data = result.data) {
-                        is PasswordReset -> PasswordResetDialog(data.oob).show(
-                            supportFragmentManager,
-                            PasswordResetDialog::class.TAG
-                        )
+                        is PasswordReset -> {
+                            viewModel.setProgressIndicationVisibility(false)
+                            PasswordResetDialog(data.oob).show(
+                                supportFragmentManager,
+                                PasswordResetDialog::class.TAG
+                            )
+                        }
                         is VerifyEmail -> viewModel.verifyEmail(data.oob)
                     }
                 }

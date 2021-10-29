@@ -143,7 +143,7 @@ class FirebaseAuthRepository @Inject constructor(
     override fun verifyEmail(actionCode: String): Flow<ResultState<Nothing>> = flow {
         emit(ResultState.Loading)
         auth.applyActionCode(actionCode).await()
-        auth.currentUser?.reload()
+        auth.currentUser?.reload()?.await()
         Log.d(this@FirebaseAuthRepository.TAG, "verifyEmail:success")
         emit(ResultState.Success())
     }.catch { ex ->

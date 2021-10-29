@@ -26,9 +26,10 @@ class FirebaseUserLiveData : LiveData<FirebaseUser?>(), FirebaseAuth.AuthStateLi
 
     private fun updateUser(auth: FirebaseAuth) {
         val user = auth.currentUser
-        value = when (user?.providerId != "password") {
-            true -> user
-            else -> user?.takeIf { it.isEmailVerified }
+        val providerData = user?.providerData?.filterNot { it.providerId == "firebase" }
+        value = when (providerData?.size == 1 && providerData.first().providerId == "password") {
+            true -> user?.takeIf { it.isEmailVerified }
+            else -> user
         }
     }
 }
