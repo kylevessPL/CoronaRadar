@@ -19,6 +19,7 @@ import pl.piasta.coronaradar.util.ResultState.Error
 import pl.piasta.coronaradar.util.ResultState.Loading
 import pl.piasta.coronaradar.util.ResultState.Success
 import pl.piasta.coronaradar.util.TAG
+import pl.piasta.coronaradar.util.ifTrue
 import splitties.resources.str
 import splitties.toast.longToast
 
@@ -35,7 +36,7 @@ class RegisterFragment :
             { navigateToAccountFragment() })
         viewModel.signIn.observeNotNull(viewLifecycleOwner, { navigateToLoginFragment() })
         viewModel.signUpResult.observeNotNull(viewLifecycleOwner, { displaySignUpResult(it) })
-        viewModel.verificationEmailResult.observeNotNull(
+        activityViewModel.verificationEmailResult.observeNotNull(
             viewLifecycleOwner,
             { displayVerificationEmailResult(it) })
     }
@@ -52,9 +53,11 @@ class RegisterFragment :
 
     private fun displaySignUpResult(result: ResultState<FirebaseUser>) {
         when (result) {
-            is Success -> viewModel.sendVerificationEmail()
-            is Error -> {
+            is Success -> {
                 viewModel.setProgressIndicationVisibility(false)
+                activityViewModel.sendVerificationEmail()
+            }
+            is Error -> {
                 when (result.ex) {
                     is FirebaseAuthUserCollisionException -> OkDialog.newInstance(
                         OkDialogData(
@@ -72,24 +75,14 @@ class RegisterFragment :
         }
     }
 
-    private fun displayVerificationEmailResult(result: ResultState<FirebaseUser>) {
-        when (result) {
-            is Success -> {
-                viewModel.setProgressIndicationVisibility(false)
-                OkDialog.newInstance(OkDialogData(
-                    str(R.string.register_success),
-                    str(R.string.register_success_message)
-                ) { navigateToLoginFragment() }).show(
-                    parentFragmentManager,
-                    OkDialog::class.TAG
-                )
-            }
-            is Error -> {
-                viewModel.setProgressIndicationVisibility(false)
-                longToast(R.string.general_failure_message)
-            }
-            else -> {
-            }
+    private fun displayVerificationEmailResult(result: ResultState<FirebaseUser>) =
+        (result is Success).ifTrue {
+            OkDialog.newInstance(OkDialogData(
+                str(R.string.register_success),
+                str(R.string.register_success_message)
+            ) { navigateToLoginFragment() }).show(
+                parentFragmentManager,
+                OkDialog::class.TAG
+            )
         }
-    }
 }

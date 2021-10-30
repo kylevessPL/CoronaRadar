@@ -17,6 +17,7 @@ import pl.piasta.coronaradar.ui.base.BaseActivity
 import pl.piasta.coronaradar.ui.user.viewmodel.UserViewModel
 import pl.piasta.coronaradar.ui.util.dispatchActionDownTouchEvent
 import pl.piasta.coronaradar.ui.util.observeNotNull
+import pl.piasta.coronaradar.util.ResultState
 import pl.piasta.coronaradar.util.ResultState.Error
 import pl.piasta.coronaradar.util.ResultState.Loading
 import pl.piasta.coronaradar.util.ResultState.Success
@@ -76,6 +77,9 @@ class UserActivity : BaseActivity<ActivityUserBinding, UserViewModel>(R.layout.a
                 Loading -> viewModel.setProgressIndicationVisibility(true)
             }
         })
+        viewModel.verificationEmailResult.observeNotNull(
+            this@UserActivity,
+            { displayVerificationEmailResult(it) })
         viewModel.verifyEmailResult.observeNotNull(this@UserActivity, { result ->
             when (result) {
                 Loading -> viewModel.setProgressIndicationVisibility(true)
@@ -85,6 +89,48 @@ class UserActivity : BaseActivity<ActivityUserBinding, UserViewModel>(R.layout.a
                 }
             }
         })
+        viewModel.passwordResetEmailResult.observeNotNull(
+            this,
+            { displayPasswordResetEmailResult(it) })
+        viewModel.passwordResetResult.observeNotNull(
+            this,
+            { displayPasswordResetResult(it) })
+    }
+
+    private fun displayVerificationEmailResult(result: ResultState<Nothing>) = when (result) {
+        is Success -> {
+            viewModel.setProgressIndicationVisibility(false)
+            longToast(R.string.verification_email_success_message)
+        }
+        is Error -> {
+            viewModel.setProgressIndicationVisibility(false)
+            longToast(R.string.general_failure_message)
+        }
+        Loading -> viewModel.setProgressIndicationVisibility(true)
+    }
+
+    private fun displayPasswordResetEmailResult(result: ResultState<Boolean>) = when (result) {
+        is Success -> {
+            viewModel.setProgressIndicationVisibility(false)
+            longToast(R.string.password_reset_email_complete_message)
+        }
+        is Error -> {
+            viewModel.setProgressIndicationVisibility(false)
+            longToast(R.string.general_failure_message)
+        }
+        Loading -> viewModel.setProgressIndicationVisibility(true)
+    }
+
+    private fun displayPasswordResetResult(result: ResultState<Boolean>) = when (result) {
+        is Success -> {
+            viewModel.setProgressIndicationVisibility(false)
+            longToast(R.string.password_reset_complete_message)
+        }
+        is Error -> {
+            viewModel.setProgressIndicationVisibility(false)
+            longToast(R.string.general_failure_message)
+        }
+        Loading -> viewModel.setProgressIndicationVisibility(true)
     }
 
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {

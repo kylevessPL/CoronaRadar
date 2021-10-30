@@ -4,58 +4,26 @@ import android.app.Dialog
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import pl.piasta.coronaradar.R
 import pl.piasta.coronaradar.ui.user.viewmodel.UserViewModel
-import pl.piasta.coronaradar.ui.user.viewmodel.VerificationEmailViewModel
-import pl.piasta.coronaradar.ui.util.observeNotNull
-import pl.piasta.coronaradar.util.ResultState
-import pl.piasta.coronaradar.util.ResultState.Error
-import pl.piasta.coronaradar.util.ResultState.Loading
-import pl.piasta.coronaradar.util.ResultState.Success
 import splitties.alertdialog.appcompat.cancelButton
 import splitties.alertdialog.appcompat.messageResource
 import splitties.alertdialog.appcompat.positiveButton
 import splitties.alertdialog.appcompat.titleResource
 import splitties.alertdialog.material.materialAlertDialog
-import splitties.toast.longToast
 
 @AndroidEntryPoint
 class VerificationEmailDialog : DialogFragment() {
 
-    private val viewModel: VerificationEmailViewModel by viewModels()
     private val activityViewModel: UserViewModel by activityViewModels()
-
-    override fun onStart() {
-        super.onStart()
-        updateUI()
-    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return requireContext().materialAlertDialog {
             titleResource = R.string.login_failure
             messageResource = R.string.verification_email_message
-            positiveButton(R.string.resend_verification_email) { viewModel.sendVerificationEmail() }
+            positiveButton(R.string.resend_verification_email) { activityViewModel.sendVerificationEmail() }
             cancelButton()
         }
-    }
-
-    private fun updateUI() {
-        viewModel.verificationEmailResult.observeNotNull(
-            this,
-            { displayVerificationEmailResult(it) })
-    }
-
-    private fun displayVerificationEmailResult(result: ResultState<Nothing>) = when (result) {
-        is Success -> {
-            activityViewModel.setProgressIndicationVisibility(false)
-            longToast(R.string.verification_email_success_message)
-        }
-        is Error -> {
-            activityViewModel.setProgressIndicationVisibility(false)
-            longToast(R.string.general_failure_message)
-        }
-        Loading -> activityViewModel.setProgressIndicationVisibility(true)
     }
 }

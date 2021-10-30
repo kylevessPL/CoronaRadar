@@ -38,10 +38,6 @@ class RegisterViewModel @Inject constructor(
     val signUpResult: LiveData<ResultState<FirebaseUser>>
         get() = _signUpResult
 
-    private val _verificationEmailResult = LiveEvent<ResultState<Nothing>>()
-    val verificationEmailResult: LiveData<ResultState<Nothing>>
-        get() = _verificationEmailResult
-
     fun setProgressIndicationVisibility(visible: Boolean) {
         _progressIndicationVisibility.value = visible
     }
@@ -74,14 +70,6 @@ class RegisterViewModel @Inject constructor(
                 .collect { result ->
                     _signUpResult.postValue(result)
                 }
-        }
-    }
-
-    fun sendVerificationEmail() {
-        viewModelScope.launch {
-            repository.sendVerificationEmail().collect { result ->
-                _verificationEmailResult.postValue(result)
-            }
         }
     }
 }

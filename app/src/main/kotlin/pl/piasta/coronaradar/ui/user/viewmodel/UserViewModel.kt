@@ -39,9 +39,21 @@ class UserViewModel @Inject constructor(
     val progressIndicationVisibility: LiveData<Boolean>
         get() = _progressIndicationVisibility
 
+    private val _verificationEmailResult = LiveEvent<ResultState<Nothing>>()
+    val verificationEmailResult: LiveEvent<ResultState<Nothing>>
+        get() = _verificationEmailResult
+
     private val _verifyEmailResult = LiveEvent<ResultState<Nothing>>()
     val verifyEmailResult: LiveData<ResultState<Nothing>>
         get() = _verifyEmailResult
+
+    private val _passwordResetEmailResult = LiveEvent<ResultState<Boolean>>()
+    val passwordResetEmailResult: LiveEvent<ResultState<Boolean>>
+        get() = _passwordResetEmailResult
+
+    private val _passwordResetResult = LiveEvent<ResultState<Boolean>>()
+    val passwordResetResult: LiveEvent<ResultState<Boolean>>
+        get() = _passwordResetResult
 
     private val _verifyActionCodeResult = LiveEvent<ResultState<ActionCode?>>()
     val verifyActionCodeResult: LiveData<ResultState<ActionCode?>>
@@ -59,10 +71,34 @@ class UserViewModel @Inject constructor(
         }
     }
 
+    fun sendVerificationEmail() {
+        viewModelScope.launch {
+            repository.sendVerificationEmail().collect { result ->
+                _verificationEmailResult.postValue(result)
+            }
+        }
+    }
+
     fun verifyEmail(oob: String) {
         viewModelScope.launch {
             repository.verifyEmail(oob).collect { result ->
                 _verifyEmailResult.postValue(result)
+            }
+        }
+    }
+
+    fun sendPasswordResetEmail(email: String) {
+        viewModelScope.launch {
+            repository.sendPasswordResetEmail(email).collect { result ->
+                _passwordResetEmailResult.postValue(result)
+            }
+        }
+    }
+
+    fun resetPassword(oob: String, newPassword: String) {
+        viewModelScope.launch {
+            repository.resetPassword(oob, newPassword).collect { result ->
+                _passwordResetResult.postValue(result)
             }
         }
     }

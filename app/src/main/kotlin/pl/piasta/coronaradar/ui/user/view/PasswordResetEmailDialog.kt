@@ -15,15 +15,9 @@ import pl.piasta.coronaradar.databinding.PasswordResetEmailDialogBinding
 import pl.piasta.coronaradar.ui.common.view.TouchBehaviorDialog
 import pl.piasta.coronaradar.ui.user.viewmodel.PasswordResetEmailViewModel
 import pl.piasta.coronaradar.ui.user.viewmodel.UserViewModel
-import pl.piasta.coronaradar.ui.util.observeNotNull
-import pl.piasta.coronaradar.util.ResultState
-import pl.piasta.coronaradar.util.ResultState.Error
-import pl.piasta.coronaradar.util.ResultState.Loading
-import pl.piasta.coronaradar.util.ResultState.Success
 import splitties.alertdialog.appcompat.onShow
 import splitties.alertdialog.appcompat.positiveButton
 import splitties.resources.str
-import splitties.toast.longToast
 import splitties.views.material.string
 
 @AndroidEntryPoint
@@ -43,7 +37,6 @@ class PasswordResetEmailDialog : DialogFragment() {
         viewBinding.lifecycleOwner = this
         viewBinding.viewModel = viewModel
         registerOnPropertyChangedCallback()
-        updateUI()
     }
 
     override fun onStop() {
@@ -58,7 +51,7 @@ class PasswordResetEmailDialog : DialogFragment() {
             setTitle(R.string.password_reset)
             setMessage(str(R.string.password_reset_email_message))
             setButton(BUTTON_POSITIVE, str(R.string.send)) { _, _ ->
-                viewModel.sendPasswordResetEmail(viewBinding.passwordResetEmailInput.string)
+                activityViewModel.sendPasswordResetEmail(viewBinding.passwordResetEmailInput.string)
             }
             setButton(BUTTON_NEGATIVE, str(android.R.string.cancel)) { _, _ -> }
         }.onShow { positiveButton.isEnabled = false }
@@ -67,24 +60,6 @@ class PasswordResetEmailDialog : DialogFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _viewBinding = null
-    }
-
-    private fun updateUI() {
-        viewModel.passwordResetEmailResult.observeNotNull(
-            this,
-            { displayPasswordResetEmailResult(it) })
-    }
-
-    private fun displayPasswordResetEmailResult(result: ResultState<Boolean>) = when (result) {
-        is Success -> {
-            activityViewModel.setProgressIndicationVisibility(false)
-            longToast(R.string.password_reset_email_complete_message)
-        }
-        is Error -> {
-            activityViewModel.setProgressIndicationVisibility(false)
-            longToast(R.string.general_failure_message)
-        }
-        Loading -> activityViewModel.setProgressIndicationVisibility(true)
     }
 
     private fun registerOnPropertyChangedCallback() {
