@@ -116,6 +116,7 @@ dependencies {
     implementation "com.google.firebase:firebase-auth-ktx"
     implementation "com.google.firebase:firebase-dynamic-links-ktx"
     implementation "com.google.firebase:firebase-firestore-ktx"
+    implementation "com.google.firebase:firebase-storage-ktx"
     implementation "com.facebook.android:facebook-login:$facebookSdkVersion"
     implementation "com.google.mlkit:linkfirebase:$mlKitVersion"
     implementation "com.google.android.gms:play-services-mlkit-image-labeling-custom:$gmsMlKitVersion"
