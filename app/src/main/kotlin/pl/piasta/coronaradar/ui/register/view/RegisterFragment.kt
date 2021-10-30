@@ -10,7 +10,7 @@ import pl.piasta.coronaradar.R
 import pl.piasta.coronaradar.databinding.FragmentRegisterBinding
 import pl.piasta.coronaradar.ui.base.BaseFragment
 import pl.piasta.coronaradar.ui.common.model.OkDialogData
-import pl.piasta.coronaradar.ui.common.view.OkDialog
+import pl.piasta.coronaradar.ui.common.view.OkDialogFragment
 import pl.piasta.coronaradar.ui.register.viewmodel.RegisterViewModel
 import pl.piasta.coronaradar.ui.user.viewmodel.UserViewModel
 import pl.piasta.coronaradar.ui.util.observeNotNull
@@ -59,14 +59,14 @@ class RegisterFragment :
             }
             is Error -> {
                 when (result.ex) {
-                    is FirebaseAuthUserCollisionException -> OkDialog.newInstance(
+                    is FirebaseAuthUserCollisionException -> OkDialogFragment.newInstance(
                         OkDialogData(
                             str(R.string.register_failure),
                             str(R.string.register_failure_email_exists_message)
                         )
                     ).show(
                         parentFragmentManager,
-                        OkDialog::class.TAG
+                        OkDialogFragment::class.TAG
                     )
                     else -> longToast(R.string.general_failure_message)
                 }
@@ -77,12 +77,12 @@ class RegisterFragment :
 
     private fun displayVerificationEmailResult(result: ResultState<FirebaseUser>) =
         (result is Success).ifTrue {
-            OkDialog.newInstance(OkDialogData(
+            OkDialogFragment.newInstance(OkDialogData(
                 str(R.string.register_success),
                 str(R.string.register_success_message)
             ) { navigateToLoginFragment() }).show(
                 parentFragmentManager,
-                OkDialog::class.TAG
+                OkDialogFragment::class.TAG
             )
         }
 }

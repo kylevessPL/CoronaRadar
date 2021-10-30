@@ -16,11 +16,11 @@ fun emailValidationMessage(email: String?): Int? {
     }
 }
 
-fun passwordValidationMessage(password: String?, registration: Boolean): Int? {
+fun passwordValidationMessage(password: String?, confirmation: Boolean): Int? {
     with(password) {
         return when {
             this.isNullOrBlank() -> R.string.empty_not_allowed
-            this.isMaxExclusive(6) && registration -> R.string.min_six_chars_allowed
+            this.isMaxExclusive(6) && confirmation -> R.string.min_six_chars_allowed
             else -> null
         }
     }

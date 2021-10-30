@@ -11,12 +11,12 @@ import splitties.alertdialog.appcompat.title
 import splitties.alertdialog.material.materialAlertDialog
 
 @AndroidEntryPoint
-class OkDialog : DialogFragment() {
+class OkDialogFragment : DialogFragment() {
 
     companion object {
         @JvmStatic
         fun newInstance(data: OkDialogData): DialogFragment {
-            val okDialog = OkDialog()
+            val okDialog = OkDialogFragment()
             val args = Bundle()
             args.putParcelable("data", data)
             okDialog.arguments = args

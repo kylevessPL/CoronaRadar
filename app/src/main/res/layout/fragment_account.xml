@@ -98,6 +98,7 @@
                 android:layout_marginBottom="8dp"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
+                android:onEndIconClick="@{viewModel::toggleDisplayName}"
                 app:placeholderText="@string/display_name"
                 app:startIconDrawable="@drawable/ic_baseline_face_24"
                 app:startIconContentDescription="@string/display_name_icon"
@@ -105,13 +106,17 @@
                 app:endIconContentDescription="@string/edit"
                 app:endIconMode="custom"
                 app:errorEnabled="true"
-                app:expandedHintEnabled="false"
-                app:hintTextAppearance="@style/Base.TextAppearance.AppCompat.Caption">
+                app:expandedHintEnabled="false">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/account_display_name_input_edit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPersonName"
+                    android:autofillHints="name"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@id/account_password_input_edit"
+                    android:text="@={viewModel.userDetailsForm.input.displayName}"
                     android:enabled="@{viewModel.displayNameEnabled}"
                     tools:ignore="DuplicateSpeakableTextCheck" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -123,17 +128,18 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/email"
                 android:layout_marginBottom="8dp"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                app:placeholderText="@string/email"
                 app:startIconDrawable="@drawable/ic_baseline_email_24"
                 app:startIconContentDescription="@string/email_icon"
                 app:errorEnabled="true"
                 app:expandedHintEnabled="false">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/account_email_input_edit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress"
                     android:enabled="false" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -146,6 +152,8 @@
                 android:layout_marginBottom="8dp"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
+                android:onEndIconClick="@{viewModel::togglePassword}"
+                android:errorText="@{viewModel.userDetailsForm.error.password}"
                 app:placeholderText="@string/password_new"
                 app:startIconDrawable="@drawable/ic_baseline_lock_24"
                 app:startIconContentDescription="@string/password_icon"
@@ -156,9 +164,15 @@
                 app:expandedHintEnabled="false">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/account_password_input_edit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textVisiblePassword"
+                    android:autofillHints="password"
+                    android:imeOptions="actionNext"
+                    android:nextFocusForward="@id/account_password_confirm_input_edit"
+                    android:text="@={viewModel.userDetailsForm.input.password}"
+                    android:onFocusChange="@{viewModel::validatePassword}"
                     android:enabled="@{viewModel.passwordEnabled}" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -171,6 +185,7 @@
                 android:layout_marginBottom="8dp"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
+                android:errorText="@{viewModel.userDetailsForm.error.passwordConfirm}"
                 app:placeholderText="@string/password_new_confirm"
                 app:startIconDrawable="@drawable/ic_baseline_lock_24"
                 app:startIconContentDescription="@string/password_icon"
@@ -178,9 +193,15 @@
                 app:expandedHintEnabled="false">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/account_password_confirm_input_edit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textVisiblePassword"
+                    android:autofillHints="password"
+                    android:imeOptions="actionDone"
+                    android:text="@={viewModel.userDetailsForm.input.passwordConfirm}"
+                    android:onFocusChange="@{viewModel::validatePasswordConfirm}"
+                    android:loseFocusOnDone="@{true}"
                     android:enabled="@{viewModel.passwordEnabled}" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -191,6 +212,8 @@
                 android:layout_height="58dp"
                 android:text="@string/save_user_info"
                 android:textAllCaps="true"
+                android:enabled="@{viewModel.userDetailsForm.userDetailsFormValid}"
+                android:onClick="@{() -> viewModel.updateProfile()}"
                 app:icon="@drawable/ic_baseline_task_24"
                 app:iconGravity="textStart"
                 tools:ignore="TextContrastCheck" />

@@ -23,6 +23,11 @@ fun setErrorText(input: TextInputLayout, @StringRes errorText: Int?) {
     input.error = errorText?.let { input.context.str(it) }
 }
 
+@BindingAdapter("android:onEndIconClick")
+fun onEndIconClick(input: TextInputLayout, block: () -> Unit) {
+    input.setEndIconOnClickListener { block() }
+}
+
 @BindingAdapter("android:onFocusChange")
 fun onFocusChange(input: TextInputEditText, block: () -> Unit) {
     input.onFocusChangeListener =
