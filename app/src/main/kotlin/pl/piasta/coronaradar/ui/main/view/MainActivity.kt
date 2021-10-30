@@ -80,7 +80,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
     }
 
     override fun updateUI() {
-        viewModel.firebaseUser.observe(this@MainActivity, { switchNavMenu(it) })
+        viewModel.firebaseUser.observe(this, { switchNavMenu(it) })
     }
 
     private fun switchNavMenu(user: FirebaseUser?) {

@@ -54,13 +54,13 @@ class UserActivity : BaseActivity<ActivityUserBinding, UserViewModel>(R.layout.a
 
     override fun updateUI() {
         viewModel.verifyActionCodeResult.observeNotNull(
-            this@UserActivity,
+            this,
             { displayVerifyActionCodeResult(it) })
         viewModel.verificationEmailResult.observeNotNull(
-            this@UserActivity,
+            this,
             { displayVerificationEmailResult(it) })
         viewModel.verifyEmailResult.observeNotNull(
-            this@UserActivity,
+            this,
             { displayVerifyEmailResult(it) })
         viewModel.passwordResetEmailResult.observeNotNull(
             this,

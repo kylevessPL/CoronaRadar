@@ -93,7 +93,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(R.layou
             }
         }
         facebookLoginManager.logInWithReadPermissions(
-            this@LoginFragment,
+            this,
             callbackManager,
             setOf("email", "public_profile")
         )
