@@ -10,6 +10,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import pl.piasta.coronaradar.R
+import pl.piasta.coronaradar.data.auth.model.ActionCode
 import pl.piasta.coronaradar.data.auth.model.ActionCode.PasswordReset
 import pl.piasta.coronaradar.data.auth.model.ActionCode.VerifyEmail
 import pl.piasta.coronaradar.databinding.ActivityUserBinding
@@ -22,7 +23,6 @@ import pl.piasta.coronaradar.util.ResultState.Error
 import pl.piasta.coronaradar.util.ResultState.Loading
 import pl.piasta.coronaradar.util.ResultState.Success
 import pl.piasta.coronaradar.util.TAG
-import pl.piasta.coronaradar.util.ifTrue
 import splitties.toast.longToast
 
 @AndroidEntryPoint
@@ -53,42 +53,15 @@ class UserActivity : BaseActivity<ActivityUserBinding, UserViewModel>(R.layout.a
     }
 
     override fun updateUI() {
-        viewModel.verifyActionCodeResult.observeNotNull(this@UserActivity, { result ->
-            when (result) {
-                is Success -> {
-                    when (val data = result.data) {
-                        is PasswordReset -> {
-                            viewModel.setProgressIndicationVisibility(false)
-                            PasswordResetDialog(data.oob).show(
-                                supportFragmentManager,
-                                PasswordResetDialog::class.TAG
-                            )
-                        }
-                        is VerifyEmail -> viewModel.verifyEmail(data.oob)
-                    }
-                }
-                is Error -> {
-                    viewModel.setProgressIndicationVisibility(false)
-                    when (result.ex) {
-                        is FirebaseAuthActionCodeException -> longToast(R.string.auth_code_failure_invalid_message)
-                        else -> longToast(R.string.general_failure_message)
-                    }
-                }
-                Loading -> viewModel.setProgressIndicationVisibility(true)
-            }
-        })
+        viewModel.verifyActionCodeResult.observeNotNull(
+            this@UserActivity,
+            { displayVerifyActionCodeResult(it) })
         viewModel.verificationEmailResult.observeNotNull(
             this@UserActivity,
             { displayVerificationEmailResult(it) })
-        viewModel.verifyEmailResult.observeNotNull(this@UserActivity, { result ->
-            when (result) {
-                Loading -> viewModel.setProgressIndicationVisibility(true)
-                else -> {
-                    viewModel.setProgressIndicationVisibility(false)
-                    (result is Error).ifTrue { longToast(R.string.general_failure_message) }
-                }
-            }
-        })
+        viewModel.verifyEmailResult.observeNotNull(
+            this@UserActivity,
+            { displayVerifyEmailResult(it) })
         viewModel.passwordResetEmailResult.observeNotNull(
             this,
             { displayPasswordResetEmailResult(it) })
@@ -97,11 +70,45 @@ class UserActivity : BaseActivity<ActivityUserBinding, UserViewModel>(R.layout.a
             { displayPasswordResetResult(it) })
     }
 
+    private fun displayVerifyActionCodeResult(result: ResultState<ActionCode?>) {
+        when (result) {
+            is Success -> {
+                when (val data = result.data) {
+                    is PasswordReset -> {
+                        viewModel.setProgressIndicationVisibility(false)
+                        PasswordResetDialog(data.oob).show(
+                            supportFragmentManager,
+                            PasswordResetDialog::class.TAG
+                        )
+                    }
+                    is VerifyEmail -> viewModel.verifyEmail(data.oob)
+                }
+            }
+            is Error -> {
+                viewModel.setProgressIndicationVisibility(false)
+                when (result.ex) {
+                    is FirebaseAuthActionCodeException -> longToast(R.string.auth_code_failure_invalid_message)
+                    else -> longToast(R.string.general_failure_message)
+                }
+            }
+            Loading -> viewModel.setProgressIndicationVisibility(true)
+        }
+    }
+
     private fun displayVerificationEmailResult(result: ResultState<Nothing>) = when (result) {
         is Success -> {
             viewModel.setProgressIndicationVisibility(false)
             longToast(R.string.verification_email_success_message)
         }
+        is Error -> {
+            viewModel.setProgressIndicationVisibility(false)
+            longToast(R.string.general_failure_message)
+        }
+        Loading -> viewModel.setProgressIndicationVisibility(true)
+    }
+
+    private fun displayVerifyEmailResult(result: ResultState<Nothing>) = when (result) {
+        is Success -> viewModel.setProgressIndicationVisibility(false)
         is Error -> {
             viewModel.setProgressIndicationVisibility(false)
             longToast(R.string.general_failure_message)
