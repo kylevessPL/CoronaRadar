@@ -83,7 +83,7 @@ android {
 dependencies {
     def materialVersion = '1.4.0'
     def firebaseVersion = '28.4.1'
-    def facebookSdkVersion = '12.0.1'
+    def facebookSdkVersion = '12.1.0'
     def mlKitVersion = '16.1.1'
     def gmsAuthVersion = '19.2.0'
     def gmsMlKitVersion = '16.0.0-beta1'
