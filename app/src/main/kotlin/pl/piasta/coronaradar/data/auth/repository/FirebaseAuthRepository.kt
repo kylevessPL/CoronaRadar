@@ -21,7 +21,6 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.ktx.storageMetadata
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -206,10 +205,7 @@ class FirebaseAuthRepository @Inject constructor(
         emit(ResultState.Loading)
         val data = extractByteArrayFromUri(fileUri)
         val ref = storage.reference.child("avatars/${auth.currentUser!!.uid}")
-        val metadata = storageMetadata {
-            contentType = "image/png"
-        }
-        ref.putBytes(data, metadata).await()
+        ref.putBytes(data).await()
         val storageUri = ref.downloadUrl.await()
         Log.d(this@FirebaseAuthRepository.TAG, "uploadImage:success")
         emit(ResultState.Success(storageUri))
