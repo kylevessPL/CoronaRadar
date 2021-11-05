@@ -59,6 +59,10 @@ class UserViewModel @Inject constructor(
     val verifyActionCodeResult: LiveData<ResultState<ActionCode?>>
         get() = _verifyActionCodeResult
 
+    private val _signOutResult = LiveEvent<ResultState<Nothing>>()
+    val signOutResult: LiveData<ResultState<Nothing>>
+        get() = _signOutResult
+
     fun setProgressIndicationVisibility(visible: Boolean) {
         _progressIndicationVisibility.value = visible
     }
@@ -100,6 +104,15 @@ class UserViewModel @Inject constructor(
             repository.resetPassword(oob, newPassword).collect { result ->
                 _passwordResetResult.postValue(result)
             }
+        }
+    }
+
+    fun signOut() {
+        viewModelScope.launch {
+            repository.logout()
+                .collect { result ->
+                    _signOutResult.postValue(result)
+                }
         }
     }
 }

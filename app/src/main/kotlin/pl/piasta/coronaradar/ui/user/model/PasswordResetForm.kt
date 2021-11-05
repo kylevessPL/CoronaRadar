@@ -23,8 +23,8 @@ class PasswordResetForm : BaseObservable() {
         validatePassword(false) && validatePasswordConfirm(false)
 
     fun validatePassword(showError: Boolean = true): Boolean {
-        (!_input.passwordConfirm.isNullOrBlank()).ifTrue { validatePasswordConfirm() }
-        return passwordValidationMessage(_input.password, true).let { message ->
+        (!_input.passwordConfirm.get().isNullOrBlank()).ifTrue { validatePasswordConfirm() }
+        return passwordValidationMessage(_input.password.get(), true).let { message ->
             { _error.password.set(message) }.takeUnless { message != null && !showError }?.invoke()
             message == null
         }
@@ -32,8 +32,8 @@ class PasswordResetForm : BaseObservable() {
 
     fun validatePasswordConfirm(showError: Boolean = true): Boolean {
         return passwordConfirmValidationMessage(
-            _input.password,
-            _input.passwordConfirm
+            _input.password.get(),
+            _input.passwordConfirm.get()
         ).let { message ->
             { _error.passwordConfirm.set(message) }.takeUnless { message != null && !showError }
                 ?.invoke()
@@ -43,17 +43,21 @@ class PasswordResetForm : BaseObservable() {
 
     class InputFields(val onChange: () -> Unit) {
 
-        var password: String? = null
-            set(value) {
-                field = value
-                onChange()
-            }
+        var password = object : ObservableField<String?>() {
 
-        var passwordConfirm: String? = null
-            set(value) {
-                field = value
+            override fun set(value: String?) {
+                super.set(value)
                 onChange()
             }
+        }
+
+        var passwordConfirm = object : ObservableField<String?>() {
+
+            override fun set(value: String?) {
+                super.set(value)
+                onChange()
+            }
+        }
     }
 
     class ErrorFields {

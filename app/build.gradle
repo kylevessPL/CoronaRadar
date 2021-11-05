@@ -82,6 +82,7 @@ android {
 
 dependencies {
     def materialVersion = '1.4.0'
+    def appCheckVersion = '16.0.0-beta03'
     def firebaseVersion = '28.4.1'
     def facebookSdkVersion = '12.1.0'
     def mlKitVersion = '16.1.1'
@@ -89,9 +90,9 @@ dependencies {
     def gmsMlKitVersion = '16.0.0-beta1'
     def appCompatVersion = '1.3.1'
     def coreVersion = '1.7.0'
-    def activityVersion = '1.3.1'
+    def activityVersion = '1.4.0'
     def fragmentVersion = '1.3.6'
-    def lifecycleVersion = '2.3.1'
+    def lifecycleVersion = '2.4.0'
     def navigationVersion = '2.3.5'
     def preferenceVersion = '1.1.1'
     def constraintlayoutVersion = '2.1.1'
@@ -99,6 +100,7 @@ dependencies {
     def liveEventVersion = '1.3.0'
     def mockkVersion = '1.12.0'
     def hiltVersion = '2.40'
+    def glideVersion = '4.12.0'
     def coroutinesVersion = '1.5.2'
     def tensorflowVersion = '2.6.0'
     def tensorflowSupportVersion = '0.2.0'
@@ -117,6 +119,7 @@ dependencies {
     implementation "com.google.firebase:firebase-dynamic-links-ktx"
     implementation "com.google.firebase:firebase-firestore-ktx"
     implementation "com.google.firebase:firebase-storage-ktx"
+    implementation "com.google.firebase:firebase-appcheck-safetynet:$appCheckVersion"
     implementation "com.facebook.android:facebook-login:$facebookSdkVersion"
     implementation "com.google.mlkit:linkfirebase:$mlKitVersion"
     implementation "com.google.android.gms:play-services-mlkit-image-labeling-custom:$gmsMlKitVersion"
@@ -145,6 +148,8 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$coroutinesVersion"
     implementation "com.google.dagger:hilt-android:$hiltVersion"
+    implementation "com.github.bumptech.glide:glide:$glideVersion"
+    kapt "com.github.bumptech.glide:compiler:$glideVersion"
     kapt "com.google.dagger:hilt-android-compiler:$hiltVersion"
     testImplementation "io.kotest:kotest-runner-junit5-jvm:$koTestVersion"
     testImplementation "io.kotest:kotest-assertions-core-jvm:$koTestVersion"

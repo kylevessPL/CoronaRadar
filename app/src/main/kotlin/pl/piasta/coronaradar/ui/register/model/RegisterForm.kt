@@ -11,6 +11,12 @@ import pl.piasta.coronaradar.util.ifTrue
 
 class RegisterForm : BaseObservable() {
 
+    var isProcessing: Boolean = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.registerFormValid)
+        }
+
     private val _input = InputFields { notifyPropertyChanged(BR.registerFormValid) }
     val input: InputFields
         get() = _input
@@ -21,18 +27,20 @@ class RegisterForm : BaseObservable() {
 
     @Bindable
     fun isRegisterFormValid(): Boolean =
-        validateEmail(false) && validatePassword(false) && validatePasswordConfirm(false)
+        !isProcessing && validateEmail(false) && validatePassword(false) && validatePasswordConfirm(
+            false
+        )
 
     fun validateEmail(showError: Boolean = true): Boolean {
-        return emailValidationMessage(_input.email).let { message ->
+        return emailValidationMessage(_input.email.get()).let { message ->
             { _error.email.set(message) }.takeUnless { message != null && !showError }?.invoke()
             message == null
         }
     }
 
     fun validatePassword(showError: Boolean = true): Boolean {
-        (!_input.passwordConfirm.isNullOrBlank()).ifTrue { validatePasswordConfirm() }
-        return passwordValidationMessage(_input.password, true).let { message ->
+        (!_input.passwordConfirm.get().isNullOrBlank()).ifTrue { validatePasswordConfirm() }
+        return passwordValidationMessage(_input.password.get(), true).let { message ->
             { _error.password.set(message) }.takeUnless { message != null && !showError }?.invoke()
             message == null
         }
@@ -40,8 +48,8 @@ class RegisterForm : BaseObservable() {
 
     fun validatePasswordConfirm(showError: Boolean = true): Boolean {
         return passwordConfirmValidationMessage(
-            _input.password,
-            _input.passwordConfirm
+            _input.password.get(),
+            _input.passwordConfirm.get()
         ).let { message ->
             { _error.passwordConfirm.set(message) }.takeUnless { message != null && !showError }
                 ?.invoke()
@@ -51,23 +59,29 @@ class RegisterForm : BaseObservable() {
 
     class InputFields(val onChange: () -> Unit) {
 
-        var email: String? = null
-            set(value) {
-                field = value
-                onChange()
-            }
+        var email = object : ObservableField<String?>() {
 
-        var password: String? = null
-            set(value) {
-                field = value
+            override fun set(value: String?) {
+                super.set(value)
                 onChange()
             }
+        }
 
-        var passwordConfirm: String? = null
-            set(value) {
-                field = value
+        var password = object : ObservableField<String?>() {
+
+            override fun set(value: String?) {
+                super.set(value)
                 onChange()
             }
+        }
+
+        var passwordConfirm = object : ObservableField<String?>() {
+
+            override fun set(value: String?) {
+                super.set(value)
+                onChange()
+            }
+        }
     }
 
     class ErrorFields {

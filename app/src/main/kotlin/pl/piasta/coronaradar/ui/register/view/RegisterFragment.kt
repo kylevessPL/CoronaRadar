@@ -20,7 +20,6 @@ import pl.piasta.coronaradar.util.ResultState.Loading
 import pl.piasta.coronaradar.util.ResultState.Success
 import pl.piasta.coronaradar.util.TAG
 import pl.piasta.coronaradar.util.ifTrue
-import splitties.resources.str
 import splitties.toast.longToast
 
 @AndroidEntryPoint
@@ -61,8 +60,8 @@ class RegisterFragment :
                 when (result.ex) {
                     is FirebaseAuthUserCollisionException -> OkDialogFragment.newInstance(
                         OkDialogData(
-                            str(R.string.register_failure),
-                            str(R.string.register_failure_email_exists_message)
+                            R.string.register_failure,
+                            R.string.register_failure_email_exists_message
                         )
                     ).show(
                         parentFragmentManager,
@@ -77,10 +76,12 @@ class RegisterFragment :
 
     private fun displayVerificationEmailResult(result: ResultState<FirebaseUser>) =
         (result is Success).ifTrue {
-            OkDialogFragment.newInstance(OkDialogData(
-                str(R.string.register_success),
-                str(R.string.register_success_message)
-            ) { navigateToLoginFragment() }).show(
+            OkDialogFragment.newInstance(
+                OkDialogData(
+                    R.string.register_success,
+                    R.string.register_success_message,
+                    { navigateToLoginFragment() })
+            ).show(
                 parentFragmentManager,
                 OkDialogFragment::class.TAG
             )

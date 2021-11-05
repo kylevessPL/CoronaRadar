@@ -1,6 +1,9 @@
 package pl.piasta.coronaradar.ui.util
 
+import android.content.Context
 import android.graphics.Rect
+import android.net.Uri
+import android.provider.OpenableColumns
 import android.view.MotionEvent
 import android.view.Window
 import android.view.inputmethod.InputMethodManager
@@ -36,3 +39,12 @@ fun Window.dispatchActionDownTouchEvent(event: MotionEvent) {
         }
     }
 }
+
+fun Uri.fileBytes(ctx: Context) = ctx.contentResolver.openInputStream(this)?.use { it.readBytes() }
+
+fun Uri.fileSize(ctx: Context) =
+    ctx.contentResolver.query(this, null, null, null, null)!!.use {
+        val sizeIndex = it.getColumnIndex(OpenableColumns.SIZE)
+        it.moveToFirst()
+        it.getLong(sizeIndex)
+    }

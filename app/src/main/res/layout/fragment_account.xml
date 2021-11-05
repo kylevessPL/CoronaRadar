@@ -49,7 +49,8 @@
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="140dp"
+                    android:gravity="center_horizontal"
                     app:cardCornerRadius="75dp"
                     app:cardElevation="@dimen/elevation_image">
 
@@ -58,10 +59,26 @@
                         android:layout_width="140dp"
                         android:layout_height="match_parent"
                         android:contentDescription="@string/avatar_image"
-                        app:srcCompat="@drawable/ic_avatar_140"
+                        android:imageUri="@{viewModel.userDetailsForm.input.avatar}"
+                        android:placeholderDrawable="@{@drawable/ic_avatar_140}"
+                        android:progressIndicator="@{imageProgressIndicator}"
+                        android:src="@drawable/ic_avatar_140"
                         tools:ignore="ImageContrastCheck" />
                 </com.google.android.material.card.MaterialCardView>
             </LinearLayout>
+
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/imageProgressIndicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/avatar_card"
+                android:layout_marginTop="-114dp"
+                android:indeterminate="true"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/upload_avatar"
@@ -75,6 +92,7 @@
                 app:srcCompat="@drawable/ic_baseline_photo_camera_24"
                 app:tint="@color/white"
                 app:elevation="0dp"
+                android:onClick="@{() -> viewModel.chooseAvatarEvent()}"
                 tools:ignore="ImageContrastCheck" />
         </RelativeLayout>
 
@@ -140,6 +158,7 @@
                     android:id="@+id/account_email_input_edit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:text="@={viewModel.userDetailsForm.input.email}"
                     android:enabled="false" />
             </com.google.android.material.textfield.TextInputLayout>
 

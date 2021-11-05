@@ -59,9 +59,6 @@ class UserActivity : BaseActivity<ActivityUserBinding, UserViewModel>(R.layout.a
         viewModel.verificationEmailResult.observeNotNull(
             this,
             { displayVerificationEmailResult(it) })
-        viewModel.verifyEmailResult.observeNotNull(
-            this,
-            { displayVerifyEmailResult(it) })
         viewModel.passwordResetEmailResult.observeNotNull(
             this,
             { displayPasswordResetEmailResult(it) })
@@ -100,15 +97,6 @@ class UserActivity : BaseActivity<ActivityUserBinding, UserViewModel>(R.layout.a
             viewModel.setProgressIndicationVisibility(false)
             longToast(R.string.verification_email_success_message)
         }
-        is Error -> {
-            viewModel.setProgressIndicationVisibility(false)
-            longToast(R.string.general_failure_message)
-        }
-        Loading -> viewModel.setProgressIndicationVisibility(true)
-    }
-
-    private fun displayVerifyEmailResult(result: ResultState<Nothing>) = when (result) {
-        is Success -> viewModel.setProgressIndicationVisibility(false)
         is Error -> {
             viewModel.setProgressIndicationVisibility(false)
             longToast(R.string.general_failure_message)

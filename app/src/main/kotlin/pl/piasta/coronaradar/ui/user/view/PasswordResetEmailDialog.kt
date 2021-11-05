@@ -1,68 +1,38 @@
 package pl.piasta.coronaradar.ui.user.view
 
-import android.app.Dialog
-import android.content.DialogInterface.BUTTON_NEGATIVE
-import android.content.DialogInterface.BUTTON_POSITIVE
-import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.Observable
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import pl.piasta.coronaradar.R
 import pl.piasta.coronaradar.databinding.PasswordResetEmailDialogBinding
-import pl.piasta.coronaradar.ui.common.view.TouchBehaviorDialog
+import pl.piasta.coronaradar.ui.base.BaseFormDialogFragment
 import pl.piasta.coronaradar.ui.user.viewmodel.PasswordResetEmailViewModel
 import pl.piasta.coronaradar.ui.user.viewmodel.UserViewModel
-import splitties.alertdialog.appcompat.onShow
 import splitties.alertdialog.appcompat.positiveButton
-import splitties.resources.str
 import splitties.views.material.string
 
 @AndroidEntryPoint
-class PasswordResetEmailDialog : DialogFragment() {
-
-    private var _viewBinding: PasswordResetEmailDialogBinding? = null
-    private val viewBinding get() = _viewBinding!!
+class PasswordResetEmailDialog :
+    BaseFormDialogFragment<PasswordResetEmailDialogBinding, PasswordResetEmailViewModel, UserViewModel>(
+        R.layout.password_reset_email_dialog,
+        R.string.password_reset,
+        R.string.password_reset_email_message
+    ) {
 
     private var _onPropertyChangedCallback: Observable.OnPropertyChangedCallback? = null
     private val onPropertyChangedCallback get() = _onPropertyChangedCallback!!
 
-    private val viewModel: PasswordResetEmailViewModel by viewModels()
-    private val activityViewModel: UserViewModel by activityViewModels()
+    override val viewModel: PasswordResetEmailViewModel by viewModels()
+    override val activityViewModel: UserViewModel by activityViewModels()
 
-    override fun onStart() {
-        super.onStart()
-        viewBinding.lifecycleOwner = this
-        viewBinding.viewModel = viewModel
-        registerOnPropertyChangedCallback()
-    }
+    override val positiveButtonRes: Int = R.string.send
 
-    override fun onStop() {
-        super.onStop()
-        unregisterOnPropertyChangedCallback()
-    }
+    override fun onPositiveButtonClick() =
+        activityViewModel.sendPasswordResetEmail(viewBinding.passwordResetEmailInput.string)
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        _viewBinding = PasswordResetEmailDialogBinding.inflate(layoutInflater)
-        return TouchBehaviorDialog(requireContext(), theme).apply {
-            setView(viewBinding.root)
-            setTitle(R.string.password_reset)
-            setMessage(str(R.string.password_reset_email_message))
-            setButton(BUTTON_POSITIVE, str(R.string.send)) { _, _ ->
-                activityViewModel.sendPasswordResetEmail(viewBinding.passwordResetEmailInput.string)
-            }
-            setButton(BUTTON_NEGATIVE, str(android.R.string.cancel)) { _, _ -> }
-        }.onShow { positiveButton.isEnabled = false }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _viewBinding = null
-    }
-
-    private fun registerOnPropertyChangedCallback() {
+    override fun registerOnPropertyChangedCallback() {
         val positiveButton = (dialog as AlertDialog).positiveButton
         _onPropertyChangedCallback = object : Observable.OnPropertyChangedCallback() {
 
@@ -74,7 +44,7 @@ class PasswordResetEmailDialog : DialogFragment() {
         viewModel.passwordResetEmailForm.addOnPropertyChangedCallback(onPropertyChangedCallback)
     }
 
-    private fun unregisterOnPropertyChangedCallback() {
+    override fun unregisterOnPropertyChangedCallback() {
         viewModel.passwordResetEmailForm.removeOnPropertyChangedCallback(onPropertyChangedCallback)
         _onPropertyChangedCallback = null
     }

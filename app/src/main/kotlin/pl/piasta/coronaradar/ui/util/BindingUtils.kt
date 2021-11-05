@@ -1,10 +1,14 @@
 package pl.piasta.coronaradar.ui.util
 
+import android.graphics.drawable.Drawable
+import android.net.Uri
+import android.util.Patterns
 import android.view.Gravity.TOP
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.ImageView
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
@@ -13,6 +17,12 @@ import androidx.transition.Slide
 import androidx.transition.TransitionManager
 import androidx.transition.Visibility.MODE_IN
 import androidx.transition.Visibility.MODE_OUT
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
+import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import pl.piasta.coronaradar.util.ifTrue
@@ -65,4 +75,51 @@ fun animatedVisibility(view: CardView, isVisible: Boolean) {
         true -> View.VISIBLE
         false -> View.GONE
     }
+}
+
+@BindingAdapter("android:imageUri", "android:placeholderDrawable", "android:progressIndicator")
+fun imageUri(
+    view: ImageView,
+    imageUri: Uri?,
+    placeholderDrawable: Drawable,
+    progressIndicator: CircularProgressIndicator
+) = imageUri?.let {
+    val uri = it.toString()
+    val ref = when (Patterns.WEB_URL.matcher(uri).matches()) {
+        true -> Uri.parse(uri.replace("s96-c", "s300-c")).buildUpon()
+            .appendQueryParameter("width", "300")
+            .appendQueryParameter("height", "300")
+            .build().toString()
+        false -> it.fileBytes(view.context)
+    }
+    progressIndicator.visibility = View.VISIBLE
+    Glide.with(view.context)
+        .load(ref)
+        .placeholder(placeholderDrawable)
+        .fallback(placeholderDrawable)
+        .error(placeholderDrawable)
+        .listener(object : RequestListener<Drawable> {
+            override fun onLoadFailed(
+                e: GlideException?,
+                model: Any?,
+                target: Target<Drawable>?,
+                isFirstResource: Boolean
+            ): Boolean {
+                progressIndicator.visibility = View.GONE
+                return false
+            }
+
+            override fun onResourceReady(
+                resource: Drawable?,
+                model: Any?,
+                target: Target<Drawable>?,
+                dataSource: DataSource?,
+                isFirstResource: Boolean
+            ): Boolean {
+                progressIndicator.visibility = View.GONE
+                return false
+            }
+        })
+        .centerCrop()
+        .into(view)
 }

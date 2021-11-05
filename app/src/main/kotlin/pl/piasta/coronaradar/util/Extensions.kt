@@ -1,7 +1,10 @@
 package pl.piasta.coronaradar.util
 
-inline val <reified T> T.TAG: String
-    get() = T::class.java.simpleName
+inline val Any.TAG: String
+    get() = this::class.java.simpleName
+
+inline fun String?.ifNullOrEmpty(defaultValue: () -> String): String =
+    if (isNullOrEmpty()) defaultValue() else this
 
 inline fun Boolean?.ifTrue(block: Boolean.() -> Unit): Boolean? {
     if (this == true) {
@@ -10,6 +13,4 @@ inline fun Boolean?.ifTrue(block: Boolean.() -> Unit): Boolean? {
     return this
 }
 
-fun CharSequence.isMaxExclusive(maxLength: Int): Boolean {
-    return this.length < maxLength
-}
+fun String.isMaxExclusive(maxLength: Int) = this.length < maxLength

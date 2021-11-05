@@ -7,6 +7,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.flow.Flow
 import pl.piasta.coronaradar.data.auth.model.ActionCode
+import pl.piasta.coronaradar.data.auth.model.UserDetails
 import pl.piasta.coronaradar.util.ResultState
 
 interface AuthRepository {
@@ -21,4 +22,8 @@ interface AuthRepository {
     fun verifyActionCode(data: Uri): Flow<ResultState<ActionCode?>>
     fun verifyEmail(actionCode: String): Flow<ResultState<Nothing>>
     fun resetPassword(actionCode: String, newPassword: String): Flow<ResultState<Nothing>>
+    fun updateCurrentUserPassword(password: String): Flow<ResultState<Nothing>>
+    fun updateCurrentUserDetails(displayName: String, avatarUri: Uri?): Flow<ResultState<Nothing>>
+    fun uploadAvatar(fileUri: Uri): Flow<ResultState<Uri>>
+    fun getCurrentUserDetails(): UserDetails?
 }

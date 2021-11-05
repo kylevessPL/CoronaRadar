@@ -25,7 +25,6 @@ import pl.piasta.coronaradar.ui.common.model.OkDialogData
 import pl.piasta.coronaradar.ui.common.view.OkDialogFragment
 import pl.piasta.coronaradar.ui.login.viewmodel.LoginViewModel
 import pl.piasta.coronaradar.ui.user.view.PasswordResetEmailDialog
-import pl.piasta.coronaradar.ui.user.view.VerificationEmailDialog
 import pl.piasta.coronaradar.ui.user.viewmodel.UserViewModel
 import pl.piasta.coronaradar.ui.util.observeNotNull
 import pl.piasta.coronaradar.util.ResultState
@@ -34,7 +33,6 @@ import pl.piasta.coronaradar.util.ResultState.Loading
 import pl.piasta.coronaradar.util.ResultState.Success
 import pl.piasta.coronaradar.util.TAG
 import pl.piasta.coronaradar.util.ifTrue
-import splitties.resources.str
 import splitties.toast.longToast
 import javax.inject.Inject
 
@@ -72,6 +70,9 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(R.layou
         viewModel.signInWithFacebook.observeNotNull(
             viewLifecycleOwner,
             { launchFacebookSignInIntent() })
+        activityViewModel.verifyEmailResult.observeNotNull(
+            this,
+            { displayVerifyEmailResult(it) })
         viewModel.resetPassword.observeNotNull(
             viewLifecycleOwner,
             { displayPasswordResetEmailDialog() })
@@ -109,6 +110,15 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(R.layou
         findNavController().navigate(action)
     }
 
+    private fun displayVerifyEmailResult(result: ResultState<Nothing>) = when (result) {
+        is Success -> viewModel.setProgressIndicationVisibility(false)
+        is Error -> {
+            viewModel.setProgressIndicationVisibility(false)
+            longToast(R.string.general_failure_message)
+        }
+        Loading -> viewModel.setProgressIndicationVisibility(true)
+    }
+
     private fun displaySignInResult(result: ResultState<FirebaseUser>) {
         when (result) {
             is Success -> viewModel.setProgressIndicationVisibility(false)
@@ -121,18 +131,23 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(R.layou
                             false -> R.string.login_failure_bad_credentials_message
                         }
                         OkDialogFragment.newInstance(
-                            OkDialogData(
-                                str(R.string.login_failure),
-                                str(messageId)
-                            )
+                            OkDialogData(R.string.login_failure, messageId)
                         ).show(
                             parentFragmentManager,
                             OkDialogFragment::class.TAG
                         )
                     }
-                    is EmailNotVerifiedException -> VerificationEmailDialog().show(
+                    is EmailNotVerifiedException -> OkDialogFragment.newInstance(
+                        OkDialogData(
+                            R.string.login_failure,
+                            R.string.verification_email_message,
+                            { activityViewModel.sendVerificationEmail() },
+                            R.string.resend_verification_email,
+                            true
+                        )
+                    ).show(
                         parentFragmentManager,
-                        VerificationEmailDialog::class.TAG
+                        OkDialogFragment::class.TAG
                     )
                     else -> !(ex is ApiException && ex.status.isCanceled).ifTrue { longToast(R.string.general_failure_message) }!!
                 }

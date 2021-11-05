@@ -20,7 +20,7 @@ class PasswordResetEmailForm : BaseObservable() {
     fun isPasswordResetEmailFormValid(): Boolean = validateEmail(false)
 
     fun validateEmail(showError: Boolean = true): Boolean {
-        return emailValidationMessage(_input.email).let { message ->
+        return emailValidationMessage(_input.email.get()).let { message ->
             { _error.email.set(message) }.takeUnless { message != null && !showError }?.invoke()
             message == null
         }
@@ -28,11 +28,13 @@ class PasswordResetEmailForm : BaseObservable() {
 
     class InputFields(val onChange: () -> Unit) {
 
-        var email: String? = null
-            set(value) {
-                field = value
+        var email = object : ObservableField<String?>() {
+
+            override fun set(value: String?) {
+                super.set(value)
                 onChange()
             }
+        }
     }
 
     class ErrorFields {

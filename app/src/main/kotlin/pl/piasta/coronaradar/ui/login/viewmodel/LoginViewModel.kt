@@ -86,26 +86,35 @@ class LoginViewModel @Inject constructor(
 
     fun signIn() {
         viewModelScope.launch {
-            repository.login(_loginForm.input.email!!, _loginForm.input.password!!)
+            _loginForm.isProcessing = true
+            repository.login(_loginForm.input.email.get()!!, _loginForm.input.password.get()!!)
                 .collect { result ->
                     _signInResult.postValue(result)
                 }
+        }.invokeOnCompletion {
+            _loginForm.isProcessing = false
         }
     }
 
     fun signInWithGoogle(task: Task<GoogleSignInAccount>) {
         viewModelScope.launch {
+            _loginForm.isProcessing = true
             repository.loginWithGoogle(task).collect { result ->
                 _signInResult.postValue(result)
             }
+        }.invokeOnCompletion {
+            _loginForm.isProcessing = false
         }
     }
 
     fun signInWithFacebook(callbackManager: CallbackManager) {
         viewModelScope.launch {
+            _loginForm.isProcessing = true
             repository.loginWithFacebook(callbackManager).collect { result ->
                 _signInResult.postValue(result)
             }
+        }.invokeOnCompletion {
+            _loginForm.isProcessing = false
         }
     }
 }

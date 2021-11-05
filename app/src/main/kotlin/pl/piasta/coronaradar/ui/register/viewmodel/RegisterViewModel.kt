@@ -66,10 +66,16 @@ class RegisterViewModel @Inject constructor(
 
     fun signUp() {
         viewModelScope.launch {
-            repository.register(_registerForm.input.email!!, _registerForm.input.password!!)
+            _registerForm.isProcessing = true
+            repository.register(
+                _registerForm.input.email.get()!!,
+                _registerForm.input.password.get()!!
+            )
                 .collect { result ->
                     _signUpResult.postValue(result)
                 }
+        }.invokeOnCompletion {
+            _registerForm.isProcessing = false
         }
     }
 }

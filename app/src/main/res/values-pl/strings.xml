@@ -36,7 +36,7 @@
     <string name="send">Wyślij</string>
     <string name="password_reset_email_message">Podaj adres email powiązany z Twoim kontem, a my wyślemy Ci link do zresetowania hasła</string>
     <string name="password_reset_email_complete_message">Wysłaliśmy Ci email z linkiem do zresetowania hasła. Sprawdź skrzynkę mailową</string>
-    <string name="login_failure">Logowanie nieudane</string>
+    <string name="login_failure">Logowanie zakończone niepowodzeniem</string>
     <string name="login_failure_bad_credentials_message">Logowanie nieudane. Sprawdź poprawność danych i spróbuj ponownie</string>
     <string name="register_success">Rejestracja zakończona sukcesem</string>
     <string name="register_success_message">Konto zostało zarejestrowane. Sprawdź skrzynkę mailową i zweryfikuj konto</string>
@@ -59,4 +59,9 @@
     <string name="signin_link">Zaloguj się</string>
     <string name="language">Język</string>
     <string name="auth_code_failure_invalid_message">Kod jest nieprawidłowy, stracił ważność lub został juz wykorzystany</string>
+    <string name="reauthentication_required">Ze względów bezpieczeństwa wymagane jest ponowne zalogowanie się. Czy chcesz się teraz wylogować?</string>
+    <string name="update_profile_success">Aktualizacja profilu zakończona powodzeniem</string>
+    <string name="update_profile_success_message">Twój profil został pomyślnie zaktualizowany</string>
+    <string name="set_avatar">Ustaw awatar</string>
+    <string name="set_avatar_size_failure">Plik jest zbyt duży, maksymalny rozmiar wynosi 2 MB</string>
 </resources>

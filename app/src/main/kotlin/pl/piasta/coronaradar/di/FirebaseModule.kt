@@ -5,6 +5,7 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -27,12 +28,23 @@ class FirebaseModule {
 
     @Provides
     @Singleton
-    fun provideFirebaseAnalytics(@ApplicationContext ctx: Context): FirebaseAnalytics =
+    fun provideStorage(): FirebaseStorage = FirebaseStorage.getInstance()
+
+    // @Provides
+    // @Singleton
+    // fun provideAppCheck(@ApplicationContext ctx: Context): FirebaseAppCheck =
+    //     FirebaseAppCheck.getInstance().apply {
+    //         installAppCheckProviderFactory(SafetyNetAppCheckProviderFactory.getInstance())
+    //     }
+
+    @Provides
+    @Singleton
+    fun provideAnalytics(@ApplicationContext ctx: Context): FirebaseAnalytics =
         FirebaseAnalytics.getInstance(ctx).apply {
             setAnalyticsCollectionEnabled(!BuildConfig.DEBUG)
         }
 
     @Provides
     @Singleton
-    fun provideFirebaseDynamicLinks(): FirebaseDynamicLinks = FirebaseDynamicLinks.getInstance()
+    fun provideDynamicLinks(): FirebaseDynamicLinks = FirebaseDynamicLinks.getInstance()
 }

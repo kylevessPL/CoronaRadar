@@ -9,6 +9,12 @@ import pl.piasta.coronaradar.ui.util.passwordValidationMessage
 
 class LoginForm : BaseObservable() {
 
+    var isProcessing: Boolean = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.loginFormValid)
+        }
+
     private val _input = InputFields { notifyPropertyChanged(BR.loginFormValid) }
     val input: InputFields
         get() = _input
@@ -18,17 +24,18 @@ class LoginForm : BaseObservable() {
         get() = _error
 
     @Bindable
-    fun isLoginFormValid(): Boolean = validateEmail(false) && validatePassword(false)
+    fun isLoginFormValid(): Boolean =
+        !isProcessing && validateEmail(false) && validatePassword(false)
 
     fun validateEmail(showError: Boolean = true): Boolean {
-        return emailValidationMessage(_input.email).let { message ->
+        return emailValidationMessage(_input.email.get()).let { message ->
             { _error.email.set(message) }.takeUnless { message != null && !showError }?.invoke()
             message == null
         }
     }
 
     fun validatePassword(showError: Boolean = true): Boolean {
-        return passwordValidationMessage(_input.password, false).let { message ->
+        return passwordValidationMessage(_input.password.get(), false).let { message ->
             { _error.password.set(message) }.takeUnless { message != null && !showError }?.invoke()
             message == null
         }
@@ -36,17 +43,21 @@ class LoginForm : BaseObservable() {
 
     class InputFields(val onChange: () -> Unit) {
 
-        var email: String? = null
-            set(value) {
-                field = value
-                onChange()
-            }
+        var email = object : ObservableField<String?>() {
 
-        var password: String? = null
-            set(value) {
-                field = value
+            override fun set(value: String?) {
+                super.set(value)
                 onChange()
             }
+        }
+
+        var password = object : ObservableField<String?>() {
+
+            override fun set(value: String?) {
+                super.set(value)
+                onChange()
+            }
+        }
     }
 
     class ErrorFields {

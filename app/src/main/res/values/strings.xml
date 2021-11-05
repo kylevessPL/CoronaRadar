@@ -56,6 +56,7 @@
     <string name="verification_email_success_message">Verification email resent. Check your inbox</string>
     <string name="google_web_client_id" translatable="false">615431991272-ttqadtd5dvghndcfeborsqoj6bul857m.apps.googleusercontent.com</string>
     <string name="facebook_app_id" translatable="false">297438641790189</string>
+    <string name="facebook_client_token" translatable="false">ad7a016055b2d31e9faa6a0df28e0115</string>
     <string name="fb_login_protocol_scheme" translatable="false">fb297438641790189</string>
     <string name="network_lost">No internet connection</string>
     <string name="empty_not_allowed">Cannot be empty</string>
@@ -71,4 +72,9 @@
     <string name="language">Language</string>
     <string name="region" translatable="false">Region</string>
     <string name="auth_code_failure_invalid_message">Action code is invalid, expired or has already been used</string>
+    <string name="reauthentication_required">For security reasons, you are required to re-login before updating your profile. Do you want to sign out now?</string>
+    <string name="update_profile_success">Update profile success</string>
+    <string name="update_profile_success_message">Your profile has been updated successfully</string>
+    <string name="set_avatar">Set avatar</string>
+    <string name="set_avatar_size_failure">File size too large, max 2 MB allowed</string>
 </resources>

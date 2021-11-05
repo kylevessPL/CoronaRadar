@@ -1,5 +1,8 @@
 package pl.piasta.coronaradar.data.auth.repository
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.util.Log
 import com.facebook.CallbackManager
@@ -15,7 +18,11 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.ktx.storageMetadata
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -26,15 +33,21 @@ import pl.piasta.coronaradar.data.auth.exception.EmailNotVerifiedException
 import pl.piasta.coronaradar.data.auth.model.ActionCode
 import pl.piasta.coronaradar.data.auth.model.ActionCode.PasswordReset
 import pl.piasta.coronaradar.data.auth.model.ActionCode.VerifyEmail
+import pl.piasta.coronaradar.data.auth.model.UserDetails
 import pl.piasta.coronaradar.data.auth.util.registerMCallback
 import pl.piasta.coronaradar.di.ResetPasswordEmailSettings
 import pl.piasta.coronaradar.di.VerificationEmailSettings
+import pl.piasta.coronaradar.ui.util.fileBytes
 import pl.piasta.coronaradar.util.ResultState
 import pl.piasta.coronaradar.util.TAG
+import pl.piasta.coronaradar.util.ifNullOrEmpty
+import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 
 class FirebaseAuthRepository @Inject constructor(
+    @ApplicationContext private val ctx: Context,
     private val auth: FirebaseAuth,
+    private val storage: FirebaseStorage,
     private val dynamicLinks: FirebaseDynamicLinks,
     private val googleSignInClient: GoogleSignInClient,
     private val facebookLoginManager: LoginManager,
@@ -143,8 +156,7 @@ class FirebaseAuthRepository @Inject constructor(
     override fun verifyEmail(actionCode: String): Flow<ResultState<Nothing>> = flow {
         emit(ResultState.Loading)
         auth.applyActionCode(actionCode).await()
-        auth.currentUser?.reload()?.await()
-        auth.currentUser?.getIdToken(true)?.await()
+        reloadCurrentUserData()
         Log.d(this@FirebaseAuthRepository.TAG, "verifyEmail:success")
         emit(ResultState.Success())
     }.catch { ex ->
@@ -165,6 +177,59 @@ class FirebaseAuthRepository @Inject constructor(
         emit(ResultState.Error(ex))
     }.flowOn(Dispatchers.IO)
 
+    override fun updateCurrentUserPassword(password: String) = flow {
+        emit(ResultState.Loading)
+        auth.currentUser!!.updatePassword(password).await()
+        Log.d(this@FirebaseAuthRepository.TAG, "updateCurrentUserPassword:success")
+        emit(ResultState.Success())
+    }.catch { ex ->
+        Log.w(this@FirebaseAuthRepository.TAG, "updateCurrentUserPassword:failure", ex)
+        emit(ResultState.Error(ex))
+    }.flowOn(Dispatchers.IO)
+
+    override fun updateCurrentUserDetails(displayName: String, avatarUri: Uri?) = flow {
+        emit(ResultState.Loading)
+        val request = UserProfileChangeRequest.Builder().apply {
+            this.displayName = displayName
+            this.photoUri = avatarUri
+        }.build()
+        auth.currentUser!!.updateProfile(request).await()
+        reloadCurrentUserData()
+        Log.d(this@FirebaseAuthRepository.TAG, "updateCurrentUserPassword:success")
+        emit(ResultState.Success())
+    }.catch { ex ->
+        Log.w(this@FirebaseAuthRepository.TAG, "updateCurrentUserPassword:failure", ex)
+        emit(ResultState.Error(ex))
+    }.flowOn(Dispatchers.IO)
+
+    override fun uploadAvatar(fileUri: Uri) = flow {
+        emit(ResultState.Loading)
+        val data = extractByteArrayFromUri(fileUri)
+        val ref = storage.reference.child("avatars/${auth.currentUser!!.uid}")
+        val metadata = storageMetadata {
+            contentType = "image/png"
+        }
+        ref.putBytes(data, metadata).await()
+        val storageUri = ref.downloadUrl.await()
+        Log.d(this@FirebaseAuthRepository.TAG, "uploadImage:success")
+        emit(ResultState.Success(storageUri))
+    }.catch { ex ->
+        Log.w(this@FirebaseAuthRepository.TAG, "uploadImage:failure", ex)
+        emit(ResultState.Error(ex))
+    }.flowOn(Dispatchers.IO)
+
+    override fun getCurrentUserDetails(): UserDetails? = runCatching {
+        val userDetails = with(auth.currentUser!!) {
+            UserDetails(displayName.ifNullOrEmpty { "user_".plus(uid) }, email!!, photoUrl)
+        }
+        userDetails
+    }.getOrNull()
+
+    private suspend fun reloadCurrentUserData() {
+        auth.currentUser?.reload()?.await()
+        auth.currentUser?.getIdToken(true)?.await()
+    }
+
     private fun toActionCode(
         oob: String,
         operation: Int
@@ -172,6 +237,14 @@ class FirebaseAuthRepository @Inject constructor(
         ActionCodeResult.PASSWORD_RESET -> PasswordReset(oob)
         ActionCodeResult.VERIFY_EMAIL -> VerifyEmail(oob)
         else -> null
+    }
+
+    private fun extractByteArrayFromUri(fileUri: Uri): ByteArray {
+        val byteArray = fileUri.fileBytes(ctx)!!
+        val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
+        val baos = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos)
+        return baos.toByteArray()
     }
 
     private fun verificationCheck(user: FirebaseUser): Boolean =
