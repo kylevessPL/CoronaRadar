@@ -103,6 +103,7 @@ dependencies {
     def hiltVersion = '2.40'
     def glideVersion = '4.12.0'
     def kPermissionsVersion = '3.2.1'
+    def waveRecorderVersion = '1.6.0'
     def waveAnimationVersion = '1.0.0'
     def coroutinesVersion = '1.5.2'
     def tensorflowVersion = '2.6.0'
@@ -154,6 +155,7 @@ dependencies {
     implementation "com.google.dagger:hilt-android:$hiltVersion"
     implementation "com.github.bumptech.glide:glide:$glideVersion"
     implementation "com.github.fondesa:kpermissions:$kPermissionsVersion"
+    implementation "com.github.squti:Android-Wave-Recorder:$waveRecorderVersion"
     implementation "com.aghajari.waveanimation:AXWaveAnimation:$waveAnimationVersion"
     kapt "com.github.bumptech.glide:compiler:$glideVersion"
     kapt "com.google.dagger:hilt-android-compiler:$hiltVersion"

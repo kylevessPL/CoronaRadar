@@ -5,6 +5,12 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         gradlePluginPortal()
+        maven {
+            setUrl("https://chaquo.com/maven")
+        }
+        maven {
+            setUrl("https://jitpack.io")
+        }
     }
 }
 

@@ -40,6 +40,8 @@ fun Window.dispatchActionDownTouchEvent(event: MotionEvent) {
     }
 }
 
+fun Context.recordingPath() = filesDir.resolve("rec.wav")
+
 fun Uri.fileBytes(ctx: Context) = ctx.contentResolver.openInputStream(this)?.use { it.readBytes() }
 
 fun Uri.fileSize(ctx: Context) =

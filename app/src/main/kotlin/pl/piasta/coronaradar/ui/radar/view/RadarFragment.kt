@@ -1,6 +1,8 @@
 package pl.piasta.coronaradar.ui.radar.view
 
-import android.Manifest
+import android.Manifest.permission.READ_EXTERNAL_STORAGE
+import android.Manifest.permission.RECORD_AUDIO
+import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
@@ -23,20 +25,39 @@ import pl.piasta.coronaradar.ui.common.view.OkDialogFragment
 import pl.piasta.coronaradar.ui.radar.viewmodel.RadarViewModel
 import pl.piasta.coronaradar.ui.util.observeNotNull
 import pl.piasta.coronaradar.util.TAG
+import pl.piasta.coronaradar.util.ifTrue
+import splitties.toast.toast
 
 @AndroidEntryPoint
 class RadarFragment : BaseFragment<FragmentRadarBinding, RadarViewModel>(R.layout.fragment_radar) {
 
-    private val permissionsRequest by lazy { permissionsBuilder(Manifest.permission.RECORD_AUDIO).build() }
+    private val permissionsRequest by lazy {
+        permissionsBuilder(RECORD_AUDIO, READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE).build()
+    }
+
+    private val appSettingsIntent by lazy {
+        Intent().apply {
+            action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+            data = Uri.fromParts("package", requireContext().packageName, null)
+        }
+    }
 
     override val viewModel: RadarViewModel by viewModels()
 
+    override fun onPause() {
+        super.onPause()
+        viewModel.recordStop()
+    }
+
     override fun updateUI() {
+        permissionsRequest.liveData()
+            .observe(viewLifecycleOwner, { displayRequestPermissionsResult(it) })
         viewModel.requestPermissions.observeNotNull(
             viewLifecycleOwner,
             { permissionsRequest.send() })
-        permissionsRequest.liveData()
-            .observe(viewLifecycleOwner, { displayRequestPermissionsResult(it) })
+        viewModel.isRecording.observeNotNull(
+            viewLifecycleOwner,
+            { (!it).ifTrue { toast("stopped") } })
     }
 
     private fun displayRequestPermissionsResult(result: List<PermissionStatus>) {
@@ -45,7 +66,7 @@ class RadarFragment : BaseFragment<FragmentRadarBinding, RadarViewModel>(R.layou
                 OkDialogData(
                     R.string.permissions_required,
                     R.string.permissions_required_message,
-                    { startActivity(createAppSettingsIntent()) },
+                    { startActivity(appSettingsIntent) },
                     R.string.permissions_open_settings,
                     true
                 )
@@ -68,14 +89,9 @@ class RadarFragment : BaseFragment<FragmentRadarBinding, RadarViewModel>(R.layou
             result.allGranted() -> lifecycleScope.launch(Dispatchers.IO) {
                 when (viewModel.isRecording.value) {
                     true -> viewModel.recordStop()
-                    false -> viewModel.recordStart()
+                    else -> viewModel.recordStart()
                 }
             }
         }
-    }
-
-    private fun createAppSettingsIntent() = Intent().apply {
-        action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-        data = Uri.fromParts("package", requireContext().packageName, null)
     }
 }
