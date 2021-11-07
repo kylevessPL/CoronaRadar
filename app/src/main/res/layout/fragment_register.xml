@@ -79,7 +79,7 @@
                     android:nextFocusForward="@id/register_password_input_edit"
                     android:text="@={viewModel.registerForm.input.email}"
                     android:onFocusChange="@{viewModel::validateEmail}"
-                    tools:ignore="TextContrastCheck" />
+                    tools:ignore="TextContrastCheck,TouchTargetSizeCheck,SpeakableTextPresentCheck" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -110,7 +110,7 @@
                     android:nextFocusForward="@id/register_password_confirm_input_edit"
                     android:text="@={viewModel.registerForm.input.password}"
                     android:onFocusChange="@{viewModel::validatePassword}"
-                    tools:ignore="TextContrastCheck" />
+                    tools:ignore="TextContrastCheck,TouchTargetSizeCheck,SpeakableTextPresentCheck" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -138,7 +138,7 @@
                     android:text="@={viewModel.registerForm.input.passwordConfirm}"
                     android:onFocusChange="@{viewModel::validatePasswordConfirm}"
                     android:loseFocusOnDone="@{true}"
-                    tools:ignore="TextContrastCheck" />
+                    tools:ignore="TextContrastCheck,TouchTargetSizeCheck,SpeakableTextPresentCheck" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton
