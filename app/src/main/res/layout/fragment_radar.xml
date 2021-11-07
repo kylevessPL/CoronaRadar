@@ -44,7 +44,8 @@
                 app:fabCustomSize="168dp"
                 app:maxImageSize="64dp"
                 app:tint="@color/white"
-                app:elevation="0dp" />
+                app:elevation="0dp"
+                tools:ignore="TouchTargetSizeCheck,ImageContrastCheck" />
         </FrameLayout>
 
         <com.aghajari.waveanimation.AXLineWaveView
