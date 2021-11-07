@@ -77,4 +77,9 @@
     <string name="update_profile_success_message">Your profile has been updated successfully</string>
     <string name="set_avatar">Set avatar</string>
     <string name="set_avatar_size_failure">File size too large, max 2 MB allowed</string>
+    <string name="record_voice">Record voice</string>
+    <string name="permissions_required">Permissions required</string>
+    <string name="permissions_required_message">Application cannot work without necessary permissions</string>
+    <string name="permissions_request_again">Retry</string>
+    <string name="permissions_open_settings">Settings</string>
 </resources>

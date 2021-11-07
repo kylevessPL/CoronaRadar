@@ -64,4 +64,9 @@
     <string name="update_profile_success_message">Twój profil został pomyślnie zaktualizowany</string>
     <string name="set_avatar">Ustaw awatar</string>
     <string name="set_avatar_size_failure">Plik jest zbyt duży, maksymalny rozmiar wynosi 2 MB</string>
+    <string name="record_voice">Nagraj dźwięk</string>
+    <string name="permissions_required">Wymagane uprawnienia</string>
+    <string name="permissions_required_message">Aplikacja nie będzie działać bez przyznania uprawnień</string>
+    <string name="permissions_request_again">Ponów</string>
+    <string name="permissions_open_settings">Ustawienia</string>
 </resources>

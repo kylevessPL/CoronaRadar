@@ -5,29 +5,57 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="pl.piasta.coronaradar.ui.radar.viewmodel.RadarViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.radar.view.RadarFragment">
 
-        <TextView
-            android:id="@+id/text_gallery"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:textAlignment="center"
-            android:textSize="20sp"
-            android:text="@string/radar"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_height="match_parent"
+            android:layout_above="@id/wave_view">
+
+            <com.aghajari.waveanimation.AXWaveView
+                android:id="@+id/record_button"
+                android:layout_width="250dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:visibility="@{viewModel.isRecording ? View.VISIBLE : View.INVISIBLE}"
+                app:shader_color_1="?attr/colorSecondary"
+                app:shader_color_2="?attr/colorSecondaryVariant"
+                app:circle="true"
+                app:amplitude="@{viewModel.amplitude}" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/upload_avatar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:contentDescription="@string/record_voice"
+                android:onClick="@{() -> viewModel.requestPermissionsEvent()}"
+                android:src="@{viewModel.isRecording ? @drawable/ic_baseline_stop_24 : @drawable/ic_baseline_mic_24}"
+                app:fabCustomSize="168dp"
+                app:maxImageSize="64dp"
+                app:tint="@color/white"
+                app:elevation="0dp" />
+        </FrameLayout>
+
+        <com.aghajari.waveanimation.AXLineWaveView
+            android:id="@+id/wave_view"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_alignParentBottom="true"
+            android:visibility="@{viewModel.isRecording ? View.VISIBLE : View.INVISIBLE}"
+            app:shader_color_1="?attr/colorSecondary"
+            app:shader_color_2="?attr/colorSecondaryVariant"
+            app:main_wave="false"
+            app:amplitude="@{viewModel.amplitude}" />
+    </RelativeLayout>
 </layout>

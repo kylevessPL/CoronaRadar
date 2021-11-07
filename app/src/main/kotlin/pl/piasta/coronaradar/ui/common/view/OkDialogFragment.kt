@@ -5,6 +5,8 @@ import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import pl.piasta.coronaradar.ui.common.model.OkDialogData
+import pl.piasta.coronaradar.util.ifTrue
+import splitties.alertdialog.appcompat.cancelButton
 import splitties.alertdialog.appcompat.messageResource
 import splitties.alertdialog.appcompat.positiveButton
 import splitties.alertdialog.appcompat.titleResource
@@ -30,6 +32,7 @@ class OkDialogFragment : DialogFragment() {
             titleResource = data.titleRes
             messageResource = data.messageRes
             positiveButton(data.positiveButtonRes) { data.positiveButtonAction() }
+            data.hasCancelButton.ifTrue { cancelButton() }
         }
     }
 }
