@@ -22,6 +22,7 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import com.google.android.material.progressindicator.BaseProgressIndicator
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -76,6 +77,9 @@ fun animatedVisibility(view: CardView, isVisible: Boolean) {
         false -> View.GONE
     }
 }
+
+@BindingAdapter("android:progressCompat")
+fun progressCompat(view: BaseProgressIndicator<*>, value: Int) = view.setProgressCompat(value, true)
 
 @BindingAdapter("android:imageUri", "android:placeholderDrawable", "android:progressIndicator")
 fun imageUri(

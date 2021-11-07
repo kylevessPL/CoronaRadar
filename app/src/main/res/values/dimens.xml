@@ -5,4 +5,9 @@
     <dimen name="nav_header_height">176dp</dimen>
     <dimen name="elevation_image">6dp</dimen>
     <dimen name="drawable_text">8dp</dimen>
+    <dimen name="card_info_elevation">2dp</dimen>
+    <dimen name="card_margin">8dp</dimen>
+    <dimen name="card_padding">16dp</dimen>
+    <dimen name="card_body_1_margin">8dp</dimen>
+    <dimen name="card_body_2_margin">16dp</dimen>
 </resources>

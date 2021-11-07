@@ -13,4 +13,9 @@ inline fun Boolean?.ifTrue(block: Boolean.() -> Unit): Boolean? {
     return this
 }
 
+fun Int.divideToPercent(divideTo: Int): Int {
+    (divideTo == 0).ifTrue { throw IllegalArgumentException("Division by zero is permitted!") }
+    return (this / divideTo.toFloat()).times(100).toInt()
+}
+
 fun String.isMaxExclusive(maxLength: Int) = this.length < maxLength

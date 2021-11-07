@@ -82,4 +82,7 @@
     <string name="permissions_required_message">Application cannot work without necessary permissions</string>
     <string name="permissions_request_again">Retry</string>
     <string name="permissions_open_settings">Settings</string>
+    <string name="tip">Tip</string>
+    <string name="tip_card_message_1">Click button below and record your cough sound</string>
+    <string name="tip_card_message_2">Maximum record length is 20 seconds</string>
 </resources>

@@ -69,4 +69,7 @@
     <string name="permissions_required_message">Aplikacja nie będzie działać bez przyznania uprawnień</string>
     <string name="permissions_request_again">Ponów</string>
     <string name="permissions_open_settings">Ustawienia</string>
+    <string name="tip">Wskazówka</string>
+    <string name="tip_card_message_1">Kliknij na przycisk poniżej i nagraj odgłos kaszlu</string>
+    <string name="tip_card_message_2">Maksymalna długość nagrania wynosi 20 sekund</string>
 </resources>

@@ -62,6 +62,8 @@
                 android:layout_height="wrap_content"
                 android:indeterminate="true"
                 android:visibility="@{viewModel.progressIndicationVisibility ? View.VISIBLE : View.GONE}"
+                app:showAnimationBehavior="inward"
+                app:hideAnimationBehavior="outward"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
