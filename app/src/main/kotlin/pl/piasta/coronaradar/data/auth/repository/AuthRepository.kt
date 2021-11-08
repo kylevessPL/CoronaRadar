@@ -24,6 +24,6 @@ interface AuthRepository {
     fun resetPassword(actionCode: String, newPassword: String): Flow<ResultState<Nothing>>
     fun updateCurrentUserPassword(password: String): Flow<ResultState<Nothing>>
     fun updateCurrentUserDetails(displayName: String, avatarUri: Uri?): Flow<ResultState<Nothing>>
-    fun uploadAvatar(fileUri: Uri): Flow<ResultState<Uri>>
+    fun uploadAvatar(byteArray: ByteArray): Flow<ResultState<Uri>>
     fun getCurrentUserDetails(): UserDetails?
 }

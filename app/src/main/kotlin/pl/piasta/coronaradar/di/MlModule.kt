@@ -3,12 +3,13 @@ package pl.piasta.coronaradar.di
 import com.google.mlkit.common.model.CustomRemoteModel
 import com.google.mlkit.common.model.RemoteModel
 import com.google.mlkit.common.model.RemoteModelManager
-import com.google.mlkit.linkfirebase.FirebaseModelSource
+import com.google.mlkit.common.model.RemoteModelSource
+import com.google.mlkit.vision.label.ImageLabeling
+import com.google.mlkit.vision.label.custom.CustomImageLabelerOptions
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import pl.piasta.coronaradar.BuildConfig
 import javax.inject.Singleton
 
 @Module
@@ -21,7 +22,19 @@ class MlModule {
 
     @Provides
     @Singleton
-    fun provideRemoteModel(): RemoteModel = CustomRemoteModel.Builder(
-        FirebaseModelSource.Builder(BuildConfig.ML_MODEL_NAME).build()
-    ).build()
+    fun provideRemoteModel(remoteModelSource: RemoteModelSource): RemoteModel =
+        CustomRemoteModel.Builder(remoteModelSource).build()
+
+    @Provides
+    @Singleton
+    fun provideCustomImageLabelerOptions(remoteModel: CustomRemoteModel) =
+        CustomImageLabelerOptions.Builder(remoteModel)
+            .setConfidenceThreshold(0.5f)
+            .setMaxResultCount(5)
+            .build()
+
+    @Provides
+    @Singleton
+    fun provideImageLabeler(labelerOptions: CustomImageLabelerOptions) =
+        ImageLabeling.getClient(labelerOptions)
 }

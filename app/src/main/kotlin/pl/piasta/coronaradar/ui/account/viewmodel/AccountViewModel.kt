@@ -1,5 +1,6 @@
 package pl.piasta.coronaradar.ui.account.viewmodel
 
+import android.app.Application
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -14,6 +15,7 @@ import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
 import pl.piasta.coronaradar.data.auth.repository.AuthRepository
 import pl.piasta.coronaradar.ui.account.model.UserDetailsForm
+import pl.piasta.coronaradar.ui.util.fileBytes
 import pl.piasta.coronaradar.util.ResultState
 import pl.piasta.coronaradar.util.ifTrue
 import javax.inject.Inject
@@ -21,6 +23,7 @@ import kotlin.coroutines.coroutineContext
 
 @HiltViewModel
 class AccountViewModel @Inject constructor(
+    private val application: Application,
     private val repository: AuthRepository,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
@@ -110,7 +113,11 @@ class AccountViewModel @Inject constructor(
 
     private suspend fun uploadUserAvatar() {
         val uploadAvatarTask = _userDetailsForm.avatarChosen().takeIf { it }
-            ?.let { repository.uploadAvatar(_userDetailsForm.input.avatar.get()!!) }
+            ?.let {
+                repository.uploadAvatar(
+                    _userDetailsForm.input.avatar.get()!!.fileBytes(application)!!
+                )
+            }
         uploadAvatarTask?.let {
             it.collect { result ->
                 _uploadUserAvatarResult.postValue(result)

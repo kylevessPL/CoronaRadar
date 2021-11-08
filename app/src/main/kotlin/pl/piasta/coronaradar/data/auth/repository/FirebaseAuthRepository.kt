@@ -1,6 +1,5 @@
 package pl.piasta.coronaradar.data.auth.repository
 
-import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -21,7 +20,6 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import com.google.firebase.storage.FirebaseStorage
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -36,7 +34,6 @@ import pl.piasta.coronaradar.data.auth.model.UserDetails
 import pl.piasta.coronaradar.data.auth.util.registerMCallback
 import pl.piasta.coronaradar.di.ResetPasswordEmailSettings
 import pl.piasta.coronaradar.di.VerificationEmailSettings
-import pl.piasta.coronaradar.ui.util.fileBytes
 import pl.piasta.coronaradar.util.ResultState
 import pl.piasta.coronaradar.util.TAG
 import pl.piasta.coronaradar.util.ifNullOrEmpty
@@ -44,7 +41,6 @@ import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 
 class FirebaseAuthRepository @Inject constructor(
-    @ApplicationContext private val ctx: Context,
     private val auth: FirebaseAuth,
     private val storage: FirebaseStorage,
     private val dynamicLinks: FirebaseDynamicLinks,
@@ -201,9 +197,9 @@ class FirebaseAuthRepository @Inject constructor(
         emit(ResultState.Error(ex))
     }.flowOn(Dispatchers.IO)
 
-    override fun uploadAvatar(fileUri: Uri) = flow {
+    override fun uploadAvatar(byteArray: ByteArray) = flow {
         emit(ResultState.Loading)
-        val data = extractByteArrayFromUri(fileUri)
+        val data = compressImage(byteArray)
         val ref = storage.reference.child("avatars/${auth.currentUser!!.uid}")
         ref.putBytes(data).await()
         val storageUri = ref.downloadUrl.await()
@@ -235,8 +231,7 @@ class FirebaseAuthRepository @Inject constructor(
         else -> null
     }
 
-    private fun extractByteArrayFromUri(fileUri: Uri): ByteArray {
-        val byteArray = fileUri.fileBytes(ctx)!!
+    private fun compressImage(byteArray: ByteArray): ByteArray {
         val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
         val baos = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos)
