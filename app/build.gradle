@@ -26,6 +26,7 @@ android {
         versionCode 1
         versionName '1.0'
         buildConfigField "String", "SERVER_DOMAIN", "\"${properties.getProperty('app.server.domain', 'example.com')}\""
+        buildConfigField "String", "ML_MODEL_NAME", "\"${properties.getProperty('app.ml.model-name', 'model')}\""
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         testInstrumentationRunnerArgument "runnerBuilder", "de.mannodermaus.junit5.AndroidJUnit5Builder"
 

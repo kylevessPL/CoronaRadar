@@ -30,13 +30,6 @@ class FirebaseModule {
     @Singleton
     fun provideStorage(): FirebaseStorage = FirebaseStorage.getInstance()
 
-    // @Provides
-    // @Singleton
-    // fun provideAppCheck(@ApplicationContext ctx: Context): FirebaseAppCheck =
-    //     FirebaseAppCheck.getInstance().apply {
-    //         installAppCheckProviderFactory(SafetyNetAppCheckProviderFactory.getInstance())
-    //     }
-
     @Provides
     @Singleton
     fun provideAnalytics(@ApplicationContext ctx: Context): FirebaseAnalytics =

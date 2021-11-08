@@ -51,7 +51,7 @@ class FirebaseAuthRepository @Inject constructor(
     private val googleSignInClient: GoogleSignInClient,
     private val facebookLoginManager: LoginManager,
     @VerificationEmailSettings private val verificationEmailActionCodeSettings: ActionCodeSettings,
-    @ResetPasswordEmailSettings private val resetPasswordEmailActionCodeSettings: ActionCodeSettings,
+    @ResetPasswordEmailSettings private val resetPasswordEmailActionCodeSettings: ActionCodeSettings
 ) : AuthRepository {
 
     override fun login(email: String, password: String): Flow<ResultState<FirebaseUser>> = flow {
