@@ -34,8 +34,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
-        setSupportActionBar(binding.appBarMain.toolbar)
-        setupNavDrawer()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -53,8 +51,18 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onResume() {
+        super.onResume()
+        navView.setCheckedItem(R.id.nav_radar)
+    }
+
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    override fun setupActionBar() {
+        setSupportActionBar(binding.appBarMain.toolbar)
+        setTitle(R.string.app_name)
     }
 
     override fun setupNavController() {
@@ -63,7 +71,7 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
         navController = navHostFragment.navController
     }
 
-    private fun setupNavDrawer() {
+    override fun setupNavDrawer() {
         navView = binding.navView
         val drawerLayout: DrawerLayout = binding.drawerLayout
         appBarConfiguration = AppBarConfiguration(
