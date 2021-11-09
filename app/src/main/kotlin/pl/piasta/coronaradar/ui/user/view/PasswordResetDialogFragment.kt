@@ -14,7 +14,7 @@ import splitties.alertdialog.appcompat.positiveButton
 import splitties.views.material.string
 
 @AndroidEntryPoint
-class PasswordResetDialog(private val oob: String) :
+class PasswordResetDialogFragment(private val oob: String) :
     BaseFormDialogFragment<PasswordResetDialogBinding, PasswordResetViewModel, UserViewModel>(
         R.layout.password_reset_dialog,
         R.string.password_reset,

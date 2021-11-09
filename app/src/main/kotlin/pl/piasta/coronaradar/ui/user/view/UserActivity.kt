@@ -32,13 +32,17 @@ class UserActivity : BaseActivity<ActivityUserBinding, UserViewModel>(R.layout.a
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setSupportActionBar(binding.toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         lifecycleScope.launchWhenStarted {
             withContext(Dispatchers.IO) {
                 intent.data?.let { viewModel.verifyActionCode(it) }
             }
         }
+    }
+
+    override fun setupActionBar() {
+        setSupportActionBar(binding.toolbar)
+        setTitle(R.string.my_account)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     override fun setupNavController() {
@@ -73,9 +77,9 @@ class UserActivity : BaseActivity<ActivityUserBinding, UserViewModel>(R.layout.a
                 when (val data = result.data) {
                     is PasswordReset -> {
                         viewModel.setProgressIndicationVisibility(false)
-                        PasswordResetDialog(data.oob).show(
+                        PasswordResetDialogFragment(data.oob).show(
                             supportFragmentManager,
-                            PasswordResetDialog::class.TAG
+                            PasswordResetDialogFragment::class.TAG
                         )
                     }
                     is VerifyEmail -> viewModel.verifyEmail(data.oob)

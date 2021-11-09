@@ -24,7 +24,7 @@ import pl.piasta.coronaradar.ui.base.BaseFragment
 import pl.piasta.coronaradar.ui.common.model.OkDialogData
 import pl.piasta.coronaradar.ui.common.view.OkDialogFragment
 import pl.piasta.coronaradar.ui.login.viewmodel.LoginViewModel
-import pl.piasta.coronaradar.ui.user.view.PasswordResetEmailDialog
+import pl.piasta.coronaradar.ui.user.view.PasswordResetEmailDialogFragment
 import pl.piasta.coronaradar.ui.user.viewmodel.UserViewModel
 import pl.piasta.coronaradar.ui.util.observeNotNull
 import pl.piasta.coronaradar.util.ResultState
@@ -80,7 +80,10 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(R.layou
     }
 
     private fun displayPasswordResetEmailDialog() {
-        PasswordResetEmailDialog().show(parentFragmentManager, PasswordResetEmailDialog::class.TAG)
+        PasswordResetEmailDialogFragment().show(
+            parentFragmentManager,
+            PasswordResetEmailDialogFragment::class.TAG
+        )
     }
 
     private fun launchGoogleSignInIntent() =

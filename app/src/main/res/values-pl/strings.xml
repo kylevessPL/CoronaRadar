@@ -72,4 +72,6 @@
     <string name="tip">Wskazówka</string>
     <string name="tip_card_message_1">Kliknij na przycisk poniżej i nagraj odgłos kaszlu</string>
     <string name="tip_card_message_2">Maksymalna długość nagrania wynosi 20 sekund</string>
+    <string name="model_update_message">Aktualizowanie metadanych CoronaKit…</string>
+    <string name="please_wait">Proszę czekać</string>
 </resources>

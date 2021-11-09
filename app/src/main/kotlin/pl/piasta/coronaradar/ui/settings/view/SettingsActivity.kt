@@ -14,4 +14,6 @@ class SettingsActivity :
         super.onCreate(savedInstanceState)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
+
+    override fun setupActionBar() = setTitle(R.string.settings)
 }

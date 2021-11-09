@@ -85,4 +85,9 @@
     <string name="tip">Tip</string>
     <string name="tip_card_message_1">Click button below and record your cough sound</string>
     <string name="tip_card_message_2">Maximum record length is 20 seconds</string>
+    <string name="coronakit_last_update_key" translatable="false">coronakit_last_update_key</string>
+    <string name="model_update_message">Updating CoronaKit metadata…</string>
+    <string name="please_wait">Please wait</string>
+    <string name="coronakit_update_frequency_key" translatable="false">coronakit_update_frequency_key</string>
+    <string name="language_key" translatable="false">language_key</string>
 </resources>

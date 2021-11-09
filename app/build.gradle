@@ -25,6 +25,7 @@ android {
         targetSdk 31
         versionCode 1
         versionName '1.0'
+        resConfigs("en", "pl")
         buildConfigField "String", "SERVER_DOMAIN", "\"${properties.getProperty('app.server.domain', 'example.com')}\""
         buildConfigField "String", "ML_MODEL_NAME", "\"${properties.getProperty('app.ml.model-name', 'model')}\""
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
@@ -106,6 +107,7 @@ dependencies {
     def kPermissionsVersion = '3.2.1'
     def waveRecorderVersion = '1.6.0'
     def waveAnimationVersion = '1.0.0'
+    def localizationVersion = '1.2.10'
     def coroutinesVersion = '1.5.2'
     def tensorflowVersion = '2.6.0'
     def tensorflowSupportVersion = '0.2.0'
@@ -158,6 +160,7 @@ dependencies {
     implementation "com.github.fondesa:kpermissions:$kPermissionsVersion"
     implementation "com.github.squti:Android-Wave-Recorder:$waveRecorderVersion"
     implementation "com.aghajari.waveanimation:AXWaveAnimation:$waveAnimationVersion"
+    implementation "com.akexorcist:localization:$localizationVersion"
     kapt "com.github.bumptech.glide:compiler:$glideVersion"
     kapt "com.google.dagger:hilt-android-compiler:$hiltVersion"
     testImplementation "io.kotest:kotest-runner-junit5-jvm:$koTestVersion"
