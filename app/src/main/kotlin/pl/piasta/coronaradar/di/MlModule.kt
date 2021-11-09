@@ -1,7 +1,6 @@
 package pl.piasta.coronaradar.di
 
 import com.google.mlkit.common.model.CustomRemoteModel
-import com.google.mlkit.common.model.RemoteModel
 import com.google.mlkit.common.model.RemoteModelManager
 import com.google.mlkit.common.model.RemoteModelSource
 import com.google.mlkit.vision.label.ImageLabeling
@@ -22,15 +21,14 @@ class MlModule {
 
     @Provides
     @Singleton
-    fun provideRemoteModel(remoteModelSource: RemoteModelSource): RemoteModel =
+    fun provideRemoteModel(remoteModelSource: RemoteModelSource): CustomRemoteModel =
         CustomRemoteModel.Builder(remoteModelSource).build()
 
     @Provides
     @Singleton
     fun provideCustomImageLabelerOptions(remoteModel: CustomRemoteModel) =
         CustomImageLabelerOptions.Builder(remoteModel)
-            .setConfidenceThreshold(0.5f)
-            .setMaxResultCount(5)
+            .setMaxResultCount(1)
             .build()
 
     @Provides

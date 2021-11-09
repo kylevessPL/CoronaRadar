@@ -2,8 +2,8 @@ package pl.piasta.coronaradar.data.ml.repository
 
 import android.graphics.BitmapFactory
 import android.util.Log
+import com.google.mlkit.common.model.CustomRemoteModel
 import com.google.mlkit.common.model.DownloadConditions
-import com.google.mlkit.common.model.RemoteModel
 import com.google.mlkit.common.model.RemoteModelManager
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.label.ImageLabeler
@@ -20,19 +20,9 @@ import javax.inject.Inject
 
 class FirebaseMlRepository @Inject constructor(
     private val remoteModelManager: RemoteModelManager,
-    private val remoteModel: RemoteModel,
+    private val remoteModel: CustomRemoteModel,
     private val imageLabeler: ImageLabeler
 ) : MlRepository {
-
-    override fun isModelDownloaded(): Flow<ResultState<Boolean>> = flow {
-        emit(ResultState.Loading)
-        val result = remoteModelManager.isModelDownloaded(remoteModel).await()
-        Log.d(this@FirebaseMlRepository.TAG, "isModelDownloaded:success")
-        emit(ResultState.Success(result))
-    }.catch { ex ->
-        Log.w(this@FirebaseMlRepository.TAG, "isModelDownloaded:failure", ex)
-        emit(ResultState.Error(ex))
-    }.flowOn(Dispatchers.IO)
 
     override fun downloadModel(isWiFiRequired: Boolean): Flow<ResultState<Nothing>> = flow {
         emit(ResultState.Loading)
