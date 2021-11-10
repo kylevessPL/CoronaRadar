@@ -109,7 +109,7 @@ dependencies {
     def waveAnimationVersion = '1.0.0'
     def localizationVersion = '1.2.10'
     def coroutinesVersion = '1.5.2'
-    def tensorflowVersion = '2.6.0'
+    def tensorflowVersion = '2.7.0'
     def tensorflowSupportVersion = '0.2.0'
     def tensorflowMetadataVersion = '0.2.1'
     def testVersion = '1.4.0'
