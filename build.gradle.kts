@@ -19,7 +19,7 @@ buildscript {
         classpath("com.google.gms:google-services:4.3.10")
         classpath("com.google.firebase:perf-plugin:1.4.0")
         classpath("org.jlleitschuh.gradle:ktlint-gradle:10.2.0")
-        classpath("com.google.dagger:hilt-android-gradle-plugin:2.40")
+        classpath("com.google.dagger:hilt-android-gradle-plugin:2.40.1")
         classpath("com.chaquo.python:gradle:10.0.1")
         classpath("de.mannodermaus.gradle.plugins:android-junit5:1.8.0.0")
     }
