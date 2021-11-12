@@ -11,15 +11,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="30dp"
+            android:background="@drawable/background_dialog_rounded"
             android:padding="?attr/dialogPreferredPadding"
             android:orientation="vertical"
-            android:background="#fff"
             android:gravity="center">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="90dp"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="30dp"
                 android:contentDescription="@string/medical_card_icon"
                 app:srcCompat="@drawable/ic_medical_record" />
 
