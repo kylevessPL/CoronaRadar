@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
 import pl.piasta.coronaradar.data.auth.repository.AuthRepository
 import pl.piasta.coronaradar.ui.account.model.UserDetailsForm
-import pl.piasta.coronaradar.ui.util.fileBytes
+import pl.piasta.coronaradar.ui.util.contentBytes
 import pl.piasta.coronaradar.util.ResultState
 import pl.piasta.coronaradar.util.ifTrue
 import javax.inject.Inject
@@ -115,7 +115,7 @@ class AccountViewModel @Inject constructor(
         val uploadAvatarTask = _userDetailsForm.avatarChosen().takeIf { it }
             ?.let {
                 repository.uploadAvatar(
-                    _userDetailsForm.input.avatar.get()!!.fileBytes(application)!!
+                    _userDetailsForm.input.avatar.get()!!.contentBytes(application)!!
                 )
             }
         uploadAvatarTask?.let {

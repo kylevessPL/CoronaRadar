@@ -94,7 +94,7 @@ fun imageUri(
             .appendQueryParameter("width", "300")
             .appendQueryParameter("height", "300")
             .build().toString()
-        false -> it.fileBytes(view.context)
+        false -> it.contentBytes(view.context)
     }
     progressIndicator.visibility = View.VISIBLE
     Glide.with(view.context)

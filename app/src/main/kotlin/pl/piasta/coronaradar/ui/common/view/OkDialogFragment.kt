@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import pl.piasta.coronaradar.ui.common.model.OkDialogData
-import pl.piasta.coronaradar.util.ifTrue
 import splitties.alertdialog.appcompat.cancelButton
 import splitties.alertdialog.appcompat.messageResource
 import splitties.alertdialog.appcompat.positiveButton
@@ -17,12 +16,12 @@ class OkDialogFragment : DialogFragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(data: OkDialogData): DialogFragment {
-            val okDialog = OkDialogFragment()
+        fun newInstance(data: OkDialogData): OkDialogFragment {
+            val dialog = OkDialogFragment()
             val args = Bundle()
             args.putParcelable("data", data)
-            okDialog.arguments = args
-            return okDialog
+            dialog.arguments = args
+            return dialog
         }
     }
 
@@ -32,7 +31,7 @@ class OkDialogFragment : DialogFragment() {
             titleResource = data.titleRes
             messageResource = data.messageRes
             positiveButton(data.positiveButtonRes) { data.positiveButtonAction() }
-            data.hasCancelButton.ifTrue { cancelButton() }
+            cancelButton().takeIf { data.hasCancelButton }
         }
     }
 }

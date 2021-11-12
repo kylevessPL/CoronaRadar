@@ -70,49 +70,126 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <FrameLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@id/wave_view"
-            android:layout_below="@id/help_card">
+            android:layout_below="@id/help_card"
+            android:orientation="vertical"
+            android:gravity="center">
 
-            <com.aghajari.waveanimation.AXWaveView
-                android:id="@+id/record_button"
-                android:layout_width="250dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:visibility="@{viewModel.isRecording ? View.VISIBLE : View.INVISIBLE}"
-                app:shader_color_1="?attr/colorSecondary"
-                app:shader_color_2="?attr/colorSecondaryVariant"
-                app:circle="true"
-                app:amplitude="@{viewModel.amplitude}" />
-
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/upload_avatar"
-                android:layout_width="wrap_content"
+            <FrameLayout
+                android:id="@+id/recording_view"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:contentDescription="@string/record_voice"
-                android:onClick="@{() -> viewModel.requestPermissionsEvent()}"
-                android:src="@{viewModel.isRecording ? @drawable/ic_baseline_stop_24 : @drawable/ic_baseline_mic_24}"
-                app:fabCustomSize="168dp"
-                app:maxImageSize="64dp"
-                app:tint="@color/white"
-                app:elevation="0dp"
-                tools:ignore="TouchTargetSizeCheck,ImageContrastCheck" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/processing_view"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
 
-            <com.google.android.material.progressindicator.CircularProgressIndicator
-                android:layout_width="wrap_content"
+                <com.aghajari.waveanimation.AXWaveView
+                    android:id="@+id/record_button"
+                    android:layout_width="250dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:visibility="@{viewModel.isRecording ? View.VISIBLE : View.INVISIBLE}"
+                    app:shader_color_1="?attr/colorSecondary"
+                    app:shader_color_2="?attr/colorSecondaryVariant"
+                    app:circle="true"
+                    app:amplitude="@{viewModel.amplitude}" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/upload_avatar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/record_voice"
+                    android:onClick="@{() -> viewModel.requestPermissionsEvent()}"
+                    android:src="@{viewModel.isRecording ? @drawable/ic_baseline_stop_24 : @drawable/ic_baseline_mic_24}"
+                    app:fabCustomSize="168dp"
+                    app:maxImageSize="64dp"
+                    app:tint="@color/white"
+                    app:elevation="0dp"
+                    tools:ignore="TouchTargetSizeCheck,ImageContrastCheck" />
+
+                <com.google.android.material.progressindicator.CircularProgressIndicator
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:visibility="@{viewModel.isRecording ? View.VISIBLE : View.GONE}"
+                    android:progressCompat="@{viewModel.recordingProgress}"
+                    app:showAnimationBehavior="inward"
+                    app:hideAnimationBehavior="outward"
+                    app:indicatorSize="180dp"
+                    app:indicatorColor="@color/carrot_orange_900"
+                    app:trackThickness="6dp" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:id="@+id/processing_view"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:visibility="@{viewModel.isRecording ? View.VISIBLE : View.GONE}"
-                android:progressCompat="@{viewModel.recordingProgress}"
-                app:showAnimationBehavior="inward"
-                app:hideAnimationBehavior="outward"
-                app:indicatorSize="180dp"
-                app:indicatorColor="@color/carrot_orange_900"
-                app:trackThickness="6dp" />
-        </FrameLayout>
+                android:layout_marginTop="26dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@id/recording_view"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <com.agrawalsuneet.loaderspack.loaders.PulseLoader
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:animateLayoutChanges="true"
+                        android:visibility="@{viewModel.modelUpdateVisibility ? View.VISIBLE : View.GONE}"
+                        app:pulse_LineThickness="6dp"
+                        app:pulse_normalIncrementalValue="4.0"
+                        app:pulse_pulseColor="@color/picton_blue_600"
+                        app:pulse_pulseIncrementalValue="20.0"
+                        app:pulse_sideLength="100dp" />
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:animateLayoutChanges="true"
+                        android:visibility="@{viewModel.processingVisibility ? View.VISIBLE : View.GONE}">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="120dp"
+                            android:layout_gravity="center"
+                            android:contentDescription="@string/medical_card_icon"
+                            app:srcCompat="@drawable/ic_medical_record" />
+
+                        <com.agrawalsuneet.loaderspack.loaders.SearchLoader
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            app:search_defaultStartLoading="true"
+                            app:search_lensBorderWidth="6dp"
+                            app:search_lensColor="@color/picton_blue_600"
+                            app:search_lensHandleLength="20dp"
+                            app:search_lensRadius="14dp"
+                            app:search_xRangeToSearch="120dp"
+                            app:search_yRangeToSearch="120dp" />
+                    </FrameLayout>
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:text="@{viewModel.currentOperationMessage}"
+                    android:textAppearance="?attr/textAppearanceHeadline6"
+                    android:textColor="?android:attr/textColorSecondary" />
+            </LinearLayout>
+        </LinearLayout>
 
         <com.aghajari.waveanimation.AXLineWaveView
             android:id="@+id/wave_view"

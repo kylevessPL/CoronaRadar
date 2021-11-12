@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import pl.piasta.coronaradar.util.ifTrue
+import java.io.File
 
 fun <T> LiveData<T>.observeNotNull(owner: LifecycleOwner, observer: (t: T) -> Unit) {
     this.observe(owner, {
@@ -40,9 +41,13 @@ fun Window.dispatchActionDownTouchEvent(event: MotionEvent) {
     }
 }
 
-fun Context.recordingPath() = filesDir.resolve("rec.wav")
+val Context.recordingPath get() = filesDir.resolve("1129_Positive_female_56.wav")
+val Context.spectrogramPath get() = filesDir.resolve("spec.png")
 
-fun Uri.fileBytes(ctx: Context) = ctx.contentResolver.openInputStream(this)?.use { it.readBytes() }
+fun Uri.contentBytes(ctx: Context) =
+    ctx.contentResolver.openInputStream(this)?.use { it.readBytes() }
+
+fun Uri.fileBytes() = File(path!!).readBytes()
 
 fun Uri.fileSize(ctx: Context) =
     ctx.contentResolver.query(this, null, null, null, null)!!.use {

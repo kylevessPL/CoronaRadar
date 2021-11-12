@@ -58,7 +58,7 @@
     <string name="facebook_app_id" translatable="false">297438641790189</string>
     <string name="facebook_client_token" translatable="false">ad7a016055b2d31e9faa6a0df28e0115</string>
     <string name="fb_login_protocol_scheme" translatable="false">fb297438641790189</string>
-    <string name="network_lost">No internet connection</string>
+    <string name="no_internet_connection">No internet connection</string>
     <string name="empty_not_allowed">Cannot be empty</string>
     <string name="min_six_chars_allowed">Must be at least 6 characters</string>
     <string name="passwords_not_match">Passwords do not match</string>
@@ -90,4 +90,13 @@
     <string name="please_wait">Please wait</string>
     <string name="coronakit_update_frequency_key" translatable="false">coronakit_update_frequency_key</string>
     <string name="language_key" translatable="false">language_key</string>
+    <string name="classification_result_icon">Classification result icon</string>
+    <string name="positive">Positive</string>
+    <string name="negative">Negative</string>
+    <string name="your_result_message">Your COVID-19 test result</string>
+    <string name="medical_card_icon">Medical card icon</string>
+    <string name="confidence">Confidence</string>
+    <string name="percent" translatable="false">%</string>
+    <string name="classification_message">Analyzing data…</string>
+    <string name="not_enough_space">Not enough disk space</string>
 </resources>

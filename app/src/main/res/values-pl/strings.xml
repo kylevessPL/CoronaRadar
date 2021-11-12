@@ -46,7 +46,7 @@
     <string name="verification_email_message">Konto nie zostało jeszcze zweryfikowane. Sprawdź skrzynkę mailową lub poproś o wysłanie nowego linku weryfikacyjnego</string>
     <string name="resend_verification_email">Wyślij</string>
     <string name="verification_email_success_message">Wysłaliśmy email z linkiem weryfikacyjnym. Sprawdź skrzynkę mailową</string>
-    <string name="network_lost">Brak połączenia z internetem</string>
+    <string name="no_internet_connection">Brak połączenia z internetem</string>
     <string name="empty_not_allowed">Nie może być puste</string>
     <string name="min_six_chars_allowed">Minimum 6 znaków</string>
     <string name="passwords_not_match">Hasła nie są zgodne</string>
@@ -74,4 +74,12 @@
     <string name="tip_card_message_2">Maksymalna długość nagrania wynosi 20 sekund</string>
     <string name="model_update_message">Aktualizowanie metadanych CoronaKit…</string>
     <string name="please_wait">Proszę czekać</string>
+    <string name="classification_result_icon">Ikona rezultatu klasyfikacji</string>
+    <string name="positive">Pozytywny</string>
+    <string name="negative">Negatywny</string>
+    <string name="your_result_message">Twój wynik testu COVID-19</string>
+    <string name="medical_card_icon">Ikona karty lekarskiej</string>
+    <string name="confidence">Pewność</string>
+    <string name="classification_message">Analizowanie danych…</string>
+    <string name="not_enough_space">Brak wystarczającego miejsca na dysku</string>
 </resources>

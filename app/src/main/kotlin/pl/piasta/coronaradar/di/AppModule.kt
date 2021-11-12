@@ -3,6 +3,7 @@ package pl.piasta.coronaradar.di
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
+import com.chaquo.python.Python
 import com.facebook.login.LoginManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -31,6 +32,10 @@ annotation class ResetPasswordEmailSettings
 @Module
 @InstallIn(SingletonComponent::class)
 class AppModule {
+
+    @Provides
+    @Singleton
+    fun providePythonInterpreter() = Python.getInstance()
 
     @Provides
     @Singleton

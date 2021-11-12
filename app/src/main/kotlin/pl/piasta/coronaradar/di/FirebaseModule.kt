@@ -5,9 +5,8 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ml.modeldownloader.FirebaseModelDownloader
 import com.google.firebase.storage.FirebaseStorage
-import com.google.mlkit.common.model.RemoteModelSource
-import com.google.mlkit.linkfirebase.FirebaseModelSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -45,6 +44,6 @@ class FirebaseModule {
 
     @Provides
     @Singleton
-    fun provideModelSource(): RemoteModelSource =
-        FirebaseModelSource.Builder(BuildConfig.ML_MODEL_NAME).build()
+    fun provideFirebaseModelDownloader(): FirebaseModelDownloader =
+        FirebaseModelDownloader.getInstance()
 }
