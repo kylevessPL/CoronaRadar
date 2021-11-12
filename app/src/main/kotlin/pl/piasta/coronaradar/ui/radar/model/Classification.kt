@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class Classification(val result: ClassificationResult, val confidence: Int) : Parcelable
+data class Classification(val result: ClassificationResult, val probability: Int) : Parcelable
 
 enum class ClassificationResult {
 

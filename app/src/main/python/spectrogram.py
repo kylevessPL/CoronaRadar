@@ -14,6 +14,7 @@ def predict(model_path, test_image):
     interpreter.set_tensor(input_details[0]["index"], test_image)
     interpreter.invoke()
     prediction = interpreter.get_tensor(output_details[0]["index"])
+    print(prediction)
     return float(prediction)
 
 

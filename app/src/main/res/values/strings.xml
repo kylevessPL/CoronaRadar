@@ -95,7 +95,7 @@
     <string name="negative">Negative</string>
     <string name="your_result_message">Your COVID-19 test result</string>
     <string name="medical_card_icon">Medical card icon</string>
-    <string name="confidence">Confidence</string>
+    <string name="probability">Probability</string>
     <string name="percent" translatable="false">%</string>
     <string name="classification_message">Analyzing data…</string>
     <string name="not_enough_space">Not enough disk space</string>

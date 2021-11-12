@@ -23,8 +23,6 @@ import pl.piasta.coronaradar.R
 import pl.piasta.coronaradar.data.ml.repository.MlRepository
 import pl.piasta.coronaradar.ui.radar.model.Classification
 import pl.piasta.coronaradar.ui.radar.model.ClassificationResult
-import pl.piasta.coronaradar.ui.radar.model.ClassificationResult.NEGATIVE
-import pl.piasta.coronaradar.ui.radar.model.ClassificationResult.POSITIVE
 import pl.piasta.coronaradar.ui.util.recordingPath
 import pl.piasta.coronaradar.util.ResultState
 import pl.piasta.coronaradar.util.ResultState.Error
@@ -33,6 +31,7 @@ import pl.piasta.coronaradar.util.ResultState.Success
 import pl.piasta.coronaradar.util.TAG
 import pl.piasta.coronaradar.util.divideToPercent
 import pl.piasta.coronaradar.util.ifTrue
+import pl.piasta.coronaradar.util.percent
 import pl.piasta.coronaradar.util.toInt
 import splitties.resources.str
 import java.io.BufferedReader
@@ -42,7 +41,6 @@ import java.time.temporal.ChronoUnit
 import javax.inject.Inject
 import kotlin.coroutines.coroutineContext
 import kotlin.math.pow
-import kotlin.math.roundToInt
 import kotlin.streams.toList
 
 @HiltViewModel
@@ -178,12 +176,10 @@ class RadarViewModel @Inject constructor(
         val labels =
             BufferedReader(InputStreamReader(application.assets.open("labels.txt"))).lines()
                 .toList()
-        val classification = ClassificationResult.valueOf(labels[(result >= 0.5).toInt()])
-        val confidence = when (classification) {
-            POSITIVE -> result.roundToInt()
-            NEGATIVE -> 1 - result.roundToInt()
-        }
-        return Classification(classification, confidence)
+        return Classification(
+            ClassificationResult.valueOf(labels[(result >= 0.5).toInt()]),
+            result.percent()
+        )
     }
 
     private fun modelUpdateRequired(lastUpdate: Instant, frequency: Long) =

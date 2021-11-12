@@ -79,7 +79,7 @@
     <string name="negative">Negatywny</string>
     <string name="your_result_message">Twój wynik testu COVID-19</string>
     <string name="medical_card_icon">Ikona karty lekarskiej</string>
-    <string name="confidence">Pewność</string>
+    <string name="probability">Prawdopodobieństwo</string>
     <string name="classification_message">Analizowanie danych…</string>
     <string name="not_enough_space">Brak wystarczającego miejsca na dysku</string>
 </resources>

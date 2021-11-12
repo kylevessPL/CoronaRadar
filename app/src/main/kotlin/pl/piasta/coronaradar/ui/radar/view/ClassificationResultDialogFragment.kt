@@ -58,8 +58,9 @@ class ClassificationResultDialogFragment : DialogFragment() {
     }
 
     private fun updateUI(data: Classification) = with(binding) {
-        classificationConfidence.text =
-            data.confidence.toString().plus(str(R.string.percent))
+        println(data.probability.toString())
+        classificationProbability.text =
+            data.probability.toString().plus(str(R.string.percent))
         when (data.result) {
             POSITIVE -> {
                 classificationResult.textResource = R.string.positive
