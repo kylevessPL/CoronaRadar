@@ -37,6 +37,7 @@ android {
 
         python {
             pip {
+                install 'pyparsing==2.0.2'
                 install 'matplotlib'
                 install 'librosa'
                 install 'numpy'
