@@ -2,6 +2,7 @@ package pl.piasta.coronaradar.di
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.paging.PagingConfig
 import androidx.preference.PreferenceManager
 import com.chaquo.python.Python
 import com.facebook.login.LoginManager
@@ -17,6 +18,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import pl.piasta.coronaradar.BuildConfig
 import pl.piasta.coronaradar.R
+import pl.piasta.coronaradar.data.util.PAGE_SIZE
 import splitties.resources.str
 import javax.inject.Qualifier
 import javax.inject.Singleton
@@ -77,4 +79,8 @@ class AppModule {
             handleCodeInApp = true
             setAndroidPackageName(BuildConfig.APPLICATION_ID, false, null)
         }
+
+    @Provides
+    @Singleton
+    fun providesPagingConfig() = PagingConfig(PAGE_SIZE)
 }
