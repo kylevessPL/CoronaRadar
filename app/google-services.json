@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "615431991272",
+    "project_id": "pl-coronaradar",
+    "storage_bucket": "pl-coronaradar.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:615431991272:android:0f236f7f3d7dc9105afe5d",
+        "android_client_info": {
+          "package_name": "pl.piasta.coronaradar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "615431991272-m6soi9q3vmta16jei04qt6l39779sq23.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "pl.piasta.coronaradar",
+            "certificate_hash": "b1c136e89c0b73adc6d5defb43170e12935321e4"
+          }
+        },
+        {
+          "client_id": "615431991272-ttqadtd5dvghndcfeborsqoj6bul857m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQ4wM2vbO-aFBEXzZF2ZL3I5V2qcrfyjo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "615431991272-ttqadtd5dvghndcfeborsqoj6bul857m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
