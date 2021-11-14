@@ -18,7 +18,19 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import pl.piasta.coronaradar.BuildConfig
+import pl.piasta.coronaradar.data.util.HISTORY
+import pl.piasta.coronaradar.data.util.PAGE_SIZE
+import pl.piasta.coronaradar.data.util.SURVEYS
+import javax.inject.Qualifier
 import javax.inject.Singleton
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class GetAllHistoryQuery
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class GetAllSurveysQuery
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -50,4 +62,18 @@ class FirebaseModule {
     @Provides
     @Singleton
     fun provideFirebaseModelDownloader(): FirebaseModelDownloader = Firebase.modelDownloader
+
+    @Provides
+    @Singleton
+    @GetAllHistoryQuery
+    fun provideGetAllHistoryPagingQuery() = Firebase.firestore
+        .collection(HISTORY)
+        .limit(PAGE_SIZE.toLong())
+
+    @Provides
+    @Singleton
+    @GetAllSurveysQuery
+    fun provideGetAllSurveysPagingQuery() = Firebase.firestore
+        .collection(SURVEYS)
+        .limit(PAGE_SIZE.toLong())
 }
