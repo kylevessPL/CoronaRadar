@@ -27,19 +27,4 @@
             app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/stats">
-
-        <ListPreference
-            app:key="stats_records_number_key"
-            app:title="@string/stats_records_number"
-            app:entries="@array/stats_records_number_entries_values"
-            app:entryValues="@array/stats_records_number_entries_values"
-            app:defaultValue="5"
-            app:useSimpleSummaryProvider="true" />
-        <SwitchPreference
-            app:key="stats_all_hide_mine_key"
-            app:title="@string/stats_all_hide_mine"
-            app:useSimpleSummaryProvider="true" />
-    </PreferenceCategory>
-
 </PreferenceScreen>
