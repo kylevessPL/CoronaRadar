@@ -2,7 +2,7 @@ package pl.piasta.coronaradar.data.history.repository.entity
 
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.ServerTimestamp
-import pl.piasta.coronaradar.data.base.Identifiable
+import pl.piasta.coronaradar.data.base.BaseEntity
 import pl.piasta.coronaradar.data.common.ResultLabel
 import pl.piasta.coronaradar.data.history.model.History
 import pl.piasta.coronaradar.util.NoArg
@@ -14,7 +14,7 @@ data class HistoryEntity(
     @ServerTimestamp var analysisDate: Timestamp?,
     var result: String?,
     var probability: Float?
-) : Identifiable<String> {
+) : BaseEntity<String> {
 
     companion object {
         fun from(history: History) = with(history) {

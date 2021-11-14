@@ -2,7 +2,7 @@ package pl.piasta.coronaradar.data.survey.repository.entity
 
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.ServerTimestamp
-import pl.piasta.coronaradar.data.base.Identifiable
+import pl.piasta.coronaradar.data.base.BaseEntity
 import pl.piasta.coronaradar.data.common.ResultLabel
 import pl.piasta.coronaradar.data.survey.model.Survey
 import pl.piasta.coronaradar.data.survey.model.SurveyDetails
@@ -16,7 +16,7 @@ data class SurveyEntity(
     var result: String?,
     var probability: Int?,
     var details: Map<String, Any>
-) : Identifiable<String> {
+) : BaseEntity<String> {
 
     companion object {
         fun from(survey: Survey) = with(survey) {

@@ -6,13 +6,13 @@ import androidx.paging.PagingState
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
 import kotlinx.coroutines.tasks.await
-import pl.piasta.coronaradar.data.base.Identifiable
+import pl.piasta.coronaradar.data.base.BaseEntity
 import pl.piasta.coronaradar.util.TAG
 
 @Suppress("UNCHECKED_CAST")
 class FirestorePagingSource<T : Any>(
     private val query: Query,
-    private val entityClazz: Class<out Identifiable<String>>
+    private val entityClazz: Class<out BaseEntity<String>>
 ) : PagingSource<QuerySnapshot, T>() {
 
     override fun getRefreshKey(state: PagingState<QuerySnapshot, T>): QuerySnapshot? = null
