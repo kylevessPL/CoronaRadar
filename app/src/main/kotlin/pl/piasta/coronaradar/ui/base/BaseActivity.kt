@@ -24,17 +24,11 @@ abstract class BaseActivity<DB : ViewDataBinding, VM : ViewModel?>(@LayoutRes pr
             binding.setVariable(BR.viewModel, viewModel)
         }
         binding.lifecycleOwner = this
-        setupActionBar()
-        setupNavController()
-        setupNavDrawer()
+        setupView()
         updateUI()
     }
 
-    protected open fun setupActionBar() {}
-
-    protected open fun setupNavDrawer() {}
-
-    protected open fun setupNavController() {}
+    protected open fun setupView() {}
 
     protected open fun updateUI() {}
 }

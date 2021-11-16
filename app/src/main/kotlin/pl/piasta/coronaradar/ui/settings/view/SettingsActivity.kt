@@ -15,5 +15,5 @@ class SettingsActivity :
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
-    override fun setupActionBar() = setTitle(R.string.settings)
+    override fun setupView() = setTitle(R.string.settings)
 }

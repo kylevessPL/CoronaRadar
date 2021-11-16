@@ -4,10 +4,14 @@
     <dimen name="nav_header_vertical_spacing">8dp</dimen>
     <dimen name="nav_header_height">176dp</dimen>
     <dimen name="elevation_image">6dp</dimen>
-    <dimen name="drawable_text">8dp</dimen>
+    <dimen name="drawable_padding">8dp</dimen>
     <dimen name="card_info_elevation">2dp</dimen>
     <dimen name="card_margin">8dp</dimen>
-    <dimen name="card_padding">16dp</dimen>
+    <dimen name="layout_item_padding">16dp</dimen>
+    <dimen name="layout_item_text">16sp</dimen>
     <dimen name="card_body_1_margin">8dp</dimen>
     <dimen name="card_body_2_margin">16dp</dimen>
+    <dimen name="list_padding">8dp</dimen>
+    <dimen name="list_textview_padding_start">0dp</dimen>
+    <dimen name="list_textview_padding_end">16dp</dimen>
 </resources>

@@ -80,7 +80,6 @@
     <string name="record_voice">Record voice</string>
     <string name="permissions_required">Permissions required</string>
     <string name="permissions_required_message">Application cannot work without necessary permissions</string>
-    <string name="permissions_request_again">Retry</string>
     <string name="permissions_open_settings">Settings</string>
     <string name="tip">Tip</string>
     <string name="tip_card_message_1">Click button below and record your cough sound</string>
@@ -99,4 +98,7 @@
     <string name="percent" translatable="false">%</string>
     <string name="classification_message">Analyzing data…</string>
     <string name="not_enough_space">Not enough disk space</string>
+    <string name="user_data_save_failure_message">Failed to save some of user data</string>
+    <string name="fetch_data_failure_message">Couldn\'t fetch some data</string>
+    <string name="retry">Retry</string>
 </resources>

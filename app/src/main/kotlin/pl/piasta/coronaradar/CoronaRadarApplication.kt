@@ -10,7 +10,7 @@ import com.google.firebase.FirebaseApp
 import com.google.firebase.appcheck.FirebaseAppCheck
 import com.google.firebase.appcheck.safetynet.SafetyNetAppCheckProviderFactory
 import dagger.hilt.android.HiltAndroidApp
-import java.util.Locale
+import java.util.*
 
 @HiltAndroidApp
 class CoronaRadarApplication : LocalizationApplication() {

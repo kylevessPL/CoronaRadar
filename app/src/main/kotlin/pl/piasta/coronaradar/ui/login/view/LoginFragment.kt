@@ -28,9 +28,7 @@ import pl.piasta.coronaradar.ui.user.view.PasswordResetEmailDialogFragment
 import pl.piasta.coronaradar.ui.user.viewmodel.UserViewModel
 import pl.piasta.coronaradar.ui.util.observeNotNull
 import pl.piasta.coronaradar.util.ResultState
-import pl.piasta.coronaradar.util.ResultState.Error
-import pl.piasta.coronaradar.util.ResultState.Loading
-import pl.piasta.coronaradar.util.ResultState.Success
+import pl.piasta.coronaradar.util.ResultState.*
 import pl.piasta.coronaradar.util.TAG
 import pl.piasta.coronaradar.util.ifTrue
 import splitties.toast.longToast
@@ -60,23 +58,27 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(R.layou
     private val activityViewModel: UserViewModel by activityViewModels()
 
     override fun updateUI() {
-        activityViewModel.firebaseUser.observeNotNull(
-            viewLifecycleOwner,
-            { navigateToAccountFragment() })
-        viewModel.signUp.observeNotNull(viewLifecycleOwner, { navigateToRegisterFragment() })
-        viewModel.signInWithGoogle.observeNotNull(
-            viewLifecycleOwner,
-            { launchGoogleSignInIntent() })
-        viewModel.signInWithFacebook.observeNotNull(
-            viewLifecycleOwner,
-            { launchFacebookSignInIntent() })
-        activityViewModel.verifyEmailResult.observeNotNull(
-            this,
-            { displayVerifyEmailResult(it) })
-        viewModel.resetPassword.observeNotNull(
-            viewLifecycleOwner,
-            { displayPasswordResetEmailDialog() })
-        viewModel.signInResult.observeNotNull(viewLifecycleOwner, { displaySignInResult(it) })
+        activityViewModel.firebaseUser.observeNotNull(viewLifecycleOwner) {
+            navigateToAccountFragment()
+        }
+        viewModel.signUp.observeNotNull(viewLifecycleOwner) {
+            navigateToRegisterFragment()
+        }
+        viewModel.signInWithGoogle.observeNotNull(viewLifecycleOwner) {
+            launchGoogleSignInIntent()
+        }
+        viewModel.signInWithFacebook.observeNotNull(viewLifecycleOwner) {
+            launchFacebookSignInIntent()
+        }
+        activityViewModel.verifyEmailResult.observeNotNull(viewLifecycleOwner) {
+            displayVerifyEmailResult(it)
+        }
+        viewModel.resetPassword.observeNotNull(viewLifecycleOwner) {
+            displayPasswordResetEmailDialog()
+        }
+        viewModel.signInResult.observeNotNull(viewLifecycleOwner) {
+            displaySignInResult(it)
+        }
     }
 
     private fun displayPasswordResetEmailDialog() {

@@ -95,7 +95,7 @@ class UserDetailsForm(userDetails: UserDetails? = null) : BaseObservable() {
         _error.passwordConfirm.set(null)
     }
 
-    class InputFields(val onChange: () -> Unit) {
+    inner class InputFields(val onChange: () -> Unit) {
 
         var avatarChosen: Boolean = false
 
@@ -143,7 +143,7 @@ class UserDetailsForm(userDetails: UserDetails? = null) : BaseObservable() {
         }
     }
 
-    class ErrorFields {
+    inner class ErrorFields {
 
         val password = ObservableField<Int>()
         val passwordConfirm = ObservableField<Int>()

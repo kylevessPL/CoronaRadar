@@ -1,10 +1,6 @@
 package pl.piasta.coronaradar.ui.login.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.facebook.CallbackManager
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.tasks.Task
@@ -20,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val repository: AuthRepository,
+    private val authRepository: AuthRepository,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -87,7 +83,7 @@ class LoginViewModel @Inject constructor(
     fun signIn() {
         viewModelScope.launch {
             _loginForm.isProcessing = true
-            repository.login(_loginForm.input.email.get()!!, _loginForm.input.password.get()!!)
+            authRepository.login(_loginForm.input.email.get()!!, _loginForm.input.password.get()!!)
                 .collect { result ->
                     _signInResult.postValue(result)
                 }
@@ -99,7 +95,7 @@ class LoginViewModel @Inject constructor(
     fun signInWithGoogle(task: Task<GoogleSignInAccount>) {
         viewModelScope.launch {
             _loginForm.isProcessing = true
-            repository.loginWithGoogle(task).collect { result ->
+            authRepository.loginWithGoogle(task).collect { result ->
                 _signInResult.postValue(result)
             }
         }.invokeOnCompletion {
@@ -110,7 +106,7 @@ class LoginViewModel @Inject constructor(
     fun signInWithFacebook(callbackManager: CallbackManager) {
         viewModelScope.launch {
             _loginForm.isProcessing = true
-            repository.loginWithFacebook(callbackManager).collect { result ->
+            authRepository.loginWithFacebook(callbackManager).collect { result ->
                 _signInResult.postValue(result)
             }
         }.invokeOnCompletion {

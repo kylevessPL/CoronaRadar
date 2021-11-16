@@ -5,11 +5,7 @@ import android.content.SharedPreferences
 import android.media.AudioFormat.CHANNEL_IN_MONO
 import android.net.Uri
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.chaquo.python.Python
 import com.github.squti.androidwaverecorder.RecorderState.RECORDING
 import com.github.squti.androidwaverecorder.WaveRecorder
@@ -20,24 +16,23 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import pl.piasta.coronaradar.R
+import pl.piasta.coronaradar.data.common.ResultLabel
+import pl.piasta.coronaradar.data.history.model.History
+import pl.piasta.coronaradar.data.history.model.HistoryDetails
+import pl.piasta.coronaradar.data.history.repository.HistoryRepository
 import pl.piasta.coronaradar.data.ml.repository.MlRepository
+import pl.piasta.coronaradar.data.survey.repository.SurveyRepository
 import pl.piasta.coronaradar.ui.radar.model.Classification
 import pl.piasta.coronaradar.ui.radar.model.ClassificationResult
 import pl.piasta.coronaradar.ui.util.recordingPath
-import pl.piasta.coronaradar.util.ResultState
-import pl.piasta.coronaradar.util.ResultState.Error
-import pl.piasta.coronaradar.util.ResultState.Loading
-import pl.piasta.coronaradar.util.ResultState.Success
-import pl.piasta.coronaradar.util.TAG
-import pl.piasta.coronaradar.util.divideToPercent
-import pl.piasta.coronaradar.util.ifTrue
-import pl.piasta.coronaradar.util.percent
-import pl.piasta.coronaradar.util.toInt
+import pl.piasta.coronaradar.util.*
+import pl.piasta.coronaradar.util.ResultState.*
 import splitties.resources.str
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.time.Instant
 import java.time.temporal.ChronoUnit
+import java.util.*
 import javax.inject.Inject
 import kotlin.coroutines.coroutineContext
 import kotlin.math.pow
@@ -45,8 +40,10 @@ import kotlin.streams.toList
 
 @HiltViewModel
 class RadarViewModel @Inject constructor(
-    private val repository: MlRepository,
     private val application: Application,
+    private val mlRepository: MlRepository,
+    private val historyRepository: HistoryRepository,
+    private val surveyRepository: SurveyRepository,
     private val pythonInterpreter: Python,
     private val preferences: SharedPreferences,
     private val savedStateHandle: SavedStateHandle
@@ -95,6 +92,10 @@ class RadarViewModel @Inject constructor(
     val classificationResult: LiveData<ResultState<Classification>>
         get() = _classificationResult
 
+    private val _saveUserHistoryResult = LiveEvent<ResultState<Nothing>>()
+    val saveUserHistoryResult: LiveData<ResultState<Nothing>>
+        get() = _saveUserHistoryResult
+
     private val _isRecording = MutableLiveData<Boolean>()
     val isRecording: LiveData<Boolean>
         get() = _isRecording
@@ -138,9 +139,24 @@ class RadarViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             recorder.stopRecording()
             _classificationResult.postValue(Loading)
-            val modelPath = repository.getLocalModel()!!
+            val modelPath = mlRepository.getLocalModel()!!
             val classification = classify(modelPath)
             _classificationResult.postValue(Success(classification))
+        }
+    }
+
+    fun saveUserHistory(classification: Classification) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val history = with(classification) {
+                History(
+                    UUID.randomUUID(),
+                    Instant.now(),
+                    HistoryDetails(ResultLabel.valueOf(result.name), probability.toLong())
+                )
+            }
+            historyRepository.createHistory(history).collect { result ->
+                _saveUserHistoryResult.postValue(result)
+            }
         }
     }
 
@@ -160,7 +176,7 @@ class RadarViewModel @Inject constructor(
             false
         )
         lastUpdate.takeIf { it == Instant.EPOCH || modelUpdateRequired(it, updateFrequency) }?.let {
-            repository.downloadModel(lastUpdate != Instant.EPOCH && updateWifiOnly)
+            mlRepository.downloadModel(lastUpdate != Instant.EPOCH && updateWifiOnly)
                 .collect { result ->
                     _updateModelResult.postValue(result)
                     (result is Error).ifTrue { coroutineContext.cancel() }

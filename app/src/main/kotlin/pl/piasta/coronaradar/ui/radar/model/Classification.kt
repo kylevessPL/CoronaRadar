@@ -7,6 +7,5 @@ import kotlinx.parcelize.Parcelize
 data class Classification(val result: ClassificationResult, val probability: Int) : Parcelable
 
 enum class ClassificationResult {
-
     POSITIVE, NEGATIVE;
 }

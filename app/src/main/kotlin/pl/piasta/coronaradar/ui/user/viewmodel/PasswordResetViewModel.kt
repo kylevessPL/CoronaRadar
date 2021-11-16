@@ -5,13 +5,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import pl.piasta.coronaradar.data.auth.repository.FirebaseAuthRepository
 import pl.piasta.coronaradar.ui.user.model.PasswordResetForm
 import javax.inject.Inject
 
 @HiltViewModel
 class PasswordResetViewModel @Inject constructor(
-    private val repository: FirebaseAuthRepository,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 

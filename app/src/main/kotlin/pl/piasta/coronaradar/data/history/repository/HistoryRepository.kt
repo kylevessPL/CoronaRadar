@@ -7,6 +7,6 @@ import pl.piasta.coronaradar.util.ResultState
 
 interface HistoryRepository {
 
-    fun getAllHistoryPaged(): Flow<PagingData<History>>
+    fun getAllCurrentUserHistoryPaged(): Flow<PagingData<History>>
     fun createHistory(history: History): Flow<ResultState<Nothing>>
 }

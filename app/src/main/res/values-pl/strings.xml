@@ -67,7 +67,6 @@
     <string name="record_voice">Nagraj dźwięk</string>
     <string name="permissions_required">Wymagane uprawnienia</string>
     <string name="permissions_required_message">Aplikacja nie będzie działać bez przyznania uprawnień</string>
-    <string name="permissions_request_again">Ponów</string>
     <string name="permissions_open_settings">Ustawienia</string>
     <string name="tip">Wskazówka</string>
     <string name="tip_card_message_1">Kliknij na przycisk poniżej i nagraj odgłos kaszlu</string>
@@ -82,4 +81,7 @@
     <string name="probability">Prawdopodobieństwo</string>
     <string name="classification_message">Analizowanie danych…</string>
     <string name="not_enough_space">Brak wystarczającego miejsca na dysku</string>
+    <string name="user_data_save_failure_message">Nie udało się zapisać niektórych danych użytkownika</string>
+    <string name="fetch_data_failure_message">Nie udało się załadować niektórych danych</string>
+    <string name="retry">Ponów</string>
 </resources>

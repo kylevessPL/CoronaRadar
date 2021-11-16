@@ -19,8 +19,10 @@ class FirestorePagingSource<T : Any>(
 
     override suspend fun load(params: LoadParams<QuerySnapshot>) = runCatching {
         val currentPage = params.key ?: query.get().await()
-        val lastVisible = currentPage.documents[currentPage.size() - 1]
-        val nextPage = query.startAfter(lastVisible).get().await()
+        val nextPage = takeIf { currentPage.size() > 0 }?.let {
+            val lastVisible = currentPage.documents[currentPage.size() - 1]
+            query.startAfter(lastVisible).get().await()
+        }
         val data = currentPage.documents.map {
             it?.toObject(entityClazz)!!.toModel(it.id) as T
         }

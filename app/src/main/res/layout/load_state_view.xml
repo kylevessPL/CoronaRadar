@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="androidx.paging.LoadState" />
+
+        <variable
+            name="adapter"
+            type="pl.piasta.coronaradar.ui.common.adapter.FooterLoadStateAdapter" />
+
+        <variable
+            name="loadState"
+            type="androidx.paging.LoadState" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/layout_item_padding">
+
+        <TextView
+            android:id="@+id/load_state_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@id/load_state_progress"
+            android:paddingStart="0dp"
+            android:paddingEnd="@dimen/layout_item_padding"
+            android:text="@string/fetch_data_failure_message"
+            android:textAppearance="?attr/textAppearanceSubtitle1"
+            android:textColor="@color/design_default_color_error"
+            android:textSize="@dimen/layout_item_text"
+            android:visibility="@{loadState instanceof LoadState.Error ? View.VISIBLE : View.INVISIBLE}" />
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/load_state_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:indeterminate="true"
+            android:visibility="@{loadState instanceof LoadState.Loading ? View.VISIBLE : View.INVISIBLE}" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/load_state_retry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignEnd="@id/load_state_progress"
+            android:layout_centerVertical="true"
+            android:text="@string/retry"
+            android:visibility="@{loadState instanceof LoadState.Error ? View.VISIBLE : View.INVISIBLE}"
+            android:onClick="@{() -> adapter.retry.invoke()}"
+            tools:ignore="TextContrastCheck" />
+    </RelativeLayout>
+</layout>

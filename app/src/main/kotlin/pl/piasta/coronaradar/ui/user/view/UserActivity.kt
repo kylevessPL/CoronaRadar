@@ -19,9 +19,7 @@ import pl.piasta.coronaradar.ui.user.viewmodel.UserViewModel
 import pl.piasta.coronaradar.ui.util.dispatchActionDownTouchEvent
 import pl.piasta.coronaradar.ui.util.observeNotNull
 import pl.piasta.coronaradar.util.ResultState
-import pl.piasta.coronaradar.util.ResultState.Error
-import pl.piasta.coronaradar.util.ResultState.Loading
-import pl.piasta.coronaradar.util.ResultState.Success
+import pl.piasta.coronaradar.util.ResultState.*
 import pl.piasta.coronaradar.util.TAG
 import splitties.toast.longToast
 
@@ -39,13 +37,33 @@ class UserActivity : BaseActivity<ActivityUserBinding, UserViewModel>(R.layout.a
         }
     }
 
-    override fun setupActionBar() {
+    override fun setupView() {
+        setupActionBar()
+        setupNavController()
+    }
+
+    override fun updateUI() {
+        viewModel.verifyActionCodeResult.observeNotNull(this) {
+            displayVerifyActionCodeResult(it)
+        }
+        viewModel.verificationEmailResult.observeNotNull(this) {
+            displayVerificationEmailResult(it)
+        }
+        viewModel.passwordResetEmailResult.observeNotNull(this) {
+            displayPasswordResetEmailResult(it)
+        }
+        viewModel.passwordResetResult.observeNotNull(this) {
+            displayPasswordResetResult(it)
+        }
+    }
+
+    private fun setupActionBar() {
         setSupportActionBar(binding.toolbar)
         setTitle(R.string.my_account)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
-    override fun setupNavController() {
+    private fun setupNavController() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(binding.contentUser.navHostUser.id) as NavHostFragment
         val graph = navHostFragment.navController.graph
@@ -54,21 +72,6 @@ class UserActivity : BaseActivity<ActivityUserBinding, UserViewModel>(R.layout.a
             else -> R.id.nav_account
         }
         navHostFragment.navController.graph = graph
-    }
-
-    override fun updateUI() {
-        viewModel.verifyActionCodeResult.observeNotNull(
-            this,
-            { displayVerifyActionCodeResult(it) })
-        viewModel.verificationEmailResult.observeNotNull(
-            this,
-            { displayVerificationEmailResult(it) })
-        viewModel.passwordResetEmailResult.observeNotNull(
-            this,
-            { displayPasswordResetEmailResult(it) })
-        viewModel.passwordResetResult.observeNotNull(
-            this,
-            { displayPasswordResetResult(it) })
     }
 
     private fun displayVerifyActionCodeResult(result: ResultState<ActionCode?>) {

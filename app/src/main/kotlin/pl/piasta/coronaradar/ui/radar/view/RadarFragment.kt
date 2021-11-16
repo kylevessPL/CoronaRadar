@@ -27,10 +27,9 @@ import pl.piasta.coronaradar.ui.radar.model.Classification
 import pl.piasta.coronaradar.ui.radar.viewmodel.RadarViewModel
 import pl.piasta.coronaradar.ui.util.observeNotNull
 import pl.piasta.coronaradar.util.ResultState
-import pl.piasta.coronaradar.util.ResultState.Error
-import pl.piasta.coronaradar.util.ResultState.Loading
-import pl.piasta.coronaradar.util.ResultState.Success
+import pl.piasta.coronaradar.util.ResultState.*
 import pl.piasta.coronaradar.util.TAG
+import pl.piasta.coronaradar.util.ifTrue
 import splitties.resources.str
 import splitties.toast.longToast
 
@@ -49,17 +48,21 @@ class RadarFragment : BaseFragment<FragmentRadarBinding, RadarViewModel>(R.layou
     override val viewModel: RadarViewModel by viewModels()
 
     override fun updateUI() {
-        permissionsRequest.liveData()
-            .observe(viewLifecycleOwner, { displayRequestPermissionsResult(it) })
-        viewModel.requestPermissions.observeNotNull(
-            viewLifecycleOwner,
-            { permissionsRequest.send() })
-        viewModel.updateModelResult.observeNotNull(
-            viewLifecycleOwner,
-            { displayUpdateModelResult(it) })
-        viewModel.classificationResult.observeNotNull(
-            viewLifecycleOwner,
-            { displayClassificationResult(it) })
+        permissionsRequest.liveData().observe(viewLifecycleOwner) {
+            displayRequestPermissionsResult(it)
+        }
+        viewModel.requestPermissions.observeNotNull(viewLifecycleOwner) {
+            permissionsRequest.send()
+        }
+        viewModel.updateModelResult.observeNotNull(viewLifecycleOwner) {
+            displayUpdateModelResult(it)
+        }
+        viewModel.classificationResult.observeNotNull(viewLifecycleOwner) {
+            displayClassificationResult(it)
+        }
+        viewModel.saveUserHistoryResult.observeNotNull(viewLifecycleOwner) {
+            displaySaveUserHistoryResult(it)
+        }
     }
 
     private fun displayUpdateModelResult(result: ResultState<Nothing>) = when (result) {
@@ -92,15 +95,23 @@ class RadarFragment : BaseFragment<FragmentRadarBinding, RadarViewModel>(R.layou
             viewModel.setProcessingVisibility(false)
             viewModel.setCurrentOperationMessage("")
             when (result) {
-                is Success -> ClassificationResultDialogFragment.newInstance(result.data!!)
-                    .show(
-                        parentFragmentManager,
-                        ClassificationResultDialogFragment::class.TAG
-                    )
+                is Success -> {
+                    viewModel.saveUserHistory(result.data!!)
+                    ClassificationResultDialogFragment.newInstance(result.data)
+                        .show(
+                            parentFragmentManager,
+                            ClassificationResultDialogFragment::class.TAG
+                        )
+                }
                 else -> longToast(R.string.general_failure_message)
             }
         }
     }
+
+    private fun displaySaveUserHistoryResult(result: ResultState<Nothing>) =
+        (result is Error).ifTrue {
+            longToast(R.string.user_data_save_failure_message)
+        }
 
     private fun displayRequestPermissionsResult(result: List<PermissionStatus>) {
         when {
@@ -121,7 +132,7 @@ class RadarFragment : BaseFragment<FragmentRadarBinding, RadarViewModel>(R.layou
                     R.string.permissions_required,
                     R.string.permissions_required_message,
                     { permissionsRequest.send() },
-                    R.string.permissions_request_again,
+                    R.string.retry,
                     true
                 )
             ).show(

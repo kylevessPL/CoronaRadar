@@ -2,11 +2,7 @@ package pl.piasta.coronaradar.ui.user.viewmodel
 
 import android.app.Application
 import android.net.Uri
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.google.firebase.auth.FirebaseUser
 import com.hadilq.liveevent.LiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class UserViewModel @Inject constructor(
     application: Application,
-    private val repository: AuthRepository,
+    private val authRepository: AuthRepository,
     private val savedStateHandle: SavedStateHandle
 ) :
     ViewModel() {
@@ -69,7 +65,7 @@ class UserViewModel @Inject constructor(
 
     fun verifyActionCode(data: Uri) {
         viewModelScope.launch {
-            repository.verifyActionCode(data).collect { result ->
+            authRepository.verifyActionCode(data).collect { result ->
                 _verifyActionCodeResult.postValue(result)
             }
         }
@@ -77,23 +73,21 @@ class UserViewModel @Inject constructor(
 
     fun sendVerificationEmail() {
         viewModelScope.launch {
-            repository.sendVerificationEmail().collect { result ->
+            authRepository.sendVerificationEmail().collect { result ->
                 _verificationEmailResult.postValue(result)
             }
         }
     }
 
-    fun verifyEmail(oob: String) {
-        viewModelScope.launch {
-            repository.verifyEmail(oob).collect { result ->
-                _verifyEmailResult.postValue(result)
-            }
+    fun verifyEmail(oob: String) = viewModelScope.launch {
+        authRepository.verifyEmail(oob).collect { result ->
+            _verifyEmailResult.postValue(result)
         }
     }
 
     fun sendPasswordResetEmail(email: String) {
         viewModelScope.launch {
-            repository.sendPasswordResetEmail(email).collect { result ->
+            authRepository.sendPasswordResetEmail(email).collect { result ->
                 _passwordResetEmailResult.postValue(result)
             }
         }
@@ -101,7 +95,7 @@ class UserViewModel @Inject constructor(
 
     fun resetPassword(oob: String, newPassword: String) {
         viewModelScope.launch {
-            repository.resetPassword(oob, newPassword).collect { result ->
+            authRepository.resetPassword(oob, newPassword).collect { result ->
                 _passwordResetResult.postValue(result)
             }
         }
@@ -109,7 +103,7 @@ class UserViewModel @Inject constructor(
 
     fun signOut() {
         viewModelScope.launch {
-            repository.logout()
+            authRepository.logout()
                 .collect { result ->
                     _signOutResult.postValue(result)
                 }

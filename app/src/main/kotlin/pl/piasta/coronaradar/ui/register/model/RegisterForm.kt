@@ -57,7 +57,7 @@ class RegisterForm : BaseObservable() {
         }
     }
 
-    class InputFields(val onChange: () -> Unit) {
+    inner class InputFields(val onChange: () -> Unit) {
 
         var email = object : ObservableField<String?>() {
 
@@ -84,7 +84,7 @@ class RegisterForm : BaseObservable() {
         }
     }
 
-    class ErrorFields {
+    inner class ErrorFields {
 
         val email: ObservableField<Int> by lazy { ObservableField<Int>() }
         val password: ObservableField<Int> by lazy { ObservableField<Int>() }

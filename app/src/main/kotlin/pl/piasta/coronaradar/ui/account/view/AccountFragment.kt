@@ -22,9 +22,7 @@ import pl.piasta.coronaradar.ui.util.fileSize
 import pl.piasta.coronaradar.ui.util.observeNotNull
 import pl.piasta.coronaradar.ui.util.observeNull
 import pl.piasta.coronaradar.util.ResultState
-import pl.piasta.coronaradar.util.ResultState.Error
-import pl.piasta.coronaradar.util.ResultState.Loading
-import pl.piasta.coronaradar.util.ResultState.Success
+import pl.piasta.coronaradar.util.ResultState.*
 import pl.piasta.coronaradar.util.TAG
 import pl.piasta.coronaradar.util.ifTrue
 import splitties.toast.longToast
@@ -48,22 +46,24 @@ class AccountFragment :
     private val activityViewModel: UserViewModel by activityViewModels()
 
     override fun updateUI() {
-        activityViewModel.firebaseUser.observeNull(
-            viewLifecycleOwner,
-            { navigateToLoginFragment() })
-        viewModel.signOut.observeNotNull(
-            viewLifecycleOwner,
-            { displaySignOutDialog() })
-        viewModel.chooseAvatar.observeNotNull(
-            viewLifecycleOwner,
-            { launchChooseAvatarIntent() })
-        viewModel.uploadUserAvatarResult.observeNotNull(
-            viewLifecycleOwner,
-            { displayUploadUserAvatarResult(it) })
-        viewModel.updateUserProfileResult.observeNotNull(
-            viewLifecycleOwner,
-            { displayUpdateUserProfileResult(it) })
-        activityViewModel.signOutResult.observeNotNull(this, { displaySignOutResult(it) })
+        activityViewModel.firebaseUser.observeNull(viewLifecycleOwner) {
+            navigateToLoginFragment()
+        }
+        viewModel.signOut.observeNotNull(viewLifecycleOwner) {
+            displaySignOutDialog()
+        }
+        viewModel.chooseAvatar.observeNotNull(viewLifecycleOwner) {
+            launchChooseAvatarIntent()
+        }
+        viewModel.uploadUserAvatarResult.observeNotNull(viewLifecycleOwner) {
+            displayUploadUserAvatarResult(it)
+        }
+        viewModel.updateUserProfileResult.observeNotNull(viewLifecycleOwner) {
+            displayUpdateUserProfileResult(it)
+        }
+        activityViewModel.signOutResult.observeNotNull(viewLifecycleOwner) {
+            displaySignOutResult(it)
+        }
     }
 
     private fun navigateToLoginFragment() {

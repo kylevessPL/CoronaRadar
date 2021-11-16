@@ -41,7 +41,7 @@ class PasswordResetForm : BaseObservable() {
         }
     }
 
-    class InputFields(val onChange: () -> Unit) {
+    inner class InputFields(val onChange: () -> Unit) {
 
         var password = object : ObservableField<String?>() {
 
@@ -60,7 +60,7 @@ class PasswordResetForm : BaseObservable() {
         }
     }
 
-    class ErrorFields {
+    inner class ErrorFields {
 
         val password: ObservableField<Int> by lazy { ObservableField<Int>() }
         val passwordConfirm: ObservableField<Int> by lazy { ObservableField<Int>() }

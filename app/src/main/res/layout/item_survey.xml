@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="item"
+            type="pl.piasta.coronaradar.data.survey.model.Survey" />
+
+        <variable
+            name="adapter"
+            type="pl.piasta.coronaradar.ui.stats.adapter.StatsAdapter" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/layout_item_padding"
+        android:layout_marginTop="@dimen/layout_item_padding"
+        android:clickable="true"
+        android:onClick="@{(view) -> adapter.onItemClicked(view, item)}">
+
+        <TextView
+            android:id="@+id/mtrl_list_item_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:minHeight="?attr/minTouchTargetSize"
+            android:paddingStart="@dimen/list_textview_padding_start"
+            android:paddingEnd="@dimen/list_textview_padding_end"
+            android:text="@{item.id.toString()}"
+            android:textAppearance="?attr/textAppearanceSubtitle1"
+            android:textColor="@color/mtrl_list_item_tint" />
+    </com.google.android.material.card.MaterialCardView>
+</layout>

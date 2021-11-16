@@ -3,19 +3,21 @@ package pl.piasta.coronaradar.ui.base
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
+import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil.ItemCallback
 import androidx.recyclerview.widget.RecyclerView
+import pl.piasta.coronaradar.BR
 
-abstract class BaseAdapter<Item : Any, DB : ViewDataBinding>(callback: ItemCallback<Item>) :
-    PagingDataAdapter<Item, BaseAdapter<Item, DB>.BaseViewHolder>(callback) {
+abstract class BaseAdapter<T : Any>(callback: ItemCallback<T>) :
+    PagingDataAdapter<T, BaseAdapter<T>.BaseViewHolder>(callback) {
 
     @CallSuper
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = DataBindingUtil.inflate<DB>(inflater, viewType, parent, false)
+        val binding = DataBindingUtil.inflate<ViewDataBinding>(inflater, viewType, parent, false)
         return BaseViewHolder(binding)
     }
 
@@ -26,6 +28,12 @@ abstract class BaseAdapter<Item : Any, DB : ViewDataBinding>(callback: ItemCallb
         }
     }
 
+    @CallSuper
+    override fun getItemViewType(position: Int) = getLayoutIdForPosition(position)
+
+    @LayoutRes
+    protected abstract fun getLayoutIdForPosition(position: Int): Int
+
     inner class BaseViewHolder(private val binding: ViewDataBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
@@ -34,6 +42,8 @@ abstract class BaseAdapter<Item : Any, DB : ViewDataBinding>(callback: ItemCallb
             binding.executePendingBindings()
         }
 
-        fun bind(item: Item) = binding.setVariable(BR.item, item)
+        fun bind(item: T) {
+            binding.setVariable(BR.item, item)
+        }
     }
 }

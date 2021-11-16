@@ -60,18 +60,30 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
-    override fun setupActionBar() {
+    override fun setupView() {
+        setupActionBar()
+        setupNavController()
+        setupNavDrawer()
+    }
+
+    override fun updateUI() {
+        viewModel.firebaseUser.observe(this) {
+            switchNavMenu(it)
+        }
+    }
+
+    private fun setupActionBar() {
         setSupportActionBar(binding.appBarMain.toolbar)
         setTitle(R.string.app_name)
     }
 
-    override fun setupNavController() {
+    private fun setupNavController() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(binding.appBarMain.contentMain.navHostMain.id) as NavHostFragment
         navController = navHostFragment.navController
     }
 
-    override fun setupNavDrawer() {
+    private fun setupNavDrawer() {
         navView = binding.navView
         val drawerLayout: DrawerLayout = binding.drawerLayout
         appBarConfiguration = AppBarConfiguration(
@@ -87,10 +99,6 @@ class MainActivity : BaseActivity<ActivityMainBinding, MainViewModel>(R.layout.a
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         setupWithNavController(navView, navController)
-    }
-
-    override fun updateUI() {
-        viewModel.firebaseUser.observe(this, { switchNavMenu(it) })
     }
 
     private fun switchNavMenu(user: FirebaseUser?) {

@@ -15,9 +15,7 @@ import pl.piasta.coronaradar.ui.register.viewmodel.RegisterViewModel
 import pl.piasta.coronaradar.ui.user.viewmodel.UserViewModel
 import pl.piasta.coronaradar.ui.util.observeNotNull
 import pl.piasta.coronaradar.util.ResultState
-import pl.piasta.coronaradar.util.ResultState.Error
-import pl.piasta.coronaradar.util.ResultState.Loading
-import pl.piasta.coronaradar.util.ResultState.Success
+import pl.piasta.coronaradar.util.ResultState.*
 import pl.piasta.coronaradar.util.TAG
 import pl.piasta.coronaradar.util.ifTrue
 import splitties.toast.longToast
@@ -30,14 +28,18 @@ class RegisterFragment :
     private val activityViewModel: UserViewModel by activityViewModels()
 
     override fun updateUI() {
-        activityViewModel.firebaseUser.observeNotNull(
-            viewLifecycleOwner,
-            { navigateToAccountFragment() })
-        viewModel.signIn.observeNotNull(viewLifecycleOwner, { navigateToLoginFragment() })
-        viewModel.signUpResult.observeNotNull(viewLifecycleOwner, { displaySignUpResult(it) })
-        activityViewModel.verificationEmailResult.observeNotNull(
-            viewLifecycleOwner,
-            { displayVerificationEmailResult(it) })
+        activityViewModel.firebaseUser.observeNotNull(viewLifecycleOwner) {
+            navigateToAccountFragment()
+        }
+        viewModel.signIn.observeNotNull(viewLifecycleOwner) {
+            navigateToLoginFragment()
+        }
+        viewModel.signUpResult.observeNotNull(viewLifecycleOwner) {
+            displaySignUpResult(it)
+        }
+        activityViewModel.verificationEmailResult.observeNotNull(viewLifecycleOwner) {
+            displayVerificationEmailResult(it)
+        }
     }
 
     private fun navigateToLoginFragment() {

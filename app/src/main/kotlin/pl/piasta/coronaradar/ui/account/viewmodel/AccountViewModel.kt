@@ -2,11 +2,7 @@ package pl.piasta.coronaradar.ui.account.viewmodel
 
 import android.app.Application
 import android.net.Uri
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.hadilq.liveevent.LiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.cancel
@@ -24,11 +20,11 @@ import kotlin.coroutines.coroutineContext
 @HiltViewModel
 class AccountViewModel @Inject constructor(
     private val application: Application,
-    private val repository: AuthRepository,
+    private val authRepository: AuthRepository,
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val _userDetailsForm = UserDetailsForm(repository.getCurrentUserDetails()!!)
+    private val _userDetailsForm = UserDetailsForm(authRepository.getCurrentUserDetails()!!)
     val userDetailsForm: UserDetailsForm
         get() = _userDetailsForm
 
@@ -96,9 +92,7 @@ class AccountViewModel @Inject constructor(
         }
     }
 
-    fun setUserAvatar(uri: Uri) {
-        _userDetailsForm.input.avatar.set(uri)
-    }
+    fun setUserAvatar(uri: Uri) = _userDetailsForm.input.avatar.set(uri)
 
     fun updateProfile() {
         viewModelScope.launch {
@@ -114,7 +108,7 @@ class AccountViewModel @Inject constructor(
     private suspend fun uploadUserAvatar() {
         val uploadAvatarTask = _userDetailsForm.avatarChosen().takeIf { it }
             ?.let {
-                repository.uploadAvatar(
+                authRepository.uploadAvatar(
                     _userDetailsForm.input.avatar.get()!!.contentBytes(application)!!
                 )
             }
@@ -133,9 +127,9 @@ class AccountViewModel @Inject constructor(
 
     private suspend fun updateUserDetails() {
         val updatePasswordTask = _userDetailsForm.passwordFilled().takeIf { it }
-            ?.let { repository.updateCurrentUserPassword(_userDetailsForm.input.password.get()!!) }
+            ?.let { authRepository.updateCurrentUserPassword(_userDetailsForm.input.password.get()!!) }
         val updateUserDetailsTask =
-            repository.updateCurrentUserDetails(
+            authRepository.updateCurrentUserDetails(
                 _userDetailsForm.input.displayName.get()!!,
                 _userDetailsForm.input.avatar.get()
             )

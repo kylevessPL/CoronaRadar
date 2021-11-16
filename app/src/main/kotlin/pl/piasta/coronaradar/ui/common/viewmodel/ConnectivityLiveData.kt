@@ -50,7 +50,7 @@ class ConnectivityLiveData @RequiresPermission(Manifest.permission.ACCESS_NETWOR
         value = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
             ?.let { network ->
                 network.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
-                    network.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
+                        network.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
             } ?: false
     }
 }

@@ -37,6 +37,7 @@ abstract class BaseFragment<DB : ViewDataBinding, VM : ViewModel?>(@LayoutRes pr
             binding.setVariable(BR.viewModel, viewModel)
         }
         binding.lifecycleOwner = viewLifecycleOwner
+        setupView()
         updateUI()
     }
 
@@ -45,6 +46,8 @@ abstract class BaseFragment<DB : ViewDataBinding, VM : ViewModel?>(@LayoutRes pr
         super.onDestroyView()
         _binding = null
     }
+
+    protected open fun setupView() {}
 
     protected open fun updateUI() {}
 }

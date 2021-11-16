@@ -8,7 +8,7 @@ import com.akexorcist.localizationactivity.core.LanguageSetting
 import dagger.hilt.android.AndroidEntryPoint
 import pl.piasta.coronaradar.R
 import splitties.resources.str
-import java.util.Locale
+import java.util.*
 
 @AndroidEntryPoint
 class SettingsFragment : PreferenceFragmentCompat() {
