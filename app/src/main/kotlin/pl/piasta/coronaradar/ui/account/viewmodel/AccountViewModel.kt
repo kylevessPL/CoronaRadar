@@ -24,7 +24,7 @@ class AccountViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private val _userDetailsForm = UserDetailsForm(authRepository.getCurrentUserDetails()!!)
+    private val _userDetailsForm = UserDetailsForm(authRepository.currentUser!!)
     val userDetailsForm: UserDetailsForm
         get() = _userDetailsForm
 

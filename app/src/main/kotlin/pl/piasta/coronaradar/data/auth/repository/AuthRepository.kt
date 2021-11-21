@@ -12,6 +12,8 @@ import pl.piasta.coronaradar.util.ResultState
 
 interface AuthRepository {
 
+    val currentUser: UserDetails?
+
     fun login(email: String, password: String): Flow<ResultState<FirebaseUser>>
     fun register(email: String, password: String): Flow<ResultState<FirebaseUser>>
     fun logout(): Flow<ResultState<Nothing>>
@@ -25,5 +27,4 @@ interface AuthRepository {
     fun updateCurrentUserPassword(password: String): Flow<ResultState<Nothing>>
     fun updateCurrentUserDetails(displayName: String, avatarUri: Uri?): Flow<ResultState<Nothing>>
     fun uploadAvatar(byteArray: ByteArray): Flow<ResultState<Uri>>
-    fun getCurrentUserDetails(): UserDetails?
 }

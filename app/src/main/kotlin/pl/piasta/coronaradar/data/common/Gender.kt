@@ -4,9 +4,9 @@ import pl.piasta.coronaradar.R
 import pl.piasta.coronaradar.data.base.Labellable
 import pl.piasta.coronaradar.data.base.LabelledEnum
 
-enum class ResultLabel(override val label: Int) : Labellable {
-    NEGATIVE(R.string.negative),
-    POSITIVE(R.string.positive);
+enum class Gender(override val label: Int) : Labellable {
+    MALE(R.string.male),
+    FEMALE(R.string.female);
 
-    companion object : LabelledEnum<ResultLabel>
+    companion object : LabelledEnum<Gender>
 }

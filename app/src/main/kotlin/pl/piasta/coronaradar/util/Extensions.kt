@@ -25,3 +25,5 @@ fun Int.divideToPercent(divideTo: Int): Int {
 fun Float.percent() = times(100).roundToInt()
 
 fun String.isMaxExclusive(maxLength: Int) = this.length < maxLength
+
+val String.Companion.EMPTY get() = ""

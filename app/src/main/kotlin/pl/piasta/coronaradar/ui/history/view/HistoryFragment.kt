@@ -11,6 +11,7 @@ import pl.piasta.coronaradar.ui.common.adapter.FooterLoadStateAdapter
 import pl.piasta.coronaradar.ui.history.adapter.HistoryAdapter
 import pl.piasta.coronaradar.ui.history.viewmodel.HistoryViewModel
 import pl.piasta.coronaradar.ui.util.observeNotNull
+import pl.piasta.coronaradar.ui.util.setGoogleSchemeColors
 import pl.piasta.coronaradar.util.ifTrue
 import splitties.toast.toast
 
@@ -23,6 +24,7 @@ class HistoryFragment :
     override val viewModel: HistoryViewModel by viewModels()
 
     override fun setupView() {
+        setupSwipeRefresh()
         setupAdapter()
     }
 
@@ -34,6 +36,8 @@ class HistoryFragment :
             adapter.refresh()
         }
     }
+
+    private fun setupSwipeRefresh() = binding.historySwipeRefresh.setGoogleSchemeColors()
 
     private fun setupAdapter() {
         binding.historyRecyclerView.adapter = adapter.apply {

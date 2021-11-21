@@ -43,6 +43,10 @@ class FirebaseAuthRepository @Inject constructor(
     @ResetPasswordEmailSettings private val resetPasswordEmailActionCodeSettings: ActionCodeSettings
 ) : AuthRepository {
 
+    override val currentUser = auth.currentUser?.run {
+        UserDetails(displayName.ifNullOrEmpty { "user_".plus(uid) }, email!!, photoUrl)
+    }
+
     override fun login(email: String, password: String): Flow<ResultState<FirebaseUser>> = flow {
         emit(ResultState.Loading)
         val result = auth.signInWithEmailAndPassword(email, password).await()
@@ -202,13 +206,6 @@ class FirebaseAuthRepository @Inject constructor(
         Log.w(this@FirebaseAuthRepository.TAG, "uploadImage:failure", ex)
         emit(ResultState.Error(ex))
     }.flowOn(Dispatchers.IO)
-
-    override fun getCurrentUserDetails(): UserDetails? = runCatching {
-        val userDetails = with(auth.currentUser!!) {
-            UserDetails(displayName.ifNullOrEmpty { "user_".plus(uid) }, email!!, photoUrl)
-        }
-        userDetails
-    }.getOrNull()
 
     private suspend fun reloadCurrentUserData() {
         auth.currentUser?.reload()?.await()

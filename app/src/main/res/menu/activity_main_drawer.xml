@@ -11,6 +11,10 @@
             android:id="@+id/nav_radar"
             android:icon="@drawable/ic_baseline_radar_24"
             android:title="@string/radar" />
+        <item
+            android:id="@+id/nav_stats"
+            android:icon="@drawable/ic_baseline_query_stats_24"
+            android:title="@string/stats" />
     </group>
 
     <group
@@ -22,18 +26,15 @@
             android:icon="@drawable/ic_baseline_history_24"
             android:title="@string/my_history" />
         <item
-            android:id="@+id/nav_stats"
-            android:icon="@drawable/ic_baseline_query_stats_24"
-            android:title="@string/stats" />
-        <item
             android:id="@+id/nav_account"
             android:icon="@drawable/ic_baseline_account_circle_24"
+            android:checkable="false"
             android:title="@string/my_account" />
     </group>
 
     <group
         android:id="@+id/menu_group_not_logged_in"
-        android:checkableBehavior="single">
+        android:checkableBehavior="none">
 
         <item
             android:id="@+id/nav_login"
@@ -43,7 +44,7 @@
 
     <group
         android:id="@+id/menu_group_extra"
-        android:checkableBehavior="single">
+        android:checkableBehavior="none">
 
         <item
             android:id="@+id/nav_settings"

@@ -48,19 +48,20 @@ android {
                 install 'tflite_runtime'
             }
         }
+        signingConfig signingConfigs.debug
+        targetSdkVersion 31
+        minSdkVersion 26
     }
 
     androidResources {
         noCompress 'tflite'
     }
-
     buildTypes {
-        release {
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'),
-                    'proguard-rules.pro'
+        debug {
+            signingConfig signingConfigs.debug
         }
     }
+
 
     buildFeatures {
         dataBinding true
@@ -87,24 +88,25 @@ android {
         jvmTarget = '1.8'
         freeCompilerArgs += ['-Xopt-in=splitties.toast.UnreliableToastApi', '-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi', '-Xopt-in=kotlinx.serialization.ExperimentalSerializationApi', '-Xopt-in=kotlin.contracts.ExperimentalContracts']
     }
+    compileSdkVersion 31
 }
 
 dependencies {
     def materialVersion = '1.4.0'
-    def appCheckVersion = '16.0.0-beta03'
+//    def appCheckVersion = '16.0.0-beta03'
     def firebaseVersion = '28.4.1'
     def facebookSdkVersion = '12.1.0'
     def gmsAuthVersion = '19.2.0'
-    def appCompatVersion = '1.3.1'
+    def appCompatVersion = '1.4.0'
     def coreVersion = '1.7.0'
     def splashScreenVersion = '1.0.0-alpha02'
     def activityVersion = '1.4.0'
-    def fragmentVersion = '1.3.6'
+    def fragmentVersion = '1.4.0'
     def lifecycleVersion = '2.4.0'
     def navigationVersion = '2.3.5'
     def preferenceVersion = '1.1.1'
-    def pagingVersion = '3.0.1'
-    def constraintlayoutVersion = '2.1.1'
+    def pagingVersion = '3.1.0'
+    def constraintLayoutVersion = '2.1.2'
     def splittiesVersion = '3.0.0'
     def liveEventVersion = '1.3.0'
     def mockkVersion = '1.12.1'
@@ -133,7 +135,7 @@ dependencies {
     implementation "com.google.firebase:firebase-firestore-ktx"
     implementation "com.google.firebase:firebase-storage-ktx"
     implementation "com.google.firebase:firebase-ml-modeldownloader-ktx"
-    implementation "com.google.firebase:firebase-appcheck-safetynet:$appCheckVersion"
+//    implementation "com.google.firebase:firebase-appcheck-safetynet:$appCheckVersion"
     implementation "com.facebook.android:facebook-login:$facebookSdkVersion"
     implementation "com.google.android.gms:play-services-auth:$gmsAuthVersion"
     implementation "androidx.appcompat:appcompat:$appCompatVersion"
@@ -148,7 +150,7 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
     implementation "androidx.preference:preference-ktx:$preferenceVersion"
     implementation "androidx.paging:paging-runtime-ktx:$pagingVersion"
-    implementation "androidx.constraintlayout:constraintlayout:$constraintlayoutVersion"
+    implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
     implementation "com.louiscad.splitties:splitties-views-material:$splittiesVersion"
     implementation "com.louiscad.splitties:splitties-activities:$splittiesVersion"
     implementation "com.louiscad.splitties:splitties-resources:$splittiesVersion"

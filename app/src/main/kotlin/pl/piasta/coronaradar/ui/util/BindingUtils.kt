@@ -61,6 +61,11 @@ fun loseFocusOnDone(input: TextInputEditText, value: Boolean) {
     }.takeIf { value }?.invoke()
 }
 
+//@BindingAdapter("android:onSurveyFinish")
+//fun onSurveyFinish(view: SurveyView, block: (TaskResult, FinishReason) -> Unit) {
+//    view.onSurveyFinish = { taskResult, reason -> block(taskResult, reason) }
+//}
+
 @BindingAdapter("android:animatedVisibility")
 fun animatedVisibility(view: CardView, isVisible: Boolean) {
     val transition = Slide()

@@ -66,6 +66,10 @@
         </item>
     </style>
 
+    <style name="Theme.CoronaRadar.AlertDialog.NoBackground" parent="Theme.CoronaRadar.AlertDialog">
+        <item name="android:windowBackground">@color/transparent</item>
+    </style>
+
     <style name="Theme.CoronaRadar.AlertDialog.Button.Positive" parent="Widget.MaterialComponents.Button">
         <item name="materialThemeOverlay">@style/OrangeButtonThemeOverlay</item>
         <item name="rippleColor">?attr/colorSecondaryVariant</item>

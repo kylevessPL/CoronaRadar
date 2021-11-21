@@ -22,6 +22,7 @@ class FirebaseMlRepository @Inject constructor(private val modelDownloader: Fire
 
     override fun downloadModel(isWiFiRequired: Boolean): Flow<ResultState<Nothing>> = flow {
         emit(ResultState.Loading)
+        Log.i("AAAAAAAAA", "DDA")
         val conditions = CustomModelDownloadConditions.Builder().apply {
             requireWifi().takeIf { isWiFiRequired }
         }.build()

@@ -14,6 +14,7 @@ import pl.piasta.coronaradar.ui.common.adapter.RecyclerViewClickListener
 import pl.piasta.coronaradar.ui.stats.adapter.StatsAdapter
 import pl.piasta.coronaradar.ui.stats.viewmodel.StatsViewModel
 import pl.piasta.coronaradar.ui.util.observeNotNull
+import pl.piasta.coronaradar.ui.util.setGoogleSchemeColors
 import pl.piasta.coronaradar.util.ifTrue
 import splitties.toast.toast
 
@@ -30,6 +31,7 @@ class StatsFragment : BaseFragment<FragmentStatsBinding, StatsViewModel>(R.layou
     override val viewModel: StatsViewModel by viewModels()
 
     override fun setupView() {
+        setupSwipeRefresh()
         setupAdapter()
     }
 
@@ -41,6 +43,8 @@ class StatsFragment : BaseFragment<FragmentStatsBinding, StatsViewModel>(R.layou
             adapter.refresh()
         }
     }
+
+    private fun setupSwipeRefresh() = binding.statsSwipeRefresh.setGoogleSchemeColors()
 
     private fun setupAdapter() {
         binding.statsRecyclerView.adapter = adapter.apply {

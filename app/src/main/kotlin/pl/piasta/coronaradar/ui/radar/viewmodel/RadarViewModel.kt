@@ -10,20 +10,29 @@ import com.chaquo.python.Python
 import com.github.squti.androidwaverecorder.RecorderState.RECORDING
 import com.github.squti.androidwaverecorder.WaveRecorder
 import com.hadilq.liveevent.LiveEvent
+import com.quickbirdstudios.surveykit.AnswerFormat.BooleanAnswerFormat.Result.PositiveAnswer
+import com.quickbirdstudios.surveykit.FinishReason
+import com.quickbirdstudios.surveykit.FinishReason.Completed
+import com.quickbirdstudios.surveykit.result.TaskResult
+import com.quickbirdstudios.surveykit.result.question_results.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import pl.piasta.coronaradar.R
-import pl.piasta.coronaradar.data.common.ResultLabel
+import pl.piasta.coronaradar.data.auth.repository.AuthRepository
+import pl.piasta.coronaradar.data.common.*
 import pl.piasta.coronaradar.data.history.model.History
 import pl.piasta.coronaradar.data.history.model.HistoryDetails
 import pl.piasta.coronaradar.data.history.repository.HistoryRepository
 import pl.piasta.coronaradar.data.ml.repository.MlRepository
+import pl.piasta.coronaradar.data.survey.model.Survey
+import pl.piasta.coronaradar.data.survey.model.SurveyDetails
 import pl.piasta.coronaradar.data.survey.repository.SurveyRepository
 import pl.piasta.coronaradar.ui.radar.model.Classification
-import pl.piasta.coronaradar.ui.radar.model.ClassificationResult
+import pl.piasta.coronaradar.ui.util.findByLabel
+import pl.piasta.coronaradar.ui.util.findLastResult
 import pl.piasta.coronaradar.ui.util.recordingPath
 import pl.piasta.coronaradar.util.*
 import pl.piasta.coronaradar.util.ResultState.*
@@ -41,6 +50,7 @@ import kotlin.streams.toList
 @HiltViewModel
 class RadarViewModel @Inject constructor(
     private val application: Application,
+    private val authRepository: AuthRepository,
     private val mlRepository: MlRepository,
     private val historyRepository: HistoryRepository,
     private val surveyRepository: SurveyRepository,
@@ -68,7 +78,7 @@ class RadarViewModel @Inject constructor(
         }
     }
 
-    private val _currentOperationMessage = MutableLiveData("")
+    private val _currentOperationMessage = MutableLiveData(String.EMPTY)
     val currentOperationMessage: LiveData<String>
         get() = _currentOperationMessage
 
@@ -84,6 +94,10 @@ class RadarViewModel @Inject constructor(
     val requestPermissions: LiveData<Boolean>
         get() = _requestPermissions
 
+    private val _classificationResultDialogDismiss = LiveEvent<Boolean>()
+    val classificationResultDialogDismiss: LiveData<Boolean>
+        get() = _classificationResultDialogDismiss
+
     private val _updateModelResult = LiveEvent<ResultState<Nothing>>()
     val updateModelResult: LiveData<ResultState<Nothing>>
         get() = _updateModelResult
@@ -96,6 +110,10 @@ class RadarViewModel @Inject constructor(
     val saveUserHistoryResult: LiveData<ResultState<Nothing>>
         get() = _saveUserHistoryResult
 
+    private val _collectSurveyDataResult = LiveEvent<Boolean>()
+    val collectSurveyDataResult: LiveData<Boolean>
+        get() = _collectSurveyDataResult
+
     private val _isRecording = MutableLiveData<Boolean>()
     val isRecording: LiveData<Boolean>
         get() = _isRecording
@@ -107,6 +125,10 @@ class RadarViewModel @Inject constructor(
     private val _amplitude = MutableLiveData(0)
     val amplitude: LiveData<Int>
         get() = _amplitude
+
+    val onSurveyFinished = { result: TaskResult, reason: FinishReason ->
+        collectSurveyData(result, reason)
+    }
 
     fun setCurrentOperationMessage(message: String) {
         _currentOperationMessage.value = message
@@ -122,6 +144,10 @@ class RadarViewModel @Inject constructor(
 
     fun requestPermissionsEvent() {
         _requestPermissions.value = true
+    }
+
+    fun classificationResultDialogDismissEvent() {
+        _classificationResultDialogDismiss.value = true
     }
 
     fun updateModelUpdatePreferences() = preferences.edit().apply {
@@ -147,6 +173,7 @@ class RadarViewModel @Inject constructor(
 
     fun saveUserHistory(classification: Classification) {
         viewModelScope.launch(Dispatchers.IO) {
+            authRepository.currentUser ?: return@launch
             val history = with(classification) {
                 History(
                     UUID.randomUUID(),
@@ -158,6 +185,46 @@ class RadarViewModel @Inject constructor(
                 _saveUserHistoryResult.postValue(result)
             }
         }
+    }
+
+    private fun collectSurveyData(result: TaskResult, reason: FinishReason) {
+        _collectSurveyDataResult.value = true
+        (reason == Completed).ifTrue {
+            viewModelScope.launch(Dispatchers.IO) {
+                val details = createSurveyDetails(result)
+                val survey = Survey(
+                    UUID.randomUUID(),
+                    Instant.now(),
+                    details
+                )
+                surveyRepository.createSurvey(survey).collect()
+            }
+        }
+    }
+
+    private fun createSurveyDetails(result: TaskResult) = with(result.results) {
+        val data = (_classificationResult.value as Success).data!!
+        SurveyDetails(
+            data.result,
+            data.probability.toLong(),
+            findByLabel(
+                application,
+                findLastResult<SingleChoiceQuestionResult>(0)?.answer!!.value
+            )!!,
+            findByLabel(application, findLastResult<ValuePickerQuestionResult>(1)?.answer!!)!!,
+            findLastResult<TextQuestionResult>(2)?.answer!!,
+            findLastResult<MultipleChoiceQuestionResult>(3)?.answer?.map {
+                findByLabel(application, it.value)!!
+            } ?: emptyList(),
+            findLastResult<BooleanQuestionResult>(4)!!.answer == PositiveAnswer,
+            findLastResult<BooleanQuestionResult>(5)!!.answer == PositiveAnswer,
+            findLastResult<BooleanQuestionResult>(6)!!.answer == PositiveAnswer,
+            findLastResult<BooleanQuestionResult>(7)!!.answer == PositiveAnswer,
+            findLastResult<MultipleChoiceQuestionResult>(8)?.answer?.map {
+                findByLabel(application, it.value)!!
+            } ?: emptyList(),
+            findLastResult<ScaleQuestionResult>(9)?.answer!!.toLong()
+        )
     }
 
     private suspend fun updateModel() = with(preferences) {
@@ -193,7 +260,7 @@ class RadarViewModel @Inject constructor(
             BufferedReader(InputStreamReader(application.assets.open("labels.txt"))).lines()
                 .toList()
         return Classification(
-            ClassificationResult.valueOf(labels[(result >= 0.5).toInt()]),
+            ResultLabel.valueOf(labels[(result >= 0.5).toInt()]),
             result.percent()
         )
     }

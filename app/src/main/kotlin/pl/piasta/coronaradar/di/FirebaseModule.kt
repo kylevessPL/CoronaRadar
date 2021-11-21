@@ -71,7 +71,6 @@ class FirebaseModule {
     fun provideFirebaseModelDownloader(): FirebaseModelDownloader = Firebase.modelDownloader
 
     @Provides
-    @Singleton
     @UserHistoryCollection
     fun provideUserHistoryCollection() = Firebase.firestore
         .collection(USERS)
@@ -79,7 +78,6 @@ class FirebaseModule {
         .collection(HISTORY)
 
     @Provides
-    @Singleton
     @GetAllUserHistoryPagingQuery
     fun provideGetAllUserHistoryPagingQuery() = Firebase.firestore
         .collection(USERS)
@@ -89,12 +87,10 @@ class FirebaseModule {
         .limit(PAGE_SIZE.toLong())
 
     @Provides
-    @Singleton
     @SurveysCollection
     fun provideSurveysCollection() = Firebase.firestore.collection(SURVEYS)
 
     @Provides
-    @Singleton
     @GetAllSurveysPagingQuery
     fun provideSurveysPagingQuery() = Firebase.firestore
         .collection(SURVEYS)

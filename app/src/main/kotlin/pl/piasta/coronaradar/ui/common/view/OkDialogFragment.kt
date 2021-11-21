@@ -20,8 +20,9 @@ class OkDialogFragment : DialogFragment() {
             val dialog = OkDialogFragment()
             val args = Bundle()
             args.putParcelable("data", data)
-            dialog.arguments = args
-            return dialog
+            return dialog.apply {
+                arguments = args
+            }
         }
     }
 

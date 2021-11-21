@@ -26,6 +26,7 @@ import pl.piasta.coronaradar.ui.common.view.OkDialogFragment
 import pl.piasta.coronaradar.ui.radar.model.Classification
 import pl.piasta.coronaradar.ui.radar.viewmodel.RadarViewModel
 import pl.piasta.coronaradar.ui.util.observeNotNull
+import pl.piasta.coronaradar.util.EMPTY
 import pl.piasta.coronaradar.util.ResultState
 import pl.piasta.coronaradar.util.ResultState.*
 import pl.piasta.coronaradar.util.TAG
@@ -54,6 +55,9 @@ class RadarFragment : BaseFragment<FragmentRadarBinding, RadarViewModel>(R.layou
         viewModel.requestPermissions.observeNotNull(viewLifecycleOwner) {
             permissionsRequest.send()
         }
+        viewModel.classificationResultDialogDismiss.observeNotNull(viewLifecycleOwner) {
+            displaySurveyDialog()
+        }
         viewModel.updateModelResult.observeNotNull(viewLifecycleOwner) {
             displayUpdateModelResult(it)
         }
@@ -65,6 +69,11 @@ class RadarFragment : BaseFragment<FragmentRadarBinding, RadarViewModel>(R.layou
         }
     }
 
+    private fun displaySurveyDialog() = SurveyDialogFragment().show(
+        childFragmentManager,
+        SurveyDialogFragment::class.TAG
+    )
+
     private fun displayUpdateModelResult(result: ResultState<Nothing>) = when (result) {
         Loading -> {
             viewModel.setModelUpdateVisibility(true)
@@ -72,7 +81,7 @@ class RadarFragment : BaseFragment<FragmentRadarBinding, RadarViewModel>(R.layou
         }
         else -> {
             viewModel.setModelUpdateVisibility(false)
-            viewModel.setCurrentOperationMessage("")
+            viewModel.setCurrentOperationMessage(String.EMPTY)
             when (result) {
                 is Error -> result.ex.takeIf { it is FirebaseMlException }?.let {
                     when ((result.ex as FirebaseMlException).code) {
@@ -93,13 +102,13 @@ class RadarFragment : BaseFragment<FragmentRadarBinding, RadarViewModel>(R.layou
         }
         else -> {
             viewModel.setProcessingVisibility(false)
-            viewModel.setCurrentOperationMessage("")
+            viewModel.setCurrentOperationMessage(String.EMPTY)
             when (result) {
                 is Success -> {
                     viewModel.saveUserHistory(result.data!!)
                     ClassificationResultDialogFragment.newInstance(result.data)
                         .show(
-                            parentFragmentManager,
+                            childFragmentManager,
                             ClassificationResultDialogFragment::class.TAG
                         )
                 }

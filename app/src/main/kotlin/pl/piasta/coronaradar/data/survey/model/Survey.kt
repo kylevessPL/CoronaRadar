@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.properties.Properties
 import kotlinx.serialization.properties.decodeFromMap
 import kotlinx.serialization.properties.encodeToMap
-import pl.piasta.coronaradar.data.common.ResultLabel
+import pl.piasta.coronaradar.data.common.*
 import java.time.Instant
 import java.util.*
 
@@ -17,20 +17,17 @@ data class Survey(
 @Serializable
 data class SurveyDetails(
     val result: ResultLabel,
-    val probability: Int,
-    val age: Int,
+    val probability: Long,
+    val ageRange: AgeRange,
     val gender: Gender,
     val country: String,
-    val illnesses: List<String>,
-    val temperature: Float,
+    val illnesses: List<CommonIllness>,
     val inQuarantine: Boolean,
     val closeContact: Boolean,
     val travelAbroad: Boolean,
-    val diarrhoea: Boolean,
-    val breathShortness: Boolean,
-    val tiredness: Boolean,
-    val smellLoss: Boolean,
-    val rash: Boolean
+    val smoker: Boolean,
+    val symptoms: List<CommonSymptom>,
+    val wellbeingScale: Long
 ) {
 
     val asMap: Map<String, Any> by lazy { Properties.encodeToMap(this) }
@@ -39,8 +36,4 @@ data class SurveyDetails(
         @JvmStatic
         fun from(map: Map<String, Any>): SurveyDetails = Properties.decodeFromMap(map)
     }
-}
-
-enum class Gender {
-    MALE, FEMALE
 }
