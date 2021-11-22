@@ -39,11 +39,11 @@ abstract class BaseAdapter<T : Any>(callback: ItemCallback<T>) :
 
         init {
             binding.setVariable(BR.adapter, this@BaseAdapter)
-            binding.executePendingBindings()
         }
 
         fun bind(item: T) {
             binding.setVariable(BR.item, item)
+            binding.executePendingBindings()
         }
     }
 }

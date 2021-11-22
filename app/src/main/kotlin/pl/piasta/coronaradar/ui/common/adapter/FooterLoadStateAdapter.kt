@@ -24,11 +24,11 @@ class FooterLoadStateAdapter(val retry: () -> Unit) : LoadStateAdapter<LoadState
 
         init {
             binding.adapter = this@FooterLoadStateAdapter
-            binding.executePendingBindings()
         }
 
         fun bind(loadState: LoadState) {
             binding.loadState = loadState
+            binding.executePendingBindings()
         }
     }
 }
