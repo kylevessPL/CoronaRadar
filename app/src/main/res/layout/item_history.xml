@@ -1,30 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
+        <import type="java.time.LocalDate" />
+
+        <import type="java.time.LocalTime" />
+
+        <import type="java.time.ZoneId" />
+
+        <import type="pl.piasta.coronaradar.data.common.ResultLabel" />
 
         <variable
             name="item"
             type="pl.piasta.coronaradar.data.history.model.History" />
     </data>
 
-    <com.google.android.material.card.MaterialCardView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/layout_item_padding"
-        android:layout_marginTop="@dimen/layout_item_padding">
+        android:paddingStart="?listPreferredItemPaddingStart"
+        android:paddingEnd="?listPreferredItemPaddingEnd"
+        android:paddingVertical="@dimen/layout_item_padding_vertical"
+        android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/mtrl_list_item_text"
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="@dimen/list_icon_size"
+                android:layout_height="@dimen/list_icon_size"
+                android:layout_marginEnd="@dimen/list_icon_margin"
+                android:contentDescription="@string/classification_result_icon"
+                android:src="@{item.details.result == ResultLabel.POSITIVE ? @drawable/ic_sad : @drawable/ic_smiley}" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/list_text_margin_bottom"
+                    android:text="@{item.details.result.label}"
+                    android:textStyle="bold"
+                    android:textAppearance="?attr/textAppearanceSubtitle1"
+                    app:drawableStartCompat="@drawable/keyboard_double_arrow_right_24"
+                    app:drawableTint="@color/picton_blue_800" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{@string/probability_percent(item.details.probability)}"
+                    android:textAppearance="?attr/textAppearanceSubtitle2" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
-            android:gravity="center_vertical"
-            android:minHeight="?attr/minTouchTargetSize"
-            android:paddingStart="@dimen/list_textview_padding_start"
-            android:paddingEnd="@dimen/list_textview_padding_end"
-            android:text="@{item.id.toString()}"
-            android:textAppearance="?attr/textAppearanceSubtitle1"
-            android:textColor="@color/mtrl_list_item_tint" />
-    </com.google.android.material.card.MaterialCardView>
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="@{item.date.atZone(ZoneId.systemDefault()).toLocalDate()}"
+                android:textColor="@color/picton_blue_800"
+                android:textAppearance="?attr/textAppearanceCaption"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="@{item.date.atZone(ZoneId.systemDefault()).toLocalTime()}"
+                android:textColor="@color/picton_blue_800"
+                android:textStyle="bold"
+                android:textAppearance="?attr/textAppearanceCaption" />
+        </LinearLayout>
+    </LinearLayout>
 </layout>

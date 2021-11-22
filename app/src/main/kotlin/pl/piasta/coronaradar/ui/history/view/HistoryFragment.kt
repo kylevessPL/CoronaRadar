@@ -1,7 +1,7 @@
 package pl.piasta.coronaradar.ui.history.view
 
 import androidx.fragment.app.viewModels
-import androidx.paging.LoadState
+import androidx.paging.LoadState.Error
 import androidx.paging.LoadState.Loading
 import dagger.hilt.android.AndroidEntryPoint
 import pl.piasta.coronaradar.R
@@ -43,7 +43,7 @@ class HistoryFragment :
         binding.historyRecyclerView.adapter = adapter.apply {
             addLoadStateListener {
                 viewModel.setDataRefreshing(it.refresh is Loading)
-                (it.refresh is LoadState.Error).ifTrue { toast(R.string.fetch_data_failure_message) }
+                (it.refresh is Error).ifTrue { toast(R.string.fetch_data_failure_message) }
             }
         }.withLoadStateFooter(FooterLoadStateAdapter(adapter::retry))
     }

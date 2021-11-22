@@ -3,6 +3,15 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+
+        <import type="pl.piasta.coronaradar.data.common.ResultLabel" />
+
+        <variable
+            name="classification"
+            type="pl.piasta.coronaradar.ui.radar.model.Classification" />
+    </data>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -31,10 +40,11 @@
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
 
             <TextView
-                android:id="@+id/classification_result"
                 android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@{classification.result.label}"
+                android:textColor="@{classification.result == ResultLabel.POSITIVE ? @color/red_failure : @color/green_success }"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
 
             <LinearLayout
@@ -51,9 +61,9 @@
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
 
                 <TextView
-                    android:id="@+id/classification_probability"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="@{@string/percent(classification.probability)}"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
             </LinearLayout>
 
@@ -68,12 +78,12 @@
         </LinearLayout>
 
         <ImageView
-            android:id="@+id/classification_result_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:background="@drawable/background_circle"
             android:padding="3dp"
+            android:src="@{classification.result == ResultLabel.POSITIVE ? @drawable/ic_sad : @drawable/ic_smiley }"
             android:contentDescription="@string/classification_result_icon" />
     </RelativeLayout>
 </layout>

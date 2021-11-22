@@ -7,11 +7,14 @@
     <dimen name="drawable_padding">8dp</dimen>
     <dimen name="card_info_elevation">2dp</dimen>
     <dimen name="card_margin">8dp</dimen>
-    <dimen name="layout_item_padding">16dp</dimen>
+    <dimen name="layout_item_padding_vertical">16dp</dimen>
     <dimen name="layout_item_text">16sp</dimen>
     <dimen name="card_body_1_margin">8dp</dimen>
     <dimen name="card_body_2_margin">16dp</dimen>
+    <dimen name="list_icon_margin">36dp</dimen>
+    <dimen name="list_text_margin_bottom">4dp</dimen>
     <dimen name="list_padding">8dp</dimen>
+    <dimen name="list_icon_size">40dp</dimen>
     <dimen name="list_textview_padding_start">0dp</dimen>
     <dimen name="list_textview_padding_end">16dp</dimen>
 </resources>

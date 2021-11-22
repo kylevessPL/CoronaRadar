@@ -79,6 +79,7 @@
     <string name="your_result_message">Twój wynik testu COVID-19</string>
     <string name="medical_card_icon">Ikona karty lekarskiej</string>
     <string name="probability">Prawdopodobieństwo</string>
+    <string name="probability_percent">Prawdopodobieństwo: %d%%</string>
     <string name="classification_message">Analizowanie danych…</string>
     <string name="not_enough_space">Brak wystarczającego miejsca na dysku</string>
     <string name="user_data_save_failure_message">Nie udało się zapisać niektórych danych użytkownika</string>

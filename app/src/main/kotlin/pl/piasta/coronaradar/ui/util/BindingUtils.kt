@@ -13,6 +13,10 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.databinding.BindingAdapter
+import androidx.databinding.BindingConversion
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Slide
 import androidx.transition.TransitionManager
 import androidx.transition.Visibility.MODE_IN
@@ -28,6 +32,11 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import pl.piasta.coronaradar.util.ifTrue
 import splitties.resources.str
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
+
 
 @BindingAdapter("android:errorText")
 fun setErrorText(input: TextInputLayout, @StringRes errorText: Int?) {
@@ -61,11 +70,6 @@ fun loseFocusOnDone(input: TextInputEditText, value: Boolean) {
     }.takeIf { value }?.invoke()
 }
 
-//@BindingAdapter("android:onSurveyFinish")
-//fun onSurveyFinish(view: SurveyView, block: (TaskResult, FinishReason) -> Unit) {
-//    view.onSurveyFinish = { taskResult, reason -> block(taskResult, reason) }
-//}
-
 @BindingAdapter("android:animatedVisibility")
 fun animatedVisibility(view: CardView, isVisible: Boolean) {
     val transition = Slide()
@@ -81,6 +85,18 @@ fun animatedVisibility(view: CardView, isVisible: Boolean) {
         true -> View.VISIBLE
         false -> View.GONE
     }
+}
+
+@BindingAdapter("android:itemDecoration")
+fun itemDecoration(view: RecyclerView, value: Boolean) {
+    {
+        view.addItemDecoration(
+            DividerItemDecoration(
+                view.context,
+                LinearLayoutManager.VERTICAL
+            )
+        )
+    }.takeIf { value }?.invoke()
 }
 
 @BindingAdapter("android:progressCompat")
@@ -132,3 +148,17 @@ fun imageUri(
         .centerCrop()
         .into(view)
 }
+
+@BindingConversion
+fun convertBooleanToVisibility(visible: Boolean) = when (visible) {
+    true -> View.VISIBLE
+    false -> View.GONE
+}
+
+@BindingConversion
+fun convertLocalDateToText(date: LocalDate): String =
+    date.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))
+
+@BindingConversion
+fun convertLocalTimeToText(time: LocalTime): String =
+    time.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))

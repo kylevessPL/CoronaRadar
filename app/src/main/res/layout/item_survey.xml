@@ -15,8 +15,8 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/layout_item_padding"
-        android:layout_marginTop="@dimen/layout_item_padding"
+        android:layout_marginHorizontal="@dimen/layout_item_padding_vertical"
+        android:layout_marginTop="@dimen/layout_item_padding_vertical"
         android:clickable="true"
         android:onClick="@{(view) -> adapter.onItemClicked(view, item)}">
 
@@ -30,7 +30,6 @@
             android:paddingStart="@dimen/list_textview_padding_start"
             android:paddingEnd="@dimen/list_textview_padding_end"
             android:text="@{item.id.toString()}"
-            android:textAppearance="?attr/textAppearanceSubtitle1"
-            android:textColor="@color/mtrl_list_item_tint" />
+            android:textAppearance="?attr/textAppearanceSubtitle1" />
     </com.google.android.material.card.MaterialCardView>
 </layout>
