@@ -10,12 +10,9 @@ class FirebaseUserLiveData : LiveData<FirebaseUser?>(), FirebaseAuth.IdTokenList
 
     override fun onIdTokenChanged(auth: FirebaseAuth) = updateUser(auth)
 
-    init {
-        updateUser(auth)
-    }
-
     override fun onActive() {
         super.onActive()
+        updateUser(auth)
         auth.addIdTokenListener(this)
     }
 

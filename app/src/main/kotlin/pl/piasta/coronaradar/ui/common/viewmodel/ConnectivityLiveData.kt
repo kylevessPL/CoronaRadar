@@ -1,19 +1,21 @@
 package pl.piasta.coronaradar.ui.common.viewmodel
 
-import android.Manifest
+import android.Manifest.permission.ACCESS_NETWORK_STATE
 import android.content.Context
+import android.content.Context.CONNECTIVITY_SERVICE
 import android.net.ConnectivityManager
 import android.net.Network
-import android.net.NetworkCapabilities
+import android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET
+import android.net.NetworkCapabilities.NET_CAPABILITY_VALIDATED
 import android.net.NetworkRequest
 import androidx.annotation.RequiresPermission
 import androidx.lifecycle.LiveData
 
-class ConnectivityLiveData @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE) constructor(
+class ConnectivityLiveData @RequiresPermission(ACCESS_NETWORK_STATE) constructor(
     private val ctx: Context
 ) : LiveData<Boolean>() {
 
-    private val connectivityManager by lazy { ctx.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager }
+    private val connectivityManager by lazy { ctx.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager }
 
     private val networkCallback = object : ConnectivityManager.NetworkCallback() {
 
@@ -26,16 +28,13 @@ class ConnectivityLiveData @RequiresPermission(Manifest.permission.ACCESS_NETWOR
         }
     }
 
-    init {
-        init()
-    }
-
     override fun onActive() {
         super.onActive()
+        setInitialState()
         connectivityManager.registerNetworkCallback(
             NetworkRequest.Builder()
-                .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-                .addCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
+                .addCapability(NET_CAPABILITY_INTERNET)
+                .addCapability(NET_CAPABILITY_VALIDATED)
                 .build(),
             networkCallback
         )
@@ -46,11 +45,11 @@ class ConnectivityLiveData @RequiresPermission(Manifest.permission.ACCESS_NETWOR
         connectivityManager.unregisterNetworkCallback(networkCallback)
     }
 
-    private fun init() {
+    private fun setInitialState() {
         value = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
             ?.let { network ->
-                network.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
-                        network.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)
+                network.hasCapability(NET_CAPABILITY_INTERNET) &&
+                        network.hasCapability(NET_CAPABILITY_VALIDATED)
             } ?: false
     }
 }
