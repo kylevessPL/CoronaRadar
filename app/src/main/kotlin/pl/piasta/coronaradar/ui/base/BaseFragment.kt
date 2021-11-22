@@ -45,9 +45,12 @@ abstract class BaseFragment<DB : ViewDataBinding, VM : ViewModel?>(@LayoutRes pr
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        cleanup()
     }
 
     protected open fun setupView() {}
 
     protected open fun updateUI() {}
+
+    protected open fun cleanup() {}
 }

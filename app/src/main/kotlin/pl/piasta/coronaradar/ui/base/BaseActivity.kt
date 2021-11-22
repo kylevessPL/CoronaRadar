@@ -28,7 +28,15 @@ abstract class BaseActivity<DB : ViewDataBinding, VM : ViewModel?>(@LayoutRes pr
         updateUI()
     }
 
+    @CallSuper
+    override fun onDestroy() {
+        super.onDestroy()
+        cleanup()
+    }
+
     protected open fun setupView() {}
 
     protected open fun updateUI() {}
+
+    protected open fun cleanup() {}
 }

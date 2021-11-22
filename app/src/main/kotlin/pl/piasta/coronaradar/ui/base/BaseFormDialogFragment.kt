@@ -18,7 +18,7 @@ import splitties.alertdialog.appcompat.onShow
 import splitties.alertdialog.appcompat.positiveButton
 import splitties.resources.str
 
-abstract class BaseFormDialogFragment<DB : ViewDataBinding, VM : ViewModel?, AVM : ViewModel?>(
+abstract class BaseFormDialogFragment<DB : ViewDataBinding, VM : ViewModel?>(
     @LayoutRes private val layoutRes: Int,
     @StringRes private val titleRes: Int,
     @StringRes private val messageRes: Int
@@ -28,7 +28,6 @@ abstract class BaseFormDialogFragment<DB : ViewDataBinding, VM : ViewModel?, AVM
 
     protected val viewBinding get() = _viewBinding!!
     protected open val viewModel: VM? get() = null
-    protected open val activityViewModel: AVM? get() = null
 
     @StringRes
     protected open val positiveButtonRes: Int = android.R.string.ok
