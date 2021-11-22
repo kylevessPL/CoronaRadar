@@ -3,7 +3,7 @@ package pl.piasta.coronaradar.ui.radar.view
 import android.Manifest.permission.RECORD_AUDIO
 import android.content.Intent
 import android.net.Uri
-import android.provider.Settings
+import android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.fondesa.kpermissions.PermissionStatus
@@ -41,7 +41,7 @@ class RadarFragment : BaseFragment<FragmentRadarBinding, RadarViewModel>(R.layou
 
     private val appSettingsIntent by lazy {
         Intent().apply {
-            action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+            action = ACTION_APPLICATION_DETAILS_SETTINGS
             data = Uri.fromParts("package", requireContext().packageName, null)
         }
     }

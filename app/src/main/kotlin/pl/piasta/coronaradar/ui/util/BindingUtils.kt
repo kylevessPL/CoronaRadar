@@ -2,20 +2,22 @@ package pl.piasta.coronaradar.ui.util
 
 import android.graphics.drawable.Drawable
 import android.net.Uri
-import android.util.Patterns
+import android.util.Patterns.WEB_URL
 import android.view.Gravity.TOP
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import androidx.annotation.StringRes
-import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity.INPUT_METHOD_SERVICE
 import androidx.cardview.widget.CardView
 import androidx.databinding.BindingAdapter
 import androidx.databinding.BindingConversion
 import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager.VERTICAL
 import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Slide
 import androidx.transition.TransitionManager
@@ -35,11 +37,12 @@ import splitties.resources.str
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
+import java.time.format.FormatStyle.MEDIUM
+import java.time.format.FormatStyle.SHORT
 
 
 @BindingAdapter("android:errorText")
-fun setErrorText(input: TextInputLayout, @StringRes errorText: Int?) {
+fun errorText(input: TextInputLayout, @StringRes errorText: Int?) {
     input.error = errorText?.let { input.context.str(it) }
 }
 
@@ -58,11 +61,11 @@ fun onFocusChange(input: TextInputEditText, block: () -> Unit) {
 fun loseFocusOnDone(input: TextInputEditText, value: Boolean) {
     {
         input.setOnEditorActionListener { view, actionId, _ ->
-            (actionId == EditorInfo.IME_ACTION_DONE).also {
+            (actionId == IME_ACTION_DONE).also {
                 it.ifTrue {
                     view.clearFocus()
                     val imm =
-                        view.context.getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager
+                        view.context.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
                     imm.hideSoftInputFromWindow(view.windowToken, 0)
                 }
             }
@@ -82,20 +85,15 @@ fun animatedVisibility(view: CardView, isVisible: Boolean) {
     transition.addTarget(view)
     TransitionManager.beginDelayedTransition(view.parent as ViewGroup, transition)
     view.visibility = when (isVisible) {
-        true -> View.VISIBLE
-        false -> View.GONE
+        true -> VISIBLE
+        false -> GONE
     }
 }
 
 @BindingAdapter("android:itemDecoration")
 fun itemDecoration(view: RecyclerView, value: Boolean) {
     {
-        view.addItemDecoration(
-            DividerItemDecoration(
-                view.context,
-                LinearLayoutManager.VERTICAL
-            )
-        )
+        view.addItemDecoration(DividerItemDecoration(view.context, VERTICAL))
     }.takeIf { value }?.invoke()
 }
 
@@ -110,14 +108,14 @@ fun imageUri(
     progressIndicator: CircularProgressIndicator
 ) = imageUri?.let {
     val uri = it.toString()
-    val ref = when (Patterns.WEB_URL.matcher(uri).matches()) {
+    val ref = when (WEB_URL.matcher(uri).matches()) {
         true -> Uri.parse(uri.replace("s96-c", "s300-c")).buildUpon()
             .appendQueryParameter("width", "300")
             .appendQueryParameter("height", "300")
             .build().toString()
         false -> it.contentBytes(view.context)
     }
-    progressIndicator.visibility = View.VISIBLE
+    progressIndicator.visibility = VISIBLE
     Glide.with(view.context)
         .load(ref)
         .placeholder(placeholderDrawable)
@@ -130,7 +128,7 @@ fun imageUri(
                 target: Target<Drawable>?,
                 isFirstResource: Boolean
             ): Boolean {
-                progressIndicator.visibility = View.GONE
+                progressIndicator.visibility = GONE
                 return false
             }
 
@@ -141,7 +139,7 @@ fun imageUri(
                 dataSource: DataSource?,
                 isFirstResource: Boolean
             ): Boolean {
-                progressIndicator.visibility = View.GONE
+                progressIndicator.visibility = GONE
                 return false
             }
         })
@@ -151,14 +149,14 @@ fun imageUri(
 
 @BindingConversion
 fun convertBooleanToVisibility(visible: Boolean) = when (visible) {
-    true -> View.VISIBLE
-    false -> View.GONE
+    true -> VISIBLE
+    false -> GONE
 }
 
 @BindingConversion
 fun convertLocalDateToText(date: LocalDate): String =
-    date.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))
+    date.format(DateTimeFormatter.ofLocalizedDate(MEDIUM))
 
 @BindingConversion
 fun convertLocalTimeToText(time: LocalTime): String =
-    time.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+    time.format(DateTimeFormatter.ofLocalizedTime(SHORT))

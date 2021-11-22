@@ -15,7 +15,7 @@ import splitties.views.material.string
 
 @AndroidEntryPoint
 class PasswordResetEmailDialogFragment :
-    BaseFormDialogFragment<PasswordResetEmailDialogBinding, PasswordResetEmailViewModel, UserViewModel>(
+    BaseFormDialogFragment<PasswordResetEmailDialogBinding, PasswordResetEmailViewModel>(
         R.layout.password_reset_email_dialog,
         R.string.password_reset,
         R.string.password_reset_email_message
@@ -25,7 +25,7 @@ class PasswordResetEmailDialogFragment :
     private val onPropertyChangedCallback get() = _onPropertyChangedCallback!!
 
     override val viewModel: PasswordResetEmailViewModel by viewModels()
-    override val activityViewModel: UserViewModel by activityViewModels()
+    private val activityViewModel: UserViewModel by activityViewModels()
 
     override val positiveButtonRes: Int = R.string.send
 

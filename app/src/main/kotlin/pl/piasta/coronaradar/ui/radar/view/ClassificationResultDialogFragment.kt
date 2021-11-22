@@ -1,6 +1,5 @@
 package pl.piasta.coronaradar.ui.radar.view
 
-import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
@@ -14,6 +13,8 @@ import splitties.views.onClick
 @AndroidEntryPoint
 class ClassificationResultDialogFragment :
     BaseCustomViewDialogFragment<ClassificationResultDialogBinding, RadarViewModel>(R.layout.classification_result_dialog) {
+
+    override val dialogTheme = R.style.Theme_CoronaRadar_AlertDialog_NoBackground
 
     override val parentViewModel: RadarViewModel by viewModels(ownerProducer = { requireParentFragment() })
 
@@ -29,13 +30,7 @@ class ClassificationResultDialogFragment :
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setStyle(STYLE_NORMAL, R.style.Theme_CoronaRadar_AlertDialog_NoBackground)
-    }
-
-    override fun onDismiss(dialog: DialogInterface) {
-        super.onDismiss(dialog)
+    override fun doOnDismiss() {
         parentViewModel.classificationResultDialogDismissEvent()
     }
 

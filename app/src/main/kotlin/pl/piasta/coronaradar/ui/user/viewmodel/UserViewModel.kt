@@ -23,11 +23,11 @@ class UserViewModel @Inject constructor(
 ) :
     ViewModel() {
 
-    private var _connectivity = ConnectivityLiveData(application)
+    private val _connectivity = ConnectivityLiveData(application)
     val connectivity: LiveData<Boolean>
         get() = _connectivity
 
-    private var _firebaseUser = FirebaseUserLiveData()
+    private val _firebaseUser = FirebaseUserLiveData()
     val firebaseUser: LiveData<FirebaseUser?>
         get() = _firebaseUser
 

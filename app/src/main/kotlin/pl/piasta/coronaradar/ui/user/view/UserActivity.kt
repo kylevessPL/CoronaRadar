@@ -1,6 +1,5 @@
 package pl.piasta.coronaradar.ui.user.view
 
-import android.os.Bundle
 import android.view.MotionEvent
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -28,16 +27,13 @@ class UserActivity : BaseActivity<ActivityUserBinding, UserViewModel>(R.layout.a
 
     override val viewModel: UserViewModel by viewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        lifecycleScope.launchWhenStarted {
-            withContext(Dispatchers.IO) {
-                intent.data?.let { viewModel.verifyActionCode(it) }
-            }
-        }
+    override fun dispatchTouchEvent(event: MotionEvent): Boolean {
+        window.dispatchActionDownTouchEvent(event)
+        return super.dispatchTouchEvent(event)
     }
 
     override fun setupView() {
+        processActionCode()
         setupActionBar()
         setupNavController()
     }
@@ -54,6 +50,14 @@ class UserActivity : BaseActivity<ActivityUserBinding, UserViewModel>(R.layout.a
         }
         viewModel.passwordResetResult.observeNotNull(this) {
             displayPasswordResetResult(it)
+        }
+    }
+
+    private fun processActionCode() {
+        lifecycleScope.launchWhenStarted {
+            withContext(Dispatchers.IO) {
+                intent.data?.let { viewModel.verifyActionCode(it) }
+            }
         }
     }
 
@@ -133,10 +137,5 @@ class UserActivity : BaseActivity<ActivityUserBinding, UserViewModel>(R.layout.a
             longToast(R.string.general_failure_message)
         }
         Loading -> viewModel.setProgressIndicationVisibility(true)
-    }
-
-    override fun dispatchTouchEvent(event: MotionEvent): Boolean {
-        window.dispatchActionDownTouchEvent(event)
-        return super.dispatchTouchEvent(event)
     }
 }
