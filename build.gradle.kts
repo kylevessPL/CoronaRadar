@@ -21,7 +21,7 @@ buildscript {
         classpath("com.google.gms:google-services:4.3.10")
         classpath("com.google.firebase:perf-plugin:1.4.0")
         classpath("org.jlleitschuh.gradle:ktlint-gradle:10.2.0")
-        classpath("com.google.dagger:hilt-android-gradle-plugin:2.40.1")
+        classpath("com.google.dagger:hilt-android-gradle-plugin:2.40.2")
         classpath("org.jetbrains.kotlin:kotlin-noarg:$kotlinVersion")
         classpath("org.jetbrains.kotlin:kotlin-serialization:$kotlinVersion")
         classpath("com.chaquo.python:gradle:10.0.1")
