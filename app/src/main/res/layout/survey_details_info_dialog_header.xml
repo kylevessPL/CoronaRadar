@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center|start"
             android:text="@{title}"
-            android:textSize="20sp" />
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="wrap_content"
