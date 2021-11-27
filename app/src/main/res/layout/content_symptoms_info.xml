@@ -15,7 +15,8 @@
         android:paddingHorizontal="@dimen/bottom_sheet_dialog_padding_horizontal"
         android:paddingVertical="@dimen/bottom_sheet_dialog_padding_vertical"
         android:orientation="vertical"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:animateLayoutChanges="true">
 
         <CheckBox
             android:layout_width="wrap_content"
