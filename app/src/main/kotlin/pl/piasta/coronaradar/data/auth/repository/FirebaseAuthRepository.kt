@@ -1,7 +1,5 @@
 package pl.piasta.coronaradar.data.auth.repository
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.util.Log
 import com.facebook.CallbackManager
@@ -11,6 +9,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.*
+import com.google.firebase.auth.ActionCodeResult.*
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.Dispatchers
@@ -30,7 +29,6 @@ import pl.piasta.coronaradar.di.VerificationEmailSettings
 import pl.piasta.coronaradar.util.ResultState
 import pl.piasta.coronaradar.util.TAG
 import pl.piasta.coronaradar.util.ifNullOrEmpty
-import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 
 class FirebaseAuthRepository @Inject constructor(
@@ -196,9 +194,8 @@ class FirebaseAuthRepository @Inject constructor(
 
     override fun uploadAvatar(byteArray: ByteArray) = flow {
         emit(ResultState.Loading)
-        val data = compressImage(byteArray)
         val ref = storage.reference.child("avatars/${auth.currentUser!!.uid}")
-        ref.putBytes(data).await()
+        ref.putBytes(byteArray).await()
         val storageUri = ref.downloadUrl.await()
         Log.d(this@FirebaseAuthRepository.TAG, "uploadImage:success")
         emit(ResultState.Success(storageUri))
@@ -216,16 +213,9 @@ class FirebaseAuthRepository @Inject constructor(
         oob: String,
         operation: Int
     ) = when (operation) {
-        ActionCodeResult.PASSWORD_RESET -> PasswordReset(oob)
-        ActionCodeResult.VERIFY_EMAIL -> VerifyEmail(oob)
+        PASSWORD_RESET -> PasswordReset(oob)
+        VERIFY_EMAIL -> VerifyEmail(oob)
         else -> null
-    }
-
-    private fun compressImage(byteArray: ByteArray): ByteArray {
-        val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
-        val baos = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos)
-        return baos.toByteArray()
     }
 
     private fun verificationCheck(user: FirebaseUser): Boolean =
