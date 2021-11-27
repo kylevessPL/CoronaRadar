@@ -46,6 +46,8 @@ class AccountFragment :
     override val viewModel: AccountViewModel by viewModels()
     private val activityViewModel: UserViewModel by activityViewModels()
 
+    override val title = R.string.my_account
+
     override fun updateUI() {
         activityViewModel.firebaseUser.observeNull(viewLifecycleOwner) {
             navigateToLoginFragment()

@@ -54,6 +54,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(R.layou
             }
         }
 
+    override val title = R.string.signin
+
     override val viewModel: LoginViewModel by viewModels()
     private val activityViewModel: UserViewModel by activityViewModels()
 
