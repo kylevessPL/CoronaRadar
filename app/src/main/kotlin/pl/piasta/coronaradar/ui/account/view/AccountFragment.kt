@@ -25,6 +25,7 @@ import pl.piasta.coronaradar.util.ResultState
 import pl.piasta.coronaradar.util.ResultState.*
 import pl.piasta.coronaradar.util.TAG
 import pl.piasta.coronaradar.util.ifTrue
+import splitties.resources.str
 import splitties.toast.longToast
 
 @AndroidEntryPoint
@@ -79,7 +80,7 @@ class AccountFragment :
         galleriesIntent.type = "image/*"
         val chooserIntent = Intent.createChooser(
             documentsIntent,
-            getString(R.string.set_avatar)
+            str(R.string.set_avatar)
         ).putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(galleriesIntent))
         chooseAvatar.launch(chooserIntent)
     }

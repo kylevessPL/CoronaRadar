@@ -108,8 +108,8 @@ class SurveyDialogFragment :
             ),
             QuestionStep(
                 id = StepIdentifier(id = 5.toString()),
-                title = this.resources.getString(R.string.quarantine_question_title),
-                text = this.resources.getString(R.string.yes_no_message),
+                title = str(R.string.quarantine_question_title),
+                text = str(R.string.yes_no_message),
                 nextButtonText = str(R.string.next),
                 answerFormat = AnswerFormat.BooleanAnswerFormat(
                     positiveAnswerText = str(R.string.yes),
@@ -118,8 +118,8 @@ class SurveyDialogFragment :
             ),
             QuestionStep(
                 id = StepIdentifier(id = 6.toString()),
-                title = this.resources.getString(R.string.close_contact_question_title),
-                text = this.resources.getString(R.string.yes_no_message),
+                title = str(R.string.close_contact_question_title),
+                text = str(R.string.yes_no_message),
                 nextButtonText = str(R.string.next),
                 answerFormat = AnswerFormat.BooleanAnswerFormat(
                     positiveAnswerText = str(R.string.yes),
@@ -128,8 +128,8 @@ class SurveyDialogFragment :
             ),
             QuestionStep(
                 id = StepIdentifier(id = 7.toString()),
-                title = this.resources.getString(R.string.travel_abroad_question_title),
-                text = this.resources.getString(R.string.yes_no_message),
+                title = str(R.string.travel_abroad_question_title),
+                text = str(R.string.yes_no_message),
                 nextButtonText = str(R.string.next),
                 answerFormat = AnswerFormat.BooleanAnswerFormat(
                     positiveAnswerText = str(R.string.yes),
@@ -138,8 +138,8 @@ class SurveyDialogFragment :
             ),
             QuestionStep(
                 id = StepIdentifier(id = 8.toString()),
-                title = this.resources.getString(R.string.smoker_question_title),
-                text = this.resources.getString(R.string.yes_no_message),
+                title = str(R.string.smoker_question_title),
+                text = str(R.string.yes_no_message),
                 nextButtonText = str(R.string.next),
                 answerFormat = AnswerFormat.BooleanAnswerFormat(
                     positiveAnswerText = str(R.string.yes),
