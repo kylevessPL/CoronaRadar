@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.text.InputType" />
+
         <variable
             name="viewModel"
             type="pl.piasta.coronaradar.ui.account.viewmodel.AccountViewModel" />
@@ -39,7 +41,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
-            <LinearLayout
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/avatar_card"
                 android:layout_width="match_parent"
                 android:layout_height="160dp"
@@ -52,7 +54,7 @@
                     app:cardCornerRadius="75dp"
                     app:cardElevation="@dimen/elevation_image">
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/avatar"
                         android:layout_width="140dp"
                         android:layout_height="match_parent"
@@ -63,7 +65,7 @@
                         android:src="@drawable/ic_avatar_140"
                         tools:ignore="ImageContrastCheck" />
                 </com.google.android.material.card.MaterialCardView>
-            </LinearLayout>
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
             <com.google.android.material.progressindicator.CircularProgressIndicator
                 android:id="@+id/imageProgressIndicator"
@@ -86,15 +88,15 @@
                 android:layout_below="@id/avatar_card"
                 android:layout_marginTop="-48dp"
                 android:contentDescription="@string/upload_avatar"
+                android:onClick="@{() -> viewModel.chooseAvatarEvent()}"
                 app:fabCustomSize="40dp"
                 app:srcCompat="@drawable/ic_baseline_photo_camera_24"
                 app:tint="@color/white"
                 app:elevation="0dp"
-                android:onClick="@{() -> viewModel.chooseAvatarEvent()}"
                 tools:ignore="ImageContrastCheck" />
         </RelativeLayout>
 
-        <LinearLayout
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/account_fragment_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -156,8 +158,11 @@
                     android:id="@+id/account_email_input_edit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:inputType="@{InputType.TYPE_NULL}"
                     android:text="@={viewModel.userDetailsForm.input.email}"
-                    android:enabled="false" />
+                    tools:ignore="DuplicateSpeakableTextCheck,TextContrastCheck" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -246,7 +251,7 @@
                 app:iconGravity="textStart"
                 android:onClick="@{() -> viewModel.signOutEvent()}"
                 tools:ignore="TextContrastCheck" />
-        </LinearLayout>
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
         <com.google.android.material.progressindicator.CircularProgressIndicator
             android:layout_width="wrap_content"

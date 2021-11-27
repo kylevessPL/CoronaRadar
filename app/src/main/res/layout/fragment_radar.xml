@@ -25,24 +25,24 @@
             android:layout_alignParentTop="true"
             app:cardElevation="@dimen/card_info_elevation">
 
-            <LinearLayout
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center">
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/ic_covid_200"
                     android:contentDescription="@string/app_icon" />
 
-                <LinearLayout
+                <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:padding="@dimen/layout_item_padding_vertical">
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/tip"
@@ -51,7 +51,7 @@
                         app:drawableEndCompat="@drawable/ic_baseline_info_24"
                         app:drawableTint="@color/picton_blue_600" />
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/card_body_1_margin"
@@ -59,18 +59,18 @@
                         android:textAppearance="?attr/textAppearanceBody2"
                         android:textColor="?android:attr/textColorSecondary" />
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/card_body_2_margin"
                         android:text="@string/tip_card_message_2"
                         android:textAppearance="?attr/textAppearanceBody2"
                         android:textColor="?android:attr/textColorSecondary" />
-                </LinearLayout>
-            </LinearLayout>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.appcompat.widget.LinearLayoutCompat>
         </com.google.android.material.card.MaterialCardView>
 
-        <LinearLayout
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@id/wave_view"
@@ -126,7 +126,7 @@
                     app:trackThickness="6dp" />
             </FrameLayout>
 
-            <LinearLayout
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/processing_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -161,12 +161,12 @@
                         android:animateLayoutChanges="true"
                         android:visibility="@{viewModel.processingVisibility ? View.VISIBLE : View.INVISIBLE}">
 
-                        <ImageView
+                        <androidx.appcompat.widget.AppCompatImageView
                             android:layout_width="wrap_content"
                             android:layout_height="120dp"
                             android:layout_gravity="center"
                             android:contentDescription="@string/medical_card_icon"
-                            app:srcCompat="@drawable/ic_medical_record" />
+                            app:srcCompat="@drawable/ic_medical_record_200" />
 
                         <com.agrawalsuneet.loaderspack.loaders.SearchLoader
                             android:layout_width="wrap_content"
@@ -182,15 +182,15 @@
                     </FrameLayout>
                 </FrameLayout>
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
                     android:text="@{viewModel.currentOperationMessage}"
                     android:textAppearance="?attr/textAppearanceHeadline6"
                     android:textColor="?android:attr/textColorSecondary" />
-            </LinearLayout>
-        </LinearLayout>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
         <com.aghajari.waveanimation.AXLineWaveView
             android:id="@+id/wave_view"

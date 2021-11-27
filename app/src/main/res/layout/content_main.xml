@@ -26,7 +26,7 @@
             app:cardBackgroundColor="@color/red_600"
             app:cardElevation="0dp">
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
                 android:layout_gravity="center"
@@ -34,8 +34,9 @@
                 android:text="@string/no_internet_connection"
                 android:textColor="@color/white"
                 android:drawablePadding="@dimen/drawable_padding"
-                app:drawableStartCompat="@drawable/outline_cloud_off_24"
-                app:drawableTint="@color/white" />
+                app:drawableStartCompat="@drawable/ic_cloud_off_24"
+                app:drawableTint="@color/white"
+                tools:ignore="TextContrastCheck" />
         </androidx.cardview.widget.CardView>
 
         <androidx.fragment.app.FragmentContainerView

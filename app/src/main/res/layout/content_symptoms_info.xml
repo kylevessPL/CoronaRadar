@@ -1,0 +1,62 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="pl.piasta.coronaradar.data.common.CommonSymptom" />
+
+        <variable
+            name="survey"
+            type="pl.piasta.coronaradar.data.survey.model.Survey" />
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingHorizontal="@dimen/bottom_sheet_dialog_padding_horizontal"
+        android:paddingVertical="@dimen/bottom_sheet_dialog_padding_vertical"
+        android:orientation="vertical"
+        android:background="@color/white">
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="@{survey.details.symptoms.contains(CommonSymptom.FEVER)}"
+            android:clickable="false"
+            android:text="@string/fever" />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="@{survey.details.symptoms.contains(CommonSymptom.DIARRHOEA)}"
+            android:clickable="false"
+            android:text="@string/diarrhoea" />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="@{survey.details.symptoms.contains(CommonSymptom.BREATH_SHORTNESS)}"
+            android:clickable="false"
+            android:text="@string/breath_shortness" />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="@{survey.details.symptoms.contains(CommonSymptom.TIREDNESS)}"
+            android:clickable="false"
+            android:text="@string/tiredness" />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="@{survey.details.symptoms.contains(CommonSymptom.SMELL_LOSS)}"
+            android:clickable="false"
+            android:text="@string/smell_loss" />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="@{survey.details.symptoms.contains(CommonSymptom.RASH)}"
+            android:clickable="false"
+            android:text="@string/rash" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

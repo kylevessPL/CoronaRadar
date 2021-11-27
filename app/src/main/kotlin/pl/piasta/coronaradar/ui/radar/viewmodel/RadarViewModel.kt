@@ -207,23 +207,21 @@ class RadarViewModel @Inject constructor(
         SurveyDetails(
             data.result,
             data.probability.toLong(),
-            findByLabel(
-                application,
-                findLastResult<SingleChoiceQuestionResult>(0)?.answer!!.value
-            )!!,
-            findByLabel(application, findLastResult<ValuePickerQuestionResult>(1)?.answer!!)!!,
-            findLastResult<TextQuestionResult>(2)?.answer!!,
-            findLastResult<MultipleChoiceQuestionResult>(3)?.answer?.map {
+            findLastResult<TextQuestionResult>(0)?.answer!!,
+            findLastResult<IntegerQuestionResult>(1)?.answer!!.toLong(),
+            findByLabel(application, findLastResult<ValuePickerQuestionResult>(2)?.answer!!)!!,
+            findLastResult<TextQuestionResult>(3)?.answer!!,
+            findLastResult<MultipleChoiceQuestionResult>(4)?.answer?.map {
                 findByLabel(application, it.value)!!
             } ?: emptyList(),
-            findLastResult<BooleanQuestionResult>(4)!!.answer == PositiveAnswer,
             findLastResult<BooleanQuestionResult>(5)!!.answer == PositiveAnswer,
             findLastResult<BooleanQuestionResult>(6)!!.answer == PositiveAnswer,
             findLastResult<BooleanQuestionResult>(7)!!.answer == PositiveAnswer,
-            findLastResult<MultipleChoiceQuestionResult>(8)?.answer?.map {
+            findLastResult<BooleanQuestionResult>(8)!!.answer == PositiveAnswer,
+            findLastResult<MultipleChoiceQuestionResult>(9)?.answer?.map {
                 findByLabel(application, it.value)!!
             } ?: emptyList(),
-            findLastResult<ScaleQuestionResult>(9)?.answer!!.toLong()
+            findLastResult<ScaleQuestionResult>(10)?.answer!!.toLong()
         )
     }
 

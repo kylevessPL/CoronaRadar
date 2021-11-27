@@ -25,6 +25,14 @@ class StatsViewModel @Inject constructor(
     val isRefreshing: LiveData<Boolean>
         get() = _isRefreshing
 
+    private val _displaySurveyDialog = LiveEvent<Survey>()
+    val displaySurveyDialog: LiveData<Survey>
+        get() = _displaySurveyDialog
+
+    private val _displayIllnessDetails = LiveEvent<Boolean>()
+    val displayIllnessDetails: LiveData<Boolean>
+        get() = _displayIllnessDetails
+
     private val _refreshData = LiveEvent<Boolean>()
     val refreshData: LiveData<Boolean>
         get() = _refreshData
@@ -33,10 +41,15 @@ class StatsViewModel @Inject constructor(
         _isRefreshing.value = value
     }
 
+    fun displayIllnessDetailsEvent(value: Boolean) {
+        _displayIllnessDetails.value = value
+    }
+
     fun refreshDataEvent() {
         _refreshData.value = true
     }
 
-    fun handleItemClicked(item: Survey) {
+    fun displaySurveyDialogEvent(survey: Survey) {
+        _displaySurveyDialog.value = survey
     }
 }

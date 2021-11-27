@@ -17,7 +17,7 @@
         android:orientation="vertical"
         tools:context=".ui.register.view.RegisterFragment">
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/register_fragment_header_icon"
             android:layout_width="90dp"
             android:layout_height="90dp"
@@ -42,7 +42,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <LinearLayout
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/register_fragment_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -150,7 +150,7 @@
                 android:onClick="@{() -> viewModel.signUp()}"
                 tools:ignore="TextContrastCheck" />
 
-            <LinearLayout
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/login_link_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -175,8 +175,8 @@
                     android:onClick="@{() -> viewModel.signInEvent()}"
                     android:theme="@style/Theme.CoronaRadar.Widget.NoRipple"
                     tools:ignore="TextContrastCheck,TouchTargetSizeCheck" />
-            </LinearLayout>
-        </LinearLayout>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
         <com.google.android.material.progressindicator.CircularProgressIndicator
             android:layout_width="wrap_content"

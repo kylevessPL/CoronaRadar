@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="title"
+            type="java.lang.String" />
+
+        <variable
+            name="icon"
+            type="android.graphics.drawable.Drawable" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:paddingHorizontal="@dimen/bottom_sheet_dialog_padding_horizontal"
+        android:paddingVertical="@dimen/bottom_sheet_dialog_padding_vertical"
+        android:background="@drawable/background_bottom_sheet_dialog_rounded"
+        android:animateLayoutChanges="true">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|start"
+            android:text="@{title}"
+            android:textSize="20sp" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|end"
+            android:src="@{icon}"
+            android:contentDescription="@string/survey_details_info_icon" />
+    </FrameLayout>
+</layout>

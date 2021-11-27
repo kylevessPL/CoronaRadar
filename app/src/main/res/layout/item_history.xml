@@ -17,7 +17,7 @@
             type="pl.piasta.coronaradar.data.history.model.History" />
     </data>
 
-    <LinearLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingStart="?listPreferredItemPaddingStart"
@@ -25,23 +25,23 @@
         android:paddingVertical="@dimen/layout_item_padding_vertical"
         android:orientation="horizontal">
 
-        <LinearLayout
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="@dimen/list_icon_size"
                 android:layout_height="@dimen/list_icon_size"
                 android:layout_marginEnd="@dimen/list_icon_margin"
                 android:contentDescription="@string/classification_result_icon"
-                android:src="@{item.details.result == ResultLabel.POSITIVE ? @drawable/ic_sad : @drawable/ic_smiley}" />
+                android:src="@{item.details.result == ResultLabel.POSITIVE ? @drawable/ic_sad_54 : @drawable/ic_smiley_54}" />
 
-            <LinearLayout
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/list_text_margin_bottom"
@@ -51,20 +51,20 @@
                     app:drawableStartCompat="@drawable/keyboard_double_arrow_right_24"
                     app:drawableTint="@color/picton_blue_800" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@{@string/probability_percent(item.details.probability)}"
                     android:textAppearance="?attr/textAppearanceSubtitle2" />
-            </LinearLayout>
-        </LinearLayout>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <LinearLayout
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
@@ -73,7 +73,7 @@
                 android:textAppearance="?attr/textAppearanceCaption"
                 android:textStyle="bold" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
@@ -81,6 +81,6 @@
                 android:textColor="@color/picton_blue_800"
                 android:textStyle="bold"
                 android:textAppearance="?attr/textAppearanceCaption" />
-        </LinearLayout>
-    </LinearLayout>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

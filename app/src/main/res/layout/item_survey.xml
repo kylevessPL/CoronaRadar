@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
+        <import type="java.time.LocalDate" />
+
+        <import type="java.time.ZoneId" />
+
+        <import type="pl.piasta.coronaradar.data.common.ResultLabel" />
+
+        <import type="pl.piasta.coronaradar.data.common.Gender" />
 
         <variable
             name="item"
@@ -12,24 +21,57 @@
             type="pl.piasta.coronaradar.ui.stats.adapter.StatsAdapter" />
     </data>
 
-    <com.google.android.material.card.MaterialCardView
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/layout_item_padding_vertical"
-        android:layout_marginTop="@dimen/layout_item_padding_vertical"
+        android:paddingStart="?listPreferredItemPaddingStart"
+        android:paddingEnd="?listPreferredItemPaddingEnd"
+        android:paddingVertical="@dimen/layout_item_padding_vertical"
+        android:background="?attr/selectableItemBackground"
+        android:minHeight="?attr/minTouchTargetSize"
         android:clickable="true"
         android:onClick="@{(view) -> adapter.onItemClicked(view, item)}">
 
-        <TextView
-            android:id="@+id/mtrl_list_item_text"
-            android:layout_width="match_parent"
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="@dimen/list_icon_size"
+            android:layout_height="@dimen/list_icon_size"
+            android:layout_marginEnd="@dimen/list_icon_margin"
+            android:src="@{item.details.gender == Gender.MALE ? @drawable/ic_male_24 : @drawable/ic_female_24 }"
+            android:contentDescription="@string/gender_icon" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="?attr/selectableItemBackground"
-            android:gravity="center_vertical"
-            android:minHeight="?attr/minTouchTargetSize"
-            android:paddingStart="@dimen/list_textview_padding_start"
-            android:paddingEnd="@dimen/list_textview_padding_end"
-            android:text="@{item.id.toString()}"
-            android:textAppearance="?attr/textAppearanceSubtitle1" />
-    </com.google.android.material.card.MaterialCardView>
+            android:layout_gravity="center"
+            android:text="@{@string/gender_age(item.details.name, item.details.age)}"
+            android:textStyle="bold"
+            android:textAppearance="?attr/textAppearanceBody1" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="end">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/item_survey_result_icon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginBottom="2dp"
+                android:src="@{item.details.result == ResultLabel.POSITIVE ? @drawable/ic_sad_54 : @drawable/ic_smiley_54 }"
+                android:contentDescription="@string/result_icon"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/item_survey_result_icon"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:text="@{item.date.atZone(ZoneId.systemDefault()).toLocalDate()}"
+                android:textColor="@color/picton_blue_800"
+                android:textStyle="italic"
+                android:textAppearance="?attr/textAppearanceCaption" />
+        </RelativeLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

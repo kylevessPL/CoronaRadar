@@ -1,0 +1,29 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="survey"
+            type="pl.piasta.coronaradar.data.survey.model.Survey" />
+    </data>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            layout="@layout/survey_details_info_dialog_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:title="@{@string/illnesses}"
+            app:icon="@{@drawable/ic_sick_24}" />
+
+        <include
+            layout="@layout/content_illnesses_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:survey="@{survey}" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</layout>

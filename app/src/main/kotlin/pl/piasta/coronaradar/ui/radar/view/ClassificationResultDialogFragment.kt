@@ -5,16 +5,16 @@ import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import pl.piasta.coronaradar.R
 import pl.piasta.coronaradar.databinding.ClassificationResultDialogBinding
-import pl.piasta.coronaradar.ui.base.BaseCustomViewDialogFragment
+import pl.piasta.coronaradar.ui.base.BaseDialogFragment
 import pl.piasta.coronaradar.ui.radar.model.Classification
 import pl.piasta.coronaradar.ui.radar.viewmodel.RadarViewModel
 import splitties.views.onClick
 
 @AndroidEntryPoint
 class ClassificationResultDialogFragment :
-    BaseCustomViewDialogFragment<ClassificationResultDialogBinding, RadarViewModel>(R.layout.classification_result_dialog) {
+    BaseDialogFragment<ClassificationResultDialogBinding, RadarViewModel>(R.layout.classification_result_dialog) {
 
-    override val dialogTheme = R.style.Theme_CoronaRadar_AlertDialog_NoBackground
+    override val dialogTheme = R.style.Theme_CoronaRadar_Dialog_NoBackground
 
     override val parentViewModel: RadarViewModel by viewModels(ownerProducer = { requireParentFragment() })
 

@@ -12,8 +12,8 @@
         <item name="colorNavigationItemBackgroundPressed">@color/picton_blue_50</item>
         <item name="colorNavigationItemBackgroundSelected">@color/picton_blue_100</item>
         <item name="colorNavigationItemIconTintSelected">?attr/colorPrimaryVariant</item>
-        <item name="alertDialogTheme">@style/Theme.CoronaRadar.AlertDialog</item>
-        <item name="materialAlertDialogTheme">@style/Theme.CoronaRadar.AlertDialog</item>
+        <item name="alertDialogTheme">@style/Theme.CoronaRadar.Dialog</item>
+        <item name="materialAlertDialogTheme">@style/Theme.CoronaRadar.Dialog</item>
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
     </style>
 
@@ -53,35 +53,47 @@
         <item name="cornerSize">50%</item>
     </style>
 
-    <style name="Theme.CoronaRadar.AlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+    <style name="Theme.CoronaRadar.Tooltip" parent="Widget.MaterialComponents.Tooltip">
+        <item name="shapeAppearanceOverlay">@style/Theme.CoronaRadar.Widget.Rounded</item>
+        <item name="backgroundTint">?attr/colorPrimary</item>
+    </style>
+
+    <style name="Theme.CoronaRadar.Dialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
         <item name="dialogCornerRadius">4dp</item>
         <item name="buttonBarPositiveButtonStyle">
-            @style/Theme.CoronaRadar.AlertDialog.Button.Positive
+            @style/Theme.CoronaRadar.Dialog.Button.Positive
         </item>
         <item name="buttonBarNegativeButtonStyle">
-            @style/Theme.CoronaRadar.AlertDialog.Button.Negative
+            @style/Theme.CoronaRadar.Dialog.Button.Negative
         </item>
         <item name="buttonBarNeutralButtonStyle">
-            @style/Theme.CoronaRadar.AlertDialog.Button.Neutral
+            @style/Theme.CoronaRadar.Dialog.Button.Neutral
         </item>
     </style>
 
-    <style name="Theme.CoronaRadar.AlertDialog.NoBackground" parent="Theme.CoronaRadar.AlertDialog">
+    <style name="Theme.CoronaRadar.Dialog.NoBackground" parent="Theme.CoronaRadar.Dialog">
         <item name="android:windowBackground">@color/transparent</item>
     </style>
 
-    <style name="Theme.CoronaRadar.AlertDialog.Button.Positive" parent="Widget.MaterialComponents.Button">
+    <style name="Theme.CoronaRadar.Dialog.FullScreen" parent="Theme.CoronaRadar.Dialog">
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowAnimationStyle">@style/Animation.AppCompat.Dialog</item>
+        <item name="android:windowBackground">@color/white</item>
+    </style>
+
+    <style name="Theme.CoronaRadar.Dialog.Button.Positive" parent="Widget.MaterialComponents.Button">
         <item name="materialThemeOverlay">@style/OrangeButtonThemeOverlay</item>
         <item name="rippleColor">?attr/colorSecondaryVariant</item>
         <item name="android:textColor">@android:color/white</item>
     </style>
 
-    <style name="Theme.CoronaRadar.AlertDialog.Button.Negative" parent="Widget.MaterialComponents.Button.TextButton">
+    <style name="Theme.CoronaRadar.Dialog.Button.Negative" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="rippleColor">?attr/colorSecondaryVariant</item>
         <item name="android:textColor">?attr/colorSecondary</item>
     </style>
 
-    <style name="Theme.CoronaRadar.AlertDialog.Button.Neutral" parent="Widget.MaterialComponents.Button.TextButton">
+    <style name="Theme.CoronaRadar.Dialog.Button.Neutral" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="rippleColor">?attr/colorPrimaryVariant</item>
         <item name="android:textColor">@android:color/darker_gray</item>
     </style>

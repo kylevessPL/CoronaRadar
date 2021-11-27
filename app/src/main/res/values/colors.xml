@@ -11,6 +11,7 @@
     <color name="red_600">#E53935</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="black_38_alpha">#60000000</color>
     <color name="facebook_blue">#1977F3</color>
     <color name="green_success">#FF6DC180</color>
     <color name="red_failure">#FFFF5023</color>
