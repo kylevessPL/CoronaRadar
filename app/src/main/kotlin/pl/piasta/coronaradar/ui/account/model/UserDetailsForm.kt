@@ -44,6 +44,8 @@ class UserDetailsForm(userDetails: UserDetails? = null) : BaseObservable() {
         notifyPropertyChanged(BR.userDetailsFormValid)
     }
 
+    fun displayNameFilled() = _input.displayName.get() != _input.initialDisplayName
+
     fun passwordFilled() =
         !(_input.password.get().isNullOrBlank() && _input.passwordConfirm.get().isNullOrBlank())
 
@@ -87,8 +89,6 @@ class UserDetailsForm(userDetails: UserDetails? = null) : BaseObservable() {
     }
 
     private fun formFilled() = avatarChosen() || displayNameFilled() || passwordFilled()
-
-    private fun displayNameFilled() = _input.displayName.get() != _input.initialDisplayName
 
     private fun clearPasswordError() {
         _error.password.set(null)

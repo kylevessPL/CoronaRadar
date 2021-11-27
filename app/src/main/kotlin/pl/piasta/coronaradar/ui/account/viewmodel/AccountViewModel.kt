@@ -129,17 +129,17 @@ class AccountViewModel @Inject constructor(
         val updatePasswordTask = _userDetailsForm.passwordFilled().takeIf { it }
             ?.let { authRepository.updateCurrentUserPassword(_userDetailsForm.input.password.get()!!) }
         val updateUserDetailsTask =
-            authRepository.updateCurrentUserDetails(
-                _userDetailsForm.input.displayName.get()!!,
-                _userDetailsForm.input.avatar.get()
-            )
-        val task = updatePasswordTask?.let {
-            updateUserDetailsTask
-                .zip(updatePasswordTask) { _, t2 ->
-                    t2
+            (_userDetailsForm.avatarChosen() || _userDetailsForm.displayNameFilled()).takeIf { it }
+                ?.let {
+                    authRepository.updateCurrentUserDetails(
+                        _userDetailsForm.input.displayName.get()!!,
+                        _userDetailsForm.input.avatar.get()
+                    )
                 }
+        val task = updatePasswordTask?.let {
+            updateUserDetailsTask?.zip(it) { _, t2 -> t2 } ?: it
         } ?: updateUserDetailsTask
-        task.collect { result ->
+        task?.collect { result ->
             _updateUserProfileResult.postValue(result)
         }
         _userDetailsForm.clear()

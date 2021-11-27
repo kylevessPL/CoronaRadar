@@ -185,10 +185,10 @@ class FirebaseAuthRepository @Inject constructor(
         }.build()
         auth.currentUser!!.updateProfile(request).await()
         reloadCurrentUserData()
-        Log.d(this@FirebaseAuthRepository.TAG, "updateCurrentUserPassword:success")
+        Log.d(this@FirebaseAuthRepository.TAG, "updateCurrentUserDetails:success")
         emit(ResultState.Success())
     }.catch { ex ->
-        Log.w(this@FirebaseAuthRepository.TAG, "updateCurrentUserPassword:failure", ex)
+        Log.w(this@FirebaseAuthRepository.TAG, "updateCurrentUserDetails:failure", ex)
         emit(ResultState.Error(ex))
     }.flowOn(Dispatchers.IO)
 
@@ -197,10 +197,10 @@ class FirebaseAuthRepository @Inject constructor(
         val ref = storage.reference.child("avatars/${auth.currentUser!!.uid}")
         ref.putBytes(byteArray).await()
         val storageUri = ref.downloadUrl.await()
-        Log.d(this@FirebaseAuthRepository.TAG, "uploadImage:success")
+        Log.d(this@FirebaseAuthRepository.TAG, "uploadAvatar:success")
         emit(ResultState.Success(storageUri))
     }.catch { ex ->
-        Log.w(this@FirebaseAuthRepository.TAG, "uploadImage:failure", ex)
+        Log.w(this@FirebaseAuthRepository.TAG, "uploadAvatar:failure", ex)
         emit(ResultState.Error(ex))
     }.flowOn(Dispatchers.IO)
 
