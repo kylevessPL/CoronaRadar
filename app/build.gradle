@@ -124,7 +124,7 @@ dependencies {
     def koTestVersion = '5.0.0'
     def kaspressoVersion = '1.3.0'
     def mannodermausVersion = '1.3.0'
-    def jUnitVersion = '5.8.1'
+    def jUnitVersion = '5.8.2'
 
     implementation "com.google.android.material:material:$materialVersion"
     implementation platform("com.google.firebase:firebase-bom:$firebaseVersion")
