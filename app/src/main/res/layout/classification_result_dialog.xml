@@ -19,11 +19,14 @@
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="30dp"
             android:background="@drawable/background_dialog_rounded"
             android:padding="?attr/dialogPreferredPadding"
             android:orientation="vertical"
-            android:gravity="center">
+            android:gravity="center"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="30dp">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="wrap_content"
@@ -71,7 +74,7 @@
                 android:id="@+id/classification_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="?attr/dialogPreferredPadding"
                 android:backgroundTint="@color/carrot_orange_800"
                 android:text="@android:string/ok"
                 tools:ignore="TextContrastCheck" />

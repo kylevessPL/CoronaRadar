@@ -1,4 +1,5 @@
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
@@ -9,62 +10,102 @@
             type="pl.piasta.coronaradar.data.survey.model.Survey" />
     </data>
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingHorizontal="@dimen/bottom_sheet_dialog_padding_horizontal"
-        android:paddingVertical="@dimen/bottom_sheet_dialog_padding_vertical"
-        android:orientation="vertical"
-        android:background="@color/white"
-        android:animateLayoutChanges="true">
+        android:fillViewport="true">
 
-        <CheckBox
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:checked="@{survey.details.illnesses.contains(CommonIllness.CANCER)}"
-            android:clickable="false"
-            android:text="@string/cancer" />
+            android:paddingHorizontal="@dimen/bottom_sheet_dialog_padding_horizontal"
+            android:paddingVertical="@dimen/bottom_sheet_dialog_padding_vertical"
+            android:background="@color/white"
+            android:animateLayoutChanges="true">
 
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="@{survey.details.illnesses.contains(CommonIllness.CHRONIC_LUNG_DISEASE)}"
-            android:clickable="false"
-            android:text="@string/chronic_lung_disease" />
+            <CheckBox
+                android:id="@+id/checkBox4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:checked="@{survey.details.illnesses.contains(CommonIllness.CANCER)}"
+                android:clickable="false"
+                android:text="@string/cancer"
+                app:layout_constraintTop_toBottomOf="@+id/checkBox3"
+                app:layout_constraintBottom_toTopOf="@+id/checkBox5"
+                app:layout_constraintStart_toStartOf="parent" />
 
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="@{survey.details.illnesses.contains(CommonIllness.CHRONIC_LIVER_DISEASE)}"
-            android:clickable="false"
-            android:text="@string/chronic_liver_disease" />
+            <CheckBox
+                android:id="@+id/checkBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:checked="@{survey.details.illnesses.contains(CommonIllness.CHRONIC_LUNG_DISEASE)}"
+                android:clickable="false"
+                android:text="@string/chronic_lung_disease"
+                app:layout_constraintTop_toBottomOf="@+id/checkBox2"
+                app:layout_constraintBottom_toTopOf="@+id/checkBox3"
+                app:layout_constraintStart_toStartOf="parent" />
 
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="@{survey.details.illnesses.contains(CommonIllness.DIABETES_MELLITUS)}"
-            android:clickable="false"
-            android:text="@string/diabetes_mellitus" />
+            <CheckBox
+                android:id="@+id/checkBox2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:checked="@{survey.details.illnesses.contains(CommonIllness.CHRONIC_LIVER_DISEASE)}"
+                android:clickable="false"
+                android:text="@string/chronic_liver_disease"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/checkBox"
+                app:layout_constraintStart_toStartOf="parent" />
 
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="@{survey.details.illnesses.contains(CommonIllness.HEART_CONDITIONS)}"
-            android:clickable="false"
-            android:text="@string/heart_conditions" />
+            <CheckBox
+                android:id="@+id/checkBox5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:checked="@{survey.details.illnesses.contains(CommonIllness.DIABETES_MELLITUS)}"
+                android:clickable="false"
+                android:text="@string/diabetes_mellitus"
+                app:layout_constraintTop_toBottomOf="@+id/checkBox4"
+                app:layout_constraintBottom_toTopOf="@+id/checkBox6"
+                app:layout_constraintStart_toStartOf="parent" />
 
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="@{survey.details.illnesses.contains(CommonIllness.ASTHMA)}"
-            android:clickable="false"
-            android:text="@string/asthma" />
+            <CheckBox
+                android:id="@+id/checkBox3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:checked="@{survey.details.illnesses.contains(CommonIllness.HEART_CONDITIONS)}"
+                android:clickable="false"
+                android:text="@string/heart_conditions"
+                app:layout_constraintTop_toBottomOf="@+id/checkBox"
+                app:layout_constraintBottom_toTopOf="@+id/checkBox4"
+                app:layout_constraintStart_toStartOf="parent" />
 
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="@{survey.details.illnesses.contains(CommonIllness.HYPERTENSION)}"
-            android:clickable="false"
-            android:text="@string/hypertension" />
-    </androidx.appcompat.widget.LinearLayoutCompat>
+            <CheckBox
+                android:id="@+id/checkBox6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:checked="@{survey.details.illnesses.contains(CommonIllness.ASTHMA)}"
+                android:clickable="false"
+                android:text="@string/asthma"
+                app:layout_constraintTop_toBottomOf="@+id/checkBox5"
+                app:layout_constraintBottom_toTopOf="@+id/checkBox7"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <CheckBox
+                android:id="@+id/checkBox7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:checked="@{survey.details.illnesses.contains(CommonIllness.HYPERTENSION)}"
+                android:clickable="false"
+                android:text="@string/hypertension"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/checkBox6"
+                app:layout_constraintStart_toStartOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 </layout>

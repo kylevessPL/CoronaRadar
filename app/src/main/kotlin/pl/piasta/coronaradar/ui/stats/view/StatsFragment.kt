@@ -65,7 +65,7 @@ class StatsFragment : BaseFragment<FragmentStatsBinding, StatsViewModel>(R.layou
 
     private fun displaySurveyDialog(survey: Survey) {
         SurveyDetailsDialogFragment.newInstance(survey).show(
-            parentFragmentManager,
+            childFragmentManager,
             SurveyDetailsDialogFragment.TAG
         )
     }

@@ -26,7 +26,7 @@ class RegisterForm : BaseObservable() {
         get() = _error
 
     @Bindable
-    fun isRegisterFormValid(): Boolean =
+    fun isRegisterFormValid() =
         !isProcessing && validateEmail(false) && validatePassword(false) && validatePasswordConfirm(
             false
         )

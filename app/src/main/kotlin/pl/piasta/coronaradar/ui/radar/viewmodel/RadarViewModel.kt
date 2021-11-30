@@ -73,7 +73,7 @@ class RadarViewModel @Inject constructor(
                 (it != RECORDING).ifTrue { _recordingProgress.postValue(0) }
             }
             onAmplitudeListener = {
-                _amplitude.postValue(it.toDouble().pow(1.6).toInt())
+                _amplitude.postValue(it.toDouble().pow(1.5).toInt())
             }
         }
     }

@@ -31,7 +31,7 @@ class UserDetailsForm(userDetails: UserDetails? = null) : BaseObservable() {
     }
 
     @Bindable
-    fun isUserDetailsFormValid(): Boolean =
+    fun isUserDetailsFormValid() =
         !isProcessing && formFilled() && validateDisplayName() && validatePassword(false) && validatePasswordConfirm(
             false
         )

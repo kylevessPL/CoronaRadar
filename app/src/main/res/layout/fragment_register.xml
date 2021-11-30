@@ -10,184 +10,190 @@
             type="pl.piasta.coronaradar.ui.register.viewmodel.RegisterViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
-        android:orientation="vertical"
-        tools:context=".ui.register.view.RegisterFragment">
+        android:fillViewport="true">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/register_fragment_header_icon"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            android:gravity="center"
-            android:contentDescription="@string/app_icon"
-            app:srcCompat="@drawable/ic_covid_200"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/register_fragment_header_title"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/register_fragment_header_title"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/signup_header"
-            android:textStyle="bold"
-            android:textSize="40sp"
-            app:layout_constraintTop_toBottomOf="@+id/register_fragment_header_icon"
-            app:layout_constraintBottom_toTopOf="@+id/register_fragment_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/register_fragment_content"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
+            android:padding="@dimen/activity_padding"
             android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/register_fragment_header_title"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            tools:context=".ui.register.view.RegisterFragment">
 
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:id="@+id/register_email_input"
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/register_fragment_header_icon"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:gravity="center"
+                android:contentDescription="@string/app_icon"
+                app:srcCompat="@drawable/ic_covid_200"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/register_fragment_header_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/register_fragment_header_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/email"
-                android:layout_marginBottom="8dp"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                app:startIconDrawable="@drawable/ic_baseline_email_24"
-                app:startIconContentDescription="@string/email_icon"
-                app:errorEnabled="true"
-                android:errorText="@{viewModel.registerForm.error.email}">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/register_email_input_edit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress"
-                    android:autofillHints="emailAddress"
-                    android:imeOptions="actionNext"
-                    android:nextFocusForward="@id/register_password_input_edit"
-                    android:text="@={viewModel.registerForm.input.email}"
-                    android:onFocusChange="@{viewModel::validateEmail}"
-                    tools:ignore="TextContrastCheck,TouchTargetSizeCheck,SpeakableTextPresentCheck" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:id="@+id/register_password_input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/password"
-                android:layout_marginBottom="8dp"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:errorText="@{viewModel.registerForm.error.password}"
-                app:startIconDrawable="@drawable/ic_baseline_lock_24"
-                app:startIconContentDescription="@string/password_icon"
-                app:endIconMode="password_toggle"
-                app:counterEnabled="true"
-                app:helperTextEnabled="true"
-                app:helperText="@string/min_six_chars_allowed"
-                app:errorEnabled="true">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/register_password_input_edit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPassword"
-                    android:autofillHints="password"
-                    android:imeOptions="actionNext"
-                    android:nextFocusForward="@id/register_password_confirm_input_edit"
-                    android:text="@={viewModel.registerForm.input.password}"
-                    android:onFocusChange="@{viewModel::validatePassword}"
-                    tools:ignore="TextContrastCheck,TouchTargetSizeCheck,SpeakableTextPresentCheck" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:id="@+id/register_password_confirm_input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/password_confirm"
-                android:layout_marginBottom="8dp"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:errorText="@{viewModel.registerForm.error.passwordConfirm}"
-                app:startIconDrawable="@drawable/ic_baseline_lock_24"
-                app:startIconContentDescription="@string/password_icon"
-                app:endIconMode="password_toggle"
-                app:errorEnabled="true">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/register_password_confirm_input_edit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPassword"
-                    android:autofillHints="password"
-                    android:imeOptions="actionDone"
-                    android:text="@={viewModel.registerForm.input.passwordConfirm}"
-                    android:onFocusChange="@{viewModel::validatePasswordConfirm}"
-                    android:loseFocusOnDone="@{true}"
-                    tools:ignore="TextContrastCheck,TouchTargetSizeCheck,SpeakableTextPresentCheck" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.button.MaterialButton
-                android:theme="@style/OrangeButtonThemeOverlay"
-                android:id="@+id/signup_button"
-                android:layout_width="match_parent"
-                android:layout_height="58dp"
-                android:text="@string/signup"
-                android:textAllCaps="true"
-                android:enabled="@{viewModel.registerForm.registerFormValid}"
-                android:onClick="@{() -> viewModel.signUp()}"
-                tools:ignore="TextContrastCheck" />
+                android:gravity="center"
+                android:text="@string/signup_header"
+                android:textStyle="bold"
+                android:textSize="40sp"
+                app:layout_constraintTop_toBottomOf="@+id/register_fragment_header_icon"
+                app:layout_constraintBottom_toTopOf="@+id/register_fragment_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/login_link_layout"
+                android:id="@+id/register_fragment_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="center">
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/register_fragment_header_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="wrap_content"
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:id="@+id/register_email_input"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/login_pt1"
-                    android:textStyle="bold"
-                    android:layout_marginEnd="6dp" />
+                    android:hint="@string/email"
+                    android:layout_marginBottom="8dp"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    app:startIconDrawable="@drawable/ic_baseline_email_24"
+                    app:startIconContentDescription="@string/email_icon"
+                    app:errorEnabled="true"
+                    android:errorText="@{viewModel.registerForm.error.email}">
 
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/login_link"
-                    android:layout_width="wrap_content"
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/register_email_input_edit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textEmailAddress"
+                        android:autofillHints="emailAddress"
+                        android:imeOptions="actionNext"
+                        android:nextFocusForward="@id/register_password_input_edit"
+                        android:text="@={viewModel.registerForm.input.email}"
+                        android:onFocusChange="@{viewModel::validateEmail}"
+                        tools:ignore="TextContrastCheck,TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:id="@+id/register_password_input"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/signin_link"
-                    android:textColor="@color/text_link_color_state"
-                    android:textStyle="bold"
-                    android:clickable="true"
-                    android:onClick="@{() -> viewModel.signInEvent()}"
-                    android:theme="@style/Theme.CoronaRadar.Widget.NoRipple"
-                    tools:ignore="TextContrastCheck,TouchTargetSizeCheck" />
+                    android:hint="@string/password"
+                    android:layout_marginBottom="8dp"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:errorText="@{viewModel.registerForm.error.password}"
+                    app:startIconDrawable="@drawable/ic_baseline_lock_24"
+                    app:startIconContentDescription="@string/password_icon"
+                    app:endIconMode="password_toggle"
+                    app:counterEnabled="true"
+                    app:helperTextEnabled="true"
+                    app:helperText="@string/min_six_chars_allowed"
+                    app:errorEnabled="true">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/register_password_input_edit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        android:autofillHints="password"
+                        android:imeOptions="actionNext"
+                        android:nextFocusForward="@id/register_password_confirm_input_edit"
+                        android:text="@={viewModel.registerForm.input.password}"
+                        android:onFocusChange="@{viewModel::validatePassword}"
+                        tools:ignore="TextContrastCheck,TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:id="@+id/register_password_confirm_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/password_confirm"
+                    android:layout_marginBottom="8dp"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:errorText="@{viewModel.registerForm.error.passwordConfirm}"
+                    app:startIconDrawable="@drawable/ic_baseline_lock_24"
+                    app:startIconContentDescription="@string/password_icon"
+                    app:endIconMode="password_toggle"
+                    app:errorEnabled="true">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/register_password_confirm_input_edit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        android:autofillHints="password"
+                        android:imeOptions="actionDone"
+                        android:text="@={viewModel.registerForm.input.passwordConfirm}"
+                        android:onFocusChange="@{viewModel::validatePasswordConfirm}"
+                        android:loseFocusOnDone="@{true}"
+                        tools:ignore="TextContrastCheck,TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:theme="@style/OrangeButtonThemeOverlay"
+                    android:id="@+id/signup_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="58dp"
+                    android:text="@string/signup"
+                    android:textAllCaps="true"
+                    android:enabled="@{viewModel.registerForm.registerFormValid}"
+                    android:onClick="@{() -> viewModel.signUp()}"
+                    tools:ignore="TextContrastCheck" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/login_link_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/login_pt1"
+                        android:textStyle="bold"
+                        android:layout_marginEnd="6dp" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/login_link"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/signin_link"
+                        android:textColor="@color/text_link_color_state"
+                        android:textStyle="bold"
+                        android:clickable="true"
+                        android:onClick="@{() -> viewModel.signInEvent()}"
+                        android:theme="@style/Theme.CoronaRadar.Widget.NoRipple"
+                        tools:ignore="TextContrastCheck,TouchTargetSizeCheck" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.appcompat.widget.LinearLayoutCompat>
-        </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <com.google.android.material.progressindicator.CircularProgressIndicator
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:indeterminate="true"
-            android:visibility="@{viewModel.progressIndicationVisibility.booleanValue}"
-            app:showAnimationBehavior="inward"
-            app:hideAnimationBehavior="outward"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:visibility="@{viewModel.progressIndicationVisibility.booleanValue}"
+                app:showAnimationBehavior="inward"
+                app:hideAnimationBehavior="outward"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 </layout>

@@ -24,8 +24,7 @@ class LoginForm : BaseObservable() {
         get() = _error
 
     @Bindable
-    fun isLoginFormValid(): Boolean =
-        !isProcessing && validateEmail(false) && validatePassword(false)
+    fun isLoginFormValid() = !isProcessing && validateEmail(false) && validatePassword(false)
 
     fun validateEmail(showError: Boolean = true): Boolean {
         return emailValidationMessage(_input.email.get()).let { message ->

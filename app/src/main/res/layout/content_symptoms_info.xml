@@ -1,4 +1,5 @@
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
@@ -9,55 +10,90 @@
             type="pl.piasta.coronaradar.data.survey.model.Survey" />
     </data>
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingHorizontal="@dimen/bottom_sheet_dialog_padding_horizontal"
-        android:paddingVertical="@dimen/bottom_sheet_dialog_padding_vertical"
-        android:orientation="vertical"
-        android:background="@color/white"
-        android:animateLayoutChanges="true">
+        android:fillViewport="true">
 
-        <CheckBox
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:checked="@{survey.details.symptoms.contains(CommonSymptom.FEVER)}"
-            android:clickable="false"
-            android:text="@string/fever" />
+            android:paddingHorizontal="@dimen/bottom_sheet_dialog_padding_horizontal"
+            android:paddingVertical="@dimen/bottom_sheet_dialog_padding_vertical"
+            android:background="@color/white"
+            android:animateLayoutChanges="true">
 
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="@{survey.details.symptoms.contains(CommonSymptom.DIARRHOEA)}"
-            android:clickable="false"
-            android:text="@string/diarrhoea" />
+            <CheckBox
+                android:id="@+id/checkBox9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:checked="@{survey.details.symptoms.contains(CommonSymptom.FEVER)}"
+                android:clickable="false"
+                android:text="@string/fever"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/checkBox8"
+                app:layout_constraintStart_toStartOf="parent" />
 
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="@{survey.details.symptoms.contains(CommonSymptom.BREATH_SHORTNESS)}"
-            android:clickable="false"
-            android:text="@string/breath_shortness" />
+            <CheckBox
+                android:id="@+id/checkBox8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:checked="@{survey.details.symptoms.contains(CommonSymptom.DIARRHOEA)}"
+                android:clickable="false"
+                android:text="@string/diarrhoea"
+                app:layout_constraintTop_toBottomOf="@+id/checkBox9"
+                app:layout_constraintBottom_toTopOf="@+id/checkBox10"
+                app:layout_constraintStart_toStartOf="parent" />
 
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="@{survey.details.symptoms.contains(CommonSymptom.TIREDNESS)}"
-            android:clickable="false"
-            android:text="@string/tiredness" />
+            <CheckBox
+                android:id="@+id/checkBox10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:checked="@{survey.details.symptoms.contains(CommonSymptom.BREATH_SHORTNESS)}"
+                android:clickable="false"
+                android:text="@string/breath_shortness"
+                app:layout_constraintTop_toBottomOf="@+id/checkBox8"
+                app:layout_constraintBottom_toTopOf="@+id/checkBox11"
+                app:layout_constraintStart_toStartOf="parent" />
 
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="@{survey.details.symptoms.contains(CommonSymptom.SMELL_LOSS)}"
-            android:clickable="false"
-            android:text="@string/smell_loss" />
+            <CheckBox
+                android:id="@+id/checkBox11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:checked="@{survey.details.symptoms.contains(CommonSymptom.TIREDNESS)}"
+                android:clickable="false"
+                android:text="@string/tiredness"
+                app:layout_constraintTop_toBottomOf="@+id/checkBox10"
+                app:layout_constraintBottom_toTopOf="@+id/checkBox12"
+                app:layout_constraintStart_toStartOf="parent" />
 
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="@{survey.details.symptoms.contains(CommonSymptom.RASH)}"
-            android:clickable="false"
-            android:text="@string/rash" />
-    </androidx.appcompat.widget.LinearLayoutCompat>
+            <CheckBox
+                android:id="@+id/checkBox12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:checked="@{survey.details.symptoms.contains(CommonSymptom.SMELL_LOSS)}"
+                android:clickable="false"
+                android:text="@string/smell_loss"
+                app:layout_constraintTop_toBottomOf="@+id/checkBox11"
+                app:layout_constraintBottom_toTopOf="@+id/checkBox13"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <CheckBox
+                android:id="@+id/checkBox13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:checked="@{survey.details.symptoms.contains(CommonSymptom.RASH)}"
+                android:clickable="false"
+                android:text="@string/rash"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/checkBox12"
+                app:layout_constraintStart_toStartOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 </layout>

@@ -4,8 +4,6 @@
 
     <data>
 
-        <import type="android.view.View" />
-
         <import type="androidx.paging.LoadState" />
 
         <variable
@@ -35,7 +33,7 @@
             android:textAppearance="?attr/textAppearanceSubtitle1"
             android:textColor="@color/design_default_color_error"
             android:textSize="@dimen/layout_item_text"
-            android:visibility="@{loadState instanceof LoadState.Error ? View.VISIBLE : View.INVISIBLE}" />
+            android:visibility="@{loadState instanceof LoadState.Error}" />
 
         <com.google.android.material.progressindicator.CircularProgressIndicator
             android:id="@+id/load_state_progress"
@@ -43,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:indeterminate="true"
-            android:visibility="@{loadState instanceof LoadState.Loading ? View.VISIBLE : View.INVISIBLE}" />
+            android:visibility="@{loadState instanceof LoadState.Loading}" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/load_state_retry"
@@ -53,7 +51,7 @@
             android:layout_alignEnd="@id/load_state_progress"
             android:layout_centerVertical="true"
             android:text="@string/retry"
-            android:visibility="@{loadState instanceof LoadState.Error ? View.VISIBLE : View.INVISIBLE}"
+            android:visibility="@{loadState instanceof LoadState.Error}"
             android:onClick="@{() -> adapter.retry.invoke()}"
             tools:ignore="TextContrastCheck" />
     </RelativeLayout>

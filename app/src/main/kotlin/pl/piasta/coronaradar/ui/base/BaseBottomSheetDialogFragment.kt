@@ -1,5 +1,6 @@
 package pl.piasta.coronaradar.ui.base
 
+import android.content.res.Configuration.ORIENTATION_LANDSCAPE
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,8 @@ import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import pl.piasta.coronaradar.BR
+import pl.piasta.coronaradar.ui.util.expandDialog
+import pl.piasta.coronaradar.util.ifTrue
 
 abstract class BaseBottomSheetDialogFragment<DB : ViewDataBinding, PVM : ViewModel?>(@LayoutRes private val layoutRes: Int) :
     BottomSheetDialogFragment() {
@@ -52,6 +55,13 @@ abstract class BaseBottomSheetDialogFragment<DB : ViewDataBinding, PVM : ViewMod
         super.onViewCreated(view, savedInstanceState)
         setupView()
         updateUI()
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        (resources.configuration.orientation == ORIENTATION_LANDSCAPE).ifTrue {
+            expandDialog()
+        }
     }
 
     @CallSuper

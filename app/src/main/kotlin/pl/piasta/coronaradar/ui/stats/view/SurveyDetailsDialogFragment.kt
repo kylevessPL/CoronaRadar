@@ -38,7 +38,7 @@ class SurveyDetailsDialogFragment :
     override fun setupView() {
         val data = requireArguments().getParcelable<Survey>("data")!!
         with(binding) {
-            actionBar = toolbar
+            actionBar = surveyDetailsToolbar
             survey = data
         }
         super.setupView()
@@ -46,10 +46,16 @@ class SurveyDetailsDialogFragment :
 
     override fun updateUI() {
         parentViewModel.displayIllnessDetails.observeNotNull(viewLifecycleOwner) { illnesses ->
-            SurveyDetailsInfoDialogFragment.newInstance(illnesses, binding.survey!!).show(
-                childFragmentManager,
-                SurveyDetailsInfoDialogFragment.TAG
-            )
+            when (illnesses) {
+                true -> SurveyDetailsIllnessesInfoDialogFragment.newInstance(binding.survey!!).show(
+                    childFragmentManager,
+                    SurveyDetailsIllnessesInfoDialogFragment.TAG
+                )
+                false -> SurveyDetailsSymptomsInfoDialogFragment.newInstance(binding.survey!!).show(
+                    childFragmentManager,
+                    SurveyDetailsSymptomsInfoDialogFragment.TAG
+                )
+            }
         }
     }
 }
