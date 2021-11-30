@@ -5,7 +5,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.Query.Direction.DESCENDING
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -41,7 +41,7 @@ class FirestoreHistoryRepository @Inject constructor(
             .collection(USERS)
             .document(Firebase.auth.uid.toString())
             .collection(HISTORY)
-            .orderBy(DATE, Query.Direction.DESCENDING)
+            .orderBy(DATE, DESCENDING)
             .limit(PAGE_SIZE.toLong())
     }
 

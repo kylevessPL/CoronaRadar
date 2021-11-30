@@ -1,17 +1,11 @@
 package pl.piasta.coronaradar.ui.user.viewmodel
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import pl.piasta.coronaradar.ui.user.model.PasswordResetForm
-import javax.inject.Inject
 
-@HiltViewModel
-class PasswordResetViewModel @Inject constructor(
-    private val savedStateHandle: SavedStateHandle
-) : ViewModel() {
+class PasswordResetViewModel : ViewModel() {
 
     private val _passwordResetForm = PasswordResetForm()
     val passwordResetForm: PasswordResetForm

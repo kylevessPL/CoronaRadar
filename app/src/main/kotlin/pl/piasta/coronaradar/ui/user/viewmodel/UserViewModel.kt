@@ -2,7 +2,10 @@ package pl.piasta.coronaradar.ui.user.viewmodel
 
 import android.app.Application
 import android.net.Uri
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseUser
 import com.hadilq.liveevent.LiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,10 +21,8 @@ import javax.inject.Inject
 @HiltViewModel
 class UserViewModel @Inject constructor(
     application: Application,
-    private val authRepository: AuthRepository,
-    private val savedStateHandle: SavedStateHandle
-) :
-    ViewModel() {
+    private val authRepository: AuthRepository
+) : ViewModel() {
 
     private val _connectivity = ConnectivityLiveData(application)
     val connectivity: LiveData<Boolean>

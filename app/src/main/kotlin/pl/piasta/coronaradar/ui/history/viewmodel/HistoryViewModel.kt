@@ -10,10 +10,7 @@ import pl.piasta.coronaradar.data.history.repository.HistoryRepository
 import javax.inject.Inject
 
 @HiltViewModel
-class HistoryViewModel @Inject constructor(
-    historyRepository: HistoryRepository,
-    private val savedStateHandle: SavedStateHandle
-) : ViewModel() {
+class HistoryViewModel @Inject constructor(historyRepository: HistoryRepository) : ViewModel() {
 
     private val _historyData = historyRepository.getAllCurrentUserHistoryPaged()
         .cachedIn(viewModelScope)

@@ -10,10 +10,7 @@ import pl.piasta.coronaradar.data.survey.repository.SurveyRepository
 import javax.inject.Inject
 
 @HiltViewModel
-class StatsViewModel @Inject constructor(
-    surveyRepository: SurveyRepository,
-    private val savedStateHandle: SavedStateHandle
-) : ViewModel() {
+class StatsViewModel @Inject constructor(surveyRepository: SurveyRepository) : ViewModel() {
 
     private val _surveysData = surveyRepository.getAllSurveysPaged()
         .cachedIn(viewModelScope)

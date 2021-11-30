@@ -2,7 +2,10 @@ package pl.piasta.coronaradar.ui.account.viewmodel
 
 import android.app.Application
 import android.net.Uri
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.hadilq.liveevent.LiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.cancel
@@ -20,8 +23,7 @@ import kotlin.coroutines.coroutineContext
 @HiltViewModel
 class AccountViewModel @Inject constructor(
     private val application: Application,
-    private val authRepository: AuthRepository,
-    private val savedStateHandle: SavedStateHandle
+    private val authRepository: AuthRepository
 ) : ViewModel() {
 
     private val _userDetailsForm = UserDetailsForm(authRepository.currentUser!!)

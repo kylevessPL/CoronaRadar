@@ -1,6 +1,5 @@
 <resources>
     <dimen name="activity_padding">16dp</dimen>
-    <dimen name="nav_header_vertical_spacing">8dp</dimen>
     <dimen name="nav_header_height">176dp</dimen>
     <dimen name="elevation_image">6dp</dimen>
     <dimen name="drawable_padding">8dp</dimen>
@@ -14,10 +13,7 @@
     <dimen name="list_text_margin_bottom">4dp</dimen>
     <dimen name="list_border_padding_vertical">4dp</dimen>
     <dimen name="list_border_padding_horizontal">8dp</dimen>
-    <dimen name="list_padding">8dp</dimen>
     <dimen name="list_icon_size">40dp</dimen>
-    <dimen name="list_textview_padding_start">0dp</dimen>
-    <dimen name="list_textview_padding_end">16dp</dimen>
     <dimen name="bottom_sheet_dialog_padding_horizontal">16dp</dimen>
     <dimen name="bottom_sheet_dialog_padding_vertical">12dp</dimen>
 </resources>

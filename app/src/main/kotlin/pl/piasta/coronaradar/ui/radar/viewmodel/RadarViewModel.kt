@@ -55,8 +55,7 @@ class RadarViewModel @Inject constructor(
     private val historyRepository: HistoryRepository,
     private val surveyRepository: SurveyRepository,
     private val pythonInterpreter: Python,
-    private val preferences: SharedPreferences,
-    private val savedStateHandle: SavedStateHandle
+    private val preferences: SharedPreferences
 ) : ViewModel() {
 
     private val recorder: WaveRecorder by lazy {

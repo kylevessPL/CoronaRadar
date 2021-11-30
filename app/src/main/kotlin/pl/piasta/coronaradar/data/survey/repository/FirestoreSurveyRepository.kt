@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.Query.Direction.DESCENDING
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -33,7 +33,7 @@ class FirestoreSurveyRepository @Inject constructor(
     private val getAllSurveysPagingQuery by lazy {
         firestore
             .collection(SURVEYS)
-            .orderBy(DATE, Query.Direction.DESCENDING)
+            .orderBy(DATE, DESCENDING)
             .limit(PAGE_SIZE.toLong())
     }
 

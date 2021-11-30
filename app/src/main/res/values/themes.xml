@@ -98,14 +98,6 @@
         <item name="android:textColor">@android:color/darker_gray</item>
     </style>
 
-    <style name="Theme.CoronaRadar.Widget.Button.Blue" parent="Widget.MaterialComponents.Button">
-        <item name="materialThemeOverlay">@style/BlueButtonThemeOverlay</item>
-    </style>
-
-    <style name="Theme.CoronaRadar.Widget.Button.Orange" parent="Widget.MaterialComponents.Button">
-        <item name="materialThemeOverlay">@style/OrangeButtonThemeOverlay</item>
-    </style>
-
     <style name="BlueButtonThemeOverlay">
         <item name="colorPrimary">@color/picton_blue_600</item>
     </style>

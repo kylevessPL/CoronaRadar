@@ -1,6 +1,9 @@
 package pl.piasta.coronaradar.ui.register.viewmodel
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseUser
 import com.hadilq.liveevent.LiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,10 +15,7 @@ import pl.piasta.coronaradar.util.ResultState
 import javax.inject.Inject
 
 @HiltViewModel
-class RegisterViewModel @Inject constructor(
-    private val authRepository: AuthRepository,
-    private val savedStateHandle: SavedStateHandle
-) :
+class RegisterViewModel @Inject constructor(private val authRepository: AuthRepository) :
     ViewModel() {
 
     private val _registerForm = RegisterForm()
