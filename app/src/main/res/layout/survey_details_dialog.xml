@@ -35,6 +35,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
+                app:title="@string/survey_result"
+                app:navigationIcon="@drawable/ic_close_24"
+                app:navigationOnClickListener="@{() -> viewModel.surveyDetailsDialogDismissEvent()}"
                 app:popupTheme="@style/Theme.CoronaRadar.PopupOverlay" />
 
         </com.google.android.material.appbar.AppBarLayout>

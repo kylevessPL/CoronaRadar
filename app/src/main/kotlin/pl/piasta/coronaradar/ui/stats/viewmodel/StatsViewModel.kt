@@ -26,6 +26,10 @@ class StatsViewModel @Inject constructor(surveyRepository: SurveyRepository) : V
     val displaySurveyDialog: LiveData<Survey>
         get() = _displaySurveyDialog
 
+    private val _surveyDetailsDialogDismiss = LiveEvent<Boolean>()
+    val surveyDetailsDialogDismiss: LiveData<Boolean>
+        get() = _surveyDetailsDialogDismiss
+
     private val _displayIllnessDetails = LiveEvent<Boolean>()
     val displayIllnessDetails: LiveData<Boolean>
         get() = _displayIllnessDetails
@@ -48,5 +52,9 @@ class StatsViewModel @Inject constructor(surveyRepository: SurveyRepository) : V
 
     fun displaySurveyDialogEvent(survey: Survey) {
         _displaySurveyDialog.value = survey
+    }
+
+    fun surveyDetailsDialogDismissEvent() {
+        _surveyDetailsDialogDismiss.value = true
     }
 }

@@ -49,26 +49,26 @@ android {
                 install 'tflite_runtime'
             }
         }
-        signingConfig signingConfigs.debug
-        targetSdkVersion 31
-        minSdkVersion 26
     }
 
     androidResources {
         noCompress 'tflite'
     }
+
     buildTypes {
         debug {
             signingConfig signingConfigs.debug
+            firebaseAppDistribution {
+                artifactType = "APK"
+                testersFile = ""
+            }
         }
     }
-
 
     buildFeatures {
         dataBinding true
         mlModelBinding true
     }
-
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_11
