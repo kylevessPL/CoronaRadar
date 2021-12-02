@@ -7,6 +7,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.paging.LoadState
 import androidx.paging.LoadState.Loading
+import androidx.paging.LoadState.NotLoading
 import dagger.hilt.android.AndroidEntryPoint
 import pl.piasta.coronaradar.R
 import pl.piasta.coronaradar.data.survey.model.Survey
@@ -73,9 +74,10 @@ class StatsFragment : BaseFragment<FragmentStatsBinding, StatsViewModel>(R.layou
     private fun setupSwipeRefresh() = binding.statsSwipeRefresh.setGoogleSchemeColors()
 
     private fun setupAdapter() {
-        binding.statsRecyclerView.adapter = adapter.apply {
+        binding.contentStats.recyclerView.adapter = adapter.apply {
             addLoadStateListener {
                 viewModel.setDataRefreshing(it.refresh is Loading)
+                viewModel.setEmptyPlaceholderVisibility(it.refresh is NotLoading && it.append.endOfPaginationReached && adapter.itemCount == 0)
                 (it.refresh is LoadState.Error).ifTrue { toast(R.string.fetch_data_failure_message) }
             }
         }.withLoadStateFooter(FooterLoadStateAdapter(adapter::retry))

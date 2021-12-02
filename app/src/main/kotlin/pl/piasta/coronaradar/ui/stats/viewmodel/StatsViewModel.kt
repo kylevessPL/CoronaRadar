@@ -22,6 +22,10 @@ class StatsViewModel @Inject constructor(surveyRepository: SurveyRepository) : V
     val isRefreshing: LiveData<Boolean>
         get() = _isRefreshing
 
+    private val _emptyPlaceholderVisibility = MutableLiveData(false)
+    val emptyPlaceholderVisibility: LiveData<Boolean>
+        get() = _emptyPlaceholderVisibility
+
     private val _displaySurveyDialog = LiveEvent<Survey>()
     val displaySurveyDialog: LiveData<Survey>
         get() = _displaySurveyDialog
@@ -40,6 +44,10 @@ class StatsViewModel @Inject constructor(surveyRepository: SurveyRepository) : V
 
     fun setDataRefreshing(value: Boolean) {
         _isRefreshing.value = value
+    }
+
+    fun setEmptyPlaceholderVisibility(visible: Boolean) {
+        _emptyPlaceholderVisibility.value = visible
     }
 
     fun displayIllnessDetailsEvent(value: Boolean) {

@@ -4,8 +4,7 @@ import android.content.Intent
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.paging.LoadState.Error
-import androidx.paging.LoadState.Loading
+import androidx.paging.LoadState.*
 import dagger.hilt.android.AndroidEntryPoint
 import pl.piasta.coronaradar.R
 import pl.piasta.coronaradar.databinding.FragmentHistoryBinding
@@ -55,9 +54,10 @@ class HistoryFragment :
     private fun setupSwipeRefresh() = binding.historySwipeRefresh.setGoogleSchemeColors()
 
     private fun setupAdapter() {
-        binding.historyRecyclerView.adapter = adapter.apply {
+        binding.contentHistory.recyclerView.adapter = adapter.apply {
             addLoadStateListener {
                 viewModel.setDataRefreshing(it.refresh is Loading)
+                viewModel.setEmptyPlaceholderVisibility(it.refresh is NotLoading && it.append.endOfPaginationReached && adapter.itemCount == 0)
                 (it.refresh is Error).ifTrue { toast(R.string.fetch_data_failure_message) }
             }
         }.withLoadStateFooter(FooterLoadStateAdapter(adapter::retry))

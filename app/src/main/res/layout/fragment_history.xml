@@ -14,16 +14,15 @@
         android:id="@+id/history_swipe_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:refreshing="@{viewModel.isRefreshing()}"
+        app:refreshing="@{viewModel.isRefreshing}"
         app:onRefreshListener="@{() -> viewModel.refreshDataEvent()}"
         tools:context="pl.piasta.coronaradar.ui.history.view.HistoryFragment">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/history_recycler_view"
+        <include
+            layout="@layout/paged_recycler_view"
+            android:id="@+id/content_history"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:itemDecoration="@{true}"
-            app:layoutManager="LinearLayoutManager"
-            tools:listitem="@layout/item_history" />
+            app:emptyPlaceholderVisibility="@{viewModel.emptyPlaceholderVisibility}" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>

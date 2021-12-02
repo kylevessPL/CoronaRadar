@@ -22,12 +22,20 @@ class HistoryViewModel @Inject constructor(historyRepository: HistoryRepository)
     val isRefreshing: LiveData<Boolean>
         get() = _isRefreshing
 
+    private val _emptyPlaceholderVisibility = MutableLiveData(false)
+    val emptyPlaceholderVisibility: LiveData<Boolean>
+        get() = _emptyPlaceholderVisibility
+
     private val _refreshData = LiveEvent<Boolean>()
     val refreshData: LiveData<Boolean>
         get() = _refreshData
 
     fun setDataRefreshing(value: Boolean) {
         _isRefreshing.value = value
+    }
+
+    fun setEmptyPlaceholderVisibility(visible: Boolean) {
+        _emptyPlaceholderVisibility.value = visible
     }
 
     fun refreshDataEvent() {

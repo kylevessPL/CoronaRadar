@@ -18,12 +18,11 @@
         app:onRefreshListener="@{() -> viewModel.refreshDataEvent()}"
         tools:context="pl.piasta.coronaradar.ui.stats.view.StatsFragment">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/stats_recycler_view"
+        <include
+            layout="@layout/paged_recycler_view"
+            android:id="@+id/content_stats"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:itemDecoration="@{true}"
-            app:layoutManager="LinearLayoutManager"
-            tools:listitem="@layout/item_survey" />
+            app:emptyPlaceholderVisibility="@{viewModel.emptyPlaceholderVisibility}" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>
