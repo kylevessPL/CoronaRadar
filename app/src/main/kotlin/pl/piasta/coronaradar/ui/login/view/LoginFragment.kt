@@ -118,19 +118,19 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(R.layou
     }
 
     private fun displayVerifyEmailResult(result: ResultState<Nothing>) = when (result) {
-        is Success -> viewModel.setProgressIndicationVisibility(false)
+        is Success -> viewModel.setProgressIndicatorVisibility(false)
         is Error -> {
-            viewModel.setProgressIndicationVisibility(false)
+            viewModel.setProgressIndicatorVisibility(false)
             longToast(R.string.general_failure_message)
         }
-        Loading -> viewModel.setProgressIndicationVisibility(true)
+        Loading -> viewModel.setProgressIndicatorVisibility(true)
     }
 
     private fun displaySignInResult(result: ResultState<FirebaseUser>) {
         when (result) {
-            is Success -> viewModel.setProgressIndicationVisibility(false)
+            is Success -> viewModel.setProgressIndicatorVisibility(false)
             is Error -> {
-                viewModel.setProgressIndicationVisibility(false)
+                viewModel.setProgressIndicatorVisibility(false)
                 when (val ex = result.ex) {
                     is FirebaseAuthException -> {
                         val messageId = when (ex is FirebaseAuthUserCollisionException) {
@@ -159,7 +159,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(R.layou
                     else -> !(ex is ApiException && ex.status.isCanceled).ifTrue { longToast(R.string.general_failure_message) }!!
                 }
             }
-            Loading -> viewModel.setProgressIndicationVisibility(true)
+            Loading -> viewModel.setProgressIndicatorVisibility(true)
         }
     }
 }

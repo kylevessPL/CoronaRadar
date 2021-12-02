@@ -15,13 +15,14 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.quickbirdstudios.surveykit.StepIdentifier
 import com.quickbirdstudios.surveykit.result.QuestionResult
 import com.quickbirdstudios.surveykit.result.StepResult
 import pl.piasta.coronaradar.R
 import pl.piasta.coronaradar.data.base.Labellable
 import pl.piasta.coronaradar.util.ifTrue
+import splitties.resources.appStr
 import splitties.resources.color
-import splitties.resources.str
 
 fun <T> LiveData<T>.observeNotNull(owner: LifecycleOwner, observer: (t: T) -> Unit) {
     this.observe(owner, {
@@ -64,10 +65,8 @@ fun BottomSheetDialogFragment.expandDialog() {
 
 val Context.recordingPath get() = filesDir.resolve("rec.wav")
 
-inline fun <reified T> findByLabel(
-    ctx: Context,
-    label: String
-): T? where T : Enum<T>, T : Labellable = enumValues<T>().find { ctx.str(it.label) == label }
+inline fun <reified T> findByLabel(label: String): T? where T : Enum<T>, T : Labellable =
+    enumValues<T>().find { appStr(it.label) == label }
 
 inline fun <reified T> List<StepResult>.findLastResult(id: Int): T? where T : QuestionResult =
     find { it.id.id == id.toString() }?.results?.lastOrNull() as? T
@@ -81,3 +80,5 @@ fun Uri.fileSize(ctx: Context) =
         it.moveToFirst()
         it.getLong(sizeIndex)
     }
+
+fun stepOf(id: Int) = StepIdentifier(id.toString())

@@ -83,7 +83,7 @@ class UserActivity : BaseActivity<ActivityUserBinding, UserViewModel>(R.layout.a
             is Success -> {
                 when (val data = result.data) {
                     is PasswordReset -> {
-                        viewModel.setProgressIndicationVisibility(false)
+                        viewModel.setProgressIndicatorVisibility(false)
                         PasswordResetDialogFragment(data.oob).show(
                             supportFragmentManager,
                             PasswordResetDialogFragment::class.TAG
@@ -93,49 +93,49 @@ class UserActivity : BaseActivity<ActivityUserBinding, UserViewModel>(R.layout.a
                 }
             }
             is Error -> {
-                viewModel.setProgressIndicationVisibility(false)
+                viewModel.setProgressIndicatorVisibility(false)
                 when (result.ex) {
                     is FirebaseAuthActionCodeException -> longToast(R.string.auth_code_failure_invalid_message)
                     else -> longToast(R.string.general_failure_message)
                 }
             }
-            Loading -> viewModel.setProgressIndicationVisibility(true)
+            Loading -> viewModel.setProgressIndicatorVisibility(true)
         }
     }
 
     private fun displayVerificationEmailResult(result: ResultState<Nothing>) = when (result) {
         is Success -> {
-            viewModel.setProgressIndicationVisibility(false)
+            viewModel.setProgressIndicatorVisibility(false)
             longToast(R.string.verification_email_success_message)
         }
         is Error -> {
-            viewModel.setProgressIndicationVisibility(false)
+            viewModel.setProgressIndicatorVisibility(false)
             longToast(R.string.general_failure_message)
         }
-        Loading -> viewModel.setProgressIndicationVisibility(true)
+        Loading -> viewModel.setProgressIndicatorVisibility(true)
     }
 
     private fun displayPasswordResetEmailResult(result: ResultState<Boolean>) = when (result) {
         is Success -> {
-            viewModel.setProgressIndicationVisibility(false)
+            viewModel.setProgressIndicatorVisibility(false)
             longToast(R.string.password_reset_email_complete_message)
         }
         is Error -> {
-            viewModel.setProgressIndicationVisibility(false)
+            viewModel.setProgressIndicatorVisibility(false)
             longToast(R.string.general_failure_message)
         }
-        Loading -> viewModel.setProgressIndicationVisibility(true)
+        Loading -> viewModel.setProgressIndicatorVisibility(true)
     }
 
     private fun displayPasswordResetResult(result: ResultState<Boolean>) = when (result) {
         is Success -> {
-            viewModel.setProgressIndicationVisibility(false)
+            viewModel.setProgressIndicatorVisibility(false)
             longToast(R.string.password_reset_complete_message)
         }
         is Error -> {
-            viewModel.setProgressIndicationVisibility(false)
+            viewModel.setProgressIndicatorVisibility(false)
             longToast(R.string.general_failure_message)
         }
-        Loading -> viewModel.setProgressIndicationVisibility(true)
+        Loading -> viewModel.setProgressIndicatorVisibility(true)
     }
 }

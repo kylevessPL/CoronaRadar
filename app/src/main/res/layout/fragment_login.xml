@@ -117,7 +117,7 @@
                     android:focusable="true"
                     android:focusableInTouchMode="true"
                     android:errorText="@{viewModel.loginForm.error.email}"
-                    app:startIconDrawable="@drawable/ic_baseline_email_24"
+                    app:startIconDrawable="@drawable/ic_email_24"
                     app:startIconContentDescription="@string/email_icon"
                     app:errorEnabled="true">
 
@@ -144,7 +144,7 @@
                     android:focusable="true"
                     android:focusableInTouchMode="true"
                     android:errorText="@{viewModel.loginForm.error.password}"
-                    app:startIconDrawable="@drawable/ic_baseline_lock_24"
+                    app:startIconDrawable="@drawable/ic_lock_24"
                     app:startIconContentDescription="@string/password_icon"
                     app:endIconMode="password_toggle"
                     app:errorEnabled="true">
@@ -171,7 +171,7 @@
                     android:textAllCaps="true"
                     android:enabled="@{viewModel.loginForm.loginFormValid}"
                     android:onClick="@{() -> viewModel.signIn()}"
-                    app:icon="@drawable/ic_baseline_login_24"
+                    app:icon="@drawable/ic_login_24"
                     app:iconGravity="textStart"
                     tools:ignore="TextContrastCheck" />
 
@@ -232,7 +232,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:indeterminate="true"
-                android:visibility="@{viewModel.progressIndicationVisibility.booleanValue}"
+                android:visibility="@{viewModel.progressIndicatorVisibility.booleanValue}"
                 app:showAnimationBehavior="inward"
                 app:hideAnimationBehavior="outward"
                 app:layout_constraintTop_toTopOf="parent"

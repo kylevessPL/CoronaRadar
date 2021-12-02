@@ -57,7 +57,7 @@
                                 android:text="@string/tip"
                                 android:textAppearance="?attr/textAppearanceHeadline6"
                                 android:drawablePadding="@dimen/drawable_padding"
-                                app:drawableEndCompat="@drawable/ic_baseline_info_24"
+                                app:drawableEndCompat="@drawable/ic_info_24"
                                 app:drawableTint="@color/picton_blue_600" />
 
                             <androidx.appcompat.widget.AppCompatTextView
@@ -111,7 +111,7 @@
                             android:layout_gravity="center"
                             android:contentDescription="@string/record_voice"
                             android:onClick="@{() -> viewModel.requestPermissionsEvent()}"
-                            android:src="@{viewModel.isRecording ? @drawable/ic_baseline_stop_24 : @drawable/ic_baseline_mic_24}"
+                            android:src="@{viewModel.isRecording ? @drawable/ic_stop_24 : @drawable/ic_mic_24}"
                             android:enabled="@{!(viewModel.modelUpdateVisibility || viewModel.processingVisibility)}"
                             app:fabCustomSize="168dp"
                             app:maxImageSize="64dp"

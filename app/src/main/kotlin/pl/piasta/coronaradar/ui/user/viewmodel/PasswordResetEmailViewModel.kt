@@ -2,6 +2,7 @@ package pl.piasta.coronaradar.ui.user.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import pl.piasta.coronaradar.ui.user.model.PasswordResetEmailForm
 
@@ -12,7 +13,7 @@ class PasswordResetEmailViewModel : ViewModel() {
         get() = _passwordResetEmailForm
 
     fun validateEmail() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             _passwordResetEmailForm.validateEmail()
         }
     }

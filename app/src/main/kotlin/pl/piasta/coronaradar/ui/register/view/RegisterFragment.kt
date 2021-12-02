@@ -57,7 +57,7 @@ class RegisterFragment :
     private fun displaySignUpResult(result: ResultState<FirebaseUser>) {
         when (result) {
             is Success -> {
-                viewModel.setProgressIndicationVisibility(false)
+                viewModel.setProgressIndicatorVisibility(false)
                 activityViewModel.sendVerificationEmail()
             }
             is Error -> {
@@ -74,7 +74,7 @@ class RegisterFragment :
                     else -> longToast(R.string.general_failure_message)
                 }
             }
-            Loading -> viewModel.setProgressIndicationVisibility(true)
+            Loading -> viewModel.setProgressIndicatorVisibility(true)
         }
     }
 

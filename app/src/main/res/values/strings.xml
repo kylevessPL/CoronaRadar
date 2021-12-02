@@ -170,4 +170,8 @@
     <string name="your_name">Your name</string>
     <string name="your_age">Your age</string>
     <string name="gender_age" tools:ignore="PluralsCandidate">%1$s, %2$d yrs old</string>
+    <string name="covid_test_result_question_title">What was your COVID-19 test result?</string>
+    <string name="covid_test_result_question_message">Choose your test result</string>
+    <string name="covid_test_attendance_question_title">Have you been tested for COVID-19?</string>
+    <string name="nothing_to_show">Nothing to show</string>
 </resources>

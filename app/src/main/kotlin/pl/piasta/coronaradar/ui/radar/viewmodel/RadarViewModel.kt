@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.media.AudioFormat.CHANNEL_IN_MONO
 import android.net.Uri
 import android.util.Log
+import androidx.core.net.toUri
 import androidx.lifecycle.*
 import com.chaquo.python.Python
 import com.github.squti.androidwaverecorder.RecorderState.RECORDING
@@ -19,6 +20,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.flattenMerge
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
 import pl.piasta.coronaradar.R
 import pl.piasta.coronaradar.data.auth.repository.AuthRepository
@@ -31,6 +35,7 @@ import pl.piasta.coronaradar.data.survey.model.Survey
 import pl.piasta.coronaradar.data.survey.model.SurveyDetails
 import pl.piasta.coronaradar.data.survey.repository.SurveyRepository
 import pl.piasta.coronaradar.ui.radar.model.Classification
+import pl.piasta.coronaradar.ui.util.contentBytes
 import pl.piasta.coronaradar.ui.util.findByLabel
 import pl.piasta.coronaradar.ui.util.findLastResult
 import pl.piasta.coronaradar.ui.util.recordingPath
@@ -190,13 +195,22 @@ class RadarViewModel @Inject constructor(
         _collectSurveyDataResult.value = true
         (reason == Completed).ifTrue {
             viewModelScope.launch(Dispatchers.IO) {
+                val covidTestResult = extractCovidTestResult(result)
                 val details = createSurveyDetails(result)
                 val survey = Survey(
                     UUID.randomUUID(),
                     Instant.now(),
                     details
                 )
-                surveyRepository.createSurvey(survey).collect()
+                val uploadCoughAudioTask = covidTestResult?.let {
+                    surveyRepository.uploadCoughAudio(
+                        it,
+                        application.recordingPath.toUri().contentBytes(application)!!
+                    )
+                }
+                val createSurveyTask = surveyRepository.createSurvey(survey)
+                flowOf(uploadCoughAudioTask, createSurveyTask).filterNotNull().flattenMerge()
+                    .collect()
             }
         }
     }
@@ -208,20 +222,27 @@ class RadarViewModel @Inject constructor(
             data.probability.toLong(),
             findLastResult<TextQuestionResult>(0)?.answer!!,
             findLastResult<IntegerQuestionResult>(1)?.answer!!.toLong(),
-            findByLabel(application, findLastResult<ValuePickerQuestionResult>(2)?.answer!!)!!,
+            findByLabel(findLastResult<ValuePickerQuestionResult>(2)?.answer!!)!!,
             findLastResult<TextQuestionResult>(3)?.answer!!,
             findLastResult<MultipleChoiceQuestionResult>(4)?.answer?.map {
-                findByLabel(application, it.value)!!
+                findByLabel(it.value)!!
             } ?: emptyList(),
             findLastResult<BooleanQuestionResult>(5)!!.answer == PositiveAnswer,
             findLastResult<BooleanQuestionResult>(6)!!.answer == PositiveAnswer,
             findLastResult<BooleanQuestionResult>(7)!!.answer == PositiveAnswer,
             findLastResult<BooleanQuestionResult>(8)!!.answer == PositiveAnswer,
             findLastResult<MultipleChoiceQuestionResult>(9)?.answer?.map {
-                findByLabel(application, it.value)!!
+                findByLabel(it.value)!!
             } ?: emptyList(),
-            findLastResult<ScaleQuestionResult>(10)?.answer!!.toLong()
+            findLastResult<ScaleQuestionResult>(12)?.answer!!.toLong()
         )
+    }
+
+    private fun extractCovidTestResult(result: TaskResult): ResultLabel? = result.results.run {
+        return findLastResult<BooleanQuestionResult>(10)?.answer.takeIf { it == PositiveAnswer }
+            ?.let {
+                findByLabel(findLastResult<ValuePickerQuestionResult>(11)?.answer!!)!!
+            }
     }
 
     private suspend fun updateModel() = with(preferences) {

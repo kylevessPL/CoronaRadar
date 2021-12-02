@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseUser
 import com.hadilq.liveevent.LiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import pl.piasta.coronaradar.data.auth.model.ActionCode
@@ -32,9 +33,9 @@ class UserViewModel @Inject constructor(
     val firebaseUser: LiveData<FirebaseUser?>
         get() = _firebaseUser
 
-    private val _progressIndicationVisibility = MutableLiveData(false)
-    val progressIndicationVisibility: LiveData<Boolean>
-        get() = _progressIndicationVisibility
+    private val _progressIndicatorVisibility = MutableLiveData(false)
+    val progressIndicatorVisibility: LiveData<Boolean>
+        get() = _progressIndicatorVisibility
 
     private val _verificationEmailResult = LiveEvent<ResultState<Nothing>>()
     val verificationEmailResult: LiveEvent<ResultState<Nothing>>
@@ -60,12 +61,12 @@ class UserViewModel @Inject constructor(
     val signOutResult: LiveData<ResultState<Nothing>>
         get() = _signOutResult
 
-    fun setProgressIndicationVisibility(visible: Boolean) {
-        _progressIndicationVisibility.value = visible
+    fun setProgressIndicatorVisibility(visible: Boolean) {
+        _progressIndicatorVisibility.value = visible
     }
 
     fun verifyActionCode(data: Uri) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             authRepository.verifyActionCode(data).collect { result ->
                 _verifyActionCodeResult.postValue(result)
             }
@@ -73,21 +74,21 @@ class UserViewModel @Inject constructor(
     }
 
     fun sendVerificationEmail() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             authRepository.sendVerificationEmail().collect { result ->
                 _verificationEmailResult.postValue(result)
             }
         }
     }
 
-    fun verifyEmail(oob: String) = viewModelScope.launch {
+    fun verifyEmail(oob: String) = viewModelScope.launch(Dispatchers.IO) {
         authRepository.verifyEmail(oob).collect { result ->
             _verifyEmailResult.postValue(result)
         }
     }
 
     fun sendPasswordResetEmail(email: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             authRepository.sendPasswordResetEmail(email).collect { result ->
                 _passwordResetEmailResult.postValue(result)
             }
@@ -95,7 +96,7 @@ class UserViewModel @Inject constructor(
     }
 
     fun resetPassword(oob: String, newPassword: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             authRepository.resetPassword(oob, newPassword).collect { result ->
                 _passwordResetResult.postValue(result)
             }
@@ -103,7 +104,7 @@ class UserViewModel @Inject constructor(
     }
 
     fun signOut() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             authRepository.logout()
                 .collect { result ->
                     _signOutResult.postValue(result)

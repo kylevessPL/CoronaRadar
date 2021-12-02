@@ -60,7 +60,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:indeterminate="true"
-                android:visibility="@{viewModel.progressIndicationVisibility.booleanValue}"
+                android:visibility="@{viewModel.progressIndicatorVisibility.booleanValue}"
                 app:showAnimationBehavior="inward"
                 app:hideAnimationBehavior="outward"
                 app:layout_constraintTop_toTopOf="parent"

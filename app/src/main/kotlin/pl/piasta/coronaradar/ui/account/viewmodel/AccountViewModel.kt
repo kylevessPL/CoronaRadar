@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hadilq.liveevent.LiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.zip
@@ -54,12 +55,12 @@ class AccountViewModel @Inject constructor(
     val updateUserProfileResult: LiveData<ResultState<Nothing>>
         get() = _updateUserProfileResult
 
-    private val _progressIndicationVisibility = MutableLiveData(false)
-    val progressIndicationVisibility: LiveData<Boolean>
-        get() = _progressIndicationVisibility
+    private val _progressIndicatorVisibility = MutableLiveData(false)
+    val progressIndicatorVisibility: LiveData<Boolean>
+        get() = _progressIndicatorVisibility
 
-    fun setProgressIndicationVisibility(visible: Boolean) {
-        _progressIndicationVisibility.value = visible
+    fun setProgressIndicatorVisibility(visible: Boolean) {
+        _progressIndicatorVisibility.value = visible
     }
 
     fun toggleDisplayName() {
@@ -83,13 +84,13 @@ class AccountViewModel @Inject constructor(
     }
 
     fun validatePassword() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             _userDetailsForm.validatePassword()
         }
     }
 
     fun validatePasswordConfirm() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             _userDetailsForm.validatePasswordConfirm()
         }
     }
@@ -97,7 +98,7 @@ class AccountViewModel @Inject constructor(
     fun setUserAvatar(uri: Uri) = _userDetailsForm.input.avatar.set(uri)
 
     fun updateProfile() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             _userDetailsForm.isProcessing = true
             disableFields()
             uploadUserAvatar()

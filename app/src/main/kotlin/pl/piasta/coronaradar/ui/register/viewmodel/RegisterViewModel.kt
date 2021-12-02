@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseUser
 import com.hadilq.liveevent.LiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import pl.piasta.coronaradar.data.auth.repository.AuthRepository
@@ -22,9 +23,9 @@ class RegisterViewModel @Inject constructor(private val authRepository: AuthRepo
     val registerForm: RegisterForm
         get() = _registerForm
 
-    private val _progressIndicationVisibility = MutableLiveData(false)
-    val progressIndicationVisibility: LiveData<Boolean>
-        get() = _progressIndicationVisibility
+    private val _progressIndicatorVisibility = MutableLiveData(false)
+    val progressIndicatorVisibility: LiveData<Boolean>
+        get() = _progressIndicatorVisibility
 
     private val _signIn = LiveEvent<Boolean>()
     val signIn: LiveData<Boolean>
@@ -34,24 +35,24 @@ class RegisterViewModel @Inject constructor(private val authRepository: AuthRepo
     val signUpResult: LiveData<ResultState<FirebaseUser>>
         get() = _signUpResult
 
-    fun setProgressIndicationVisibility(visible: Boolean) {
-        _progressIndicationVisibility.value = visible
+    fun setProgressIndicatorVisibility(visible: Boolean) {
+        _progressIndicatorVisibility.value = visible
     }
 
     fun validateEmail() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             _registerForm.validateEmail()
         }
     }
 
     fun validatePassword() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             _registerForm.validatePassword()
         }
     }
 
     fun validatePasswordConfirm() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             _registerForm.validatePasswordConfirm()
         }
     }
@@ -61,7 +62,7 @@ class RegisterViewModel @Inject constructor(private val authRepository: AuthRepo
     }
 
     fun signUp() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             _registerForm.isProcessing = true
             authRepository.register(
                 _registerForm.input.email.get()!!,

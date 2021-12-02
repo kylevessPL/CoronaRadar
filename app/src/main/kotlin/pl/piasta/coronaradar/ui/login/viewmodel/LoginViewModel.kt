@@ -10,6 +10,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseUser
 import com.hadilq.liveevent.LiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import pl.piasta.coronaradar.data.auth.repository.AuthRepository
@@ -24,9 +25,9 @@ class LoginViewModel @Inject constructor(private val authRepository: AuthReposit
     val loginForm: LoginForm
         get() = _loginForm
 
-    private val _progressIndicationVisibility = MutableLiveData(false)
-    val progressIndicationVisibility: LiveData<Boolean>
-        get() = _progressIndicationVisibility
+    private val _progressIndicatorVisibility = MutableLiveData(false)
+    val progressIndicatorVisibility: LiveData<Boolean>
+        get() = _progressIndicatorVisibility
 
     private val _signUp = LiveEvent<Boolean>()
     val signUp: LiveData<Boolean>
@@ -48,18 +49,18 @@ class LoginViewModel @Inject constructor(private val authRepository: AuthReposit
     val signInResult: LiveData<ResultState<FirebaseUser>>
         get() = _signInResult
 
-    fun setProgressIndicationVisibility(visible: Boolean) {
-        _progressIndicationVisibility.value = visible
+    fun setProgressIndicatorVisibility(visible: Boolean) {
+        _progressIndicatorVisibility.value = visible
     }
 
     fun validateEmail() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             _loginForm.validateEmail()
         }
     }
 
     fun validatePassword() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             _loginForm.validatePassword()
         }
     }
@@ -81,7 +82,7 @@ class LoginViewModel @Inject constructor(private val authRepository: AuthReposit
     }
 
     fun signIn() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             _loginForm.isProcessing = true
             authRepository.login(_loginForm.input.email.get()!!, _loginForm.input.password.get()!!)
                 .collect { result ->
@@ -93,7 +94,7 @@ class LoginViewModel @Inject constructor(private val authRepository: AuthReposit
     }
 
     fun signInWithGoogle(task: Task<GoogleSignInAccount>) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             _loginForm.isProcessing = true
             authRepository.loginWithGoogle(task).collect { result ->
                 _signInResult.postValue(result)
@@ -104,7 +105,7 @@ class LoginViewModel @Inject constructor(private val authRepository: AuthReposit
     }
 
     fun signInWithFacebook(callbackManager: CallbackManager) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             _loginForm.isProcessing = true
             authRepository.loginWithFacebook(callbackManager).collect { result ->
                 _signInResult.postValue(result)

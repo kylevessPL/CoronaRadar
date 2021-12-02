@@ -18,11 +18,13 @@ import pl.piasta.coronaradar.R
 import pl.piasta.coronaradar.data.common.CommonIllness
 import pl.piasta.coronaradar.data.common.CommonSymptom
 import pl.piasta.coronaradar.data.common.Gender
+import pl.piasta.coronaradar.data.common.ResultLabel
 import pl.piasta.coronaradar.databinding.SurveyDialogBinding
 import pl.piasta.coronaradar.ui.base.BaseBottomSheetDialogFragment
 import pl.piasta.coronaradar.ui.radar.viewmodel.RadarViewModel
 import pl.piasta.coronaradar.ui.util.expandDialog
 import pl.piasta.coronaradar.ui.util.observeNotNull
+import pl.piasta.coronaradar.ui.util.stepOf
 import pl.piasta.coronaradar.util.EMPTY
 import splitties.resources.color
 import splitties.resources.str
@@ -58,7 +60,7 @@ class SurveyDialogFragment :
                 }
             },
             QuestionStep(
-                id = StepIdentifier(id = 0.toString()),
+                id = stepOf(0),
                 title = str(R.string.name_question_title),
                 text = str(R.string.name_question_message),
                 nextButtonText = str(R.string.next),
@@ -68,7 +70,7 @@ class SurveyDialogFragment :
                 )
             ),
             QuestionStep(
-                id = StepIdentifier(id = 1.toString()),
+                id = stepOf(1),
                 title = str(R.string.age_question_title),
                 text = str(R.string.age_question_message),
                 nextButtonText = str(R.string.next),
@@ -77,7 +79,7 @@ class SurveyDialogFragment :
                 )
             ),
             QuestionStep(
-                id = StepIdentifier(id = 2.toString()),
+                id = stepOf(2),
                 title = str(R.string.gender_question_title),
                 text = str(R.string.gender_question_message),
                 nextButtonText = str(R.string.next),
@@ -86,7 +88,7 @@ class SurveyDialogFragment :
                 )
             ),
             QuestionStep(
-                id = StepIdentifier(id = 3.toString()),
+                id = stepOf(3),
                 title = str(R.string.country_question_title),
                 text = str(R.string.country_question_message),
                 nextButtonText = str(R.string.next),
@@ -96,7 +98,7 @@ class SurveyDialogFragment :
                 )
             ),
             QuestionStep(
-                id = StepIdentifier(id = 4.toString()),
+                id = stepOf(4),
                 title = str(R.string.illnesses_question_title),
                 text = str(R.string.choose_all_applicable_message),
                 nextButtonText = str(R.string.next),
@@ -107,7 +109,7 @@ class SurveyDialogFragment :
                 )
             ),
             QuestionStep(
-                id = StepIdentifier(id = 5.toString()),
+                id = stepOf(5),
                 title = str(R.string.quarantine_question_title),
                 text = str(R.string.yes_no_message),
                 nextButtonText = str(R.string.next),
@@ -117,7 +119,7 @@ class SurveyDialogFragment :
                 )
             ),
             QuestionStep(
-                id = StepIdentifier(id = 6.toString()),
+                id = stepOf(6),
                 title = str(R.string.close_contact_question_title),
                 text = str(R.string.yes_no_message),
                 nextButtonText = str(R.string.next),
@@ -127,7 +129,7 @@ class SurveyDialogFragment :
                 )
             ),
             QuestionStep(
-                id = StepIdentifier(id = 7.toString()),
+                id = stepOf(7),
                 title = str(R.string.travel_abroad_question_title),
                 text = str(R.string.yes_no_message),
                 nextButtonText = str(R.string.next),
@@ -137,7 +139,7 @@ class SurveyDialogFragment :
                 )
             ),
             QuestionStep(
-                id = StepIdentifier(id = 8.toString()),
+                id = stepOf(8),
                 title = str(R.string.smoker_question_title),
                 text = str(R.string.yes_no_message),
                 nextButtonText = str(R.string.next),
@@ -147,7 +149,7 @@ class SurveyDialogFragment :
                 )
             ),
             QuestionStep(
-                id = StepIdentifier(id = 9.toString()),
+                id = stepOf(9),
                 title = str(R.string.symptoms_question_title),
                 text = str(R.string.choose_all_applicable_message),
                 nextButtonText = str(R.string.next),
@@ -158,7 +160,26 @@ class SurveyDialogFragment :
                 )
             ),
             QuestionStep(
-                id = StepIdentifier(id = 10.toString()),
+                id = stepOf(10),
+                title = str(R.string.covid_test_attendance_question_title),
+                text = str(R.string.yes_no_message),
+                nextButtonText = str(R.string.next),
+                answerFormat = AnswerFormat.BooleanAnswerFormat(
+                    positiveAnswerText = str(R.string.yes),
+                    negativeAnswerText = str(R.string.no)
+                )
+            ),
+            QuestionStep(
+                id = stepOf(11),
+                title = str(R.string.covid_test_result_question_title),
+                text = str(R.string.covid_test_result_question_message),
+                nextButtonText = str(R.string.next),
+                answerFormat = AnswerFormat.ValuePickerAnswerFormat(
+                    choices = ResultLabel.values().map { str(it.label) }
+                )
+            ),
+            QuestionStep(
+                id = stepOf(12),
                 title = str(R.string.wellbeing_question_title),
                 text = str(R.string.wellbeing_question_message),
                 nextButtonText = str(R.string.next),
@@ -177,7 +198,19 @@ class SurveyDialogFragment :
                 lottieAnimation = LottieAnimation.Asset(str(R.string.success_anim_path))
             )
         )
-        val task = OrderedTask(steps)
+        val task = NavigableOrderedTask(steps)
+        task.setNavigationRule(
+            stepOf(10),
+            NavigationRule.ConditionalDirectionStepNavigationRule(
+                resultToStepIdentifierMapper = { result ->
+                    when (result) {
+                        str(R.string.yes) -> stepOf(11)
+                        str(R.string.no) -> stepOf(12)
+                        else -> null
+                    }
+                }
+            )
+        )
         val configuration = SurveyTheme(
             themeColorDark = color(R.color.picton_blue_600),
             themeColor = color(R.color.picton_blue_600),

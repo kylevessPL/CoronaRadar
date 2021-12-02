@@ -108,7 +108,7 @@
     <string name="submit">Prześlij</string>
     <string name="next">Dalej</string>
     <string name="wellbeing_question_title">Jak się czujesz?</string>
-    <string name="wellbeing_question_message">Określ twoje samopoczucie w skali od 1 do 10</string>
+    <string name="wellbeing_question_message">Określ swoje samopoczucie w skali od 1 do 10</string>
     <string name="fever">Gorączka</string>
     <string name="diarrhoea">Biegunka</string>
     <string name="breath_shortness">Brak tchu</string>
@@ -152,4 +152,8 @@
     <string name="your_name">Twoje imię</string>
     <string name="your_age">Twój wiek</string>
     <string name="gender_age">%1$s, lat %2$d</string>
+    <string name="covid_test_result_question_title">Jaki był twój wynik testu COVID-19?</string>
+    <string name="covid_test_result_question_message">Wybierz swój wynik testu</string>
+    <string name="covid_test_attendance_question_title">Czy zostałeś przebadany na COVID-19?</string>
+    <string name="nothing_to_show">Nic tu nie ma</string>
 </resources>

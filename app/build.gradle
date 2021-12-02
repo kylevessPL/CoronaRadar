@@ -87,7 +87,7 @@ android {
 
     kotlinOptions {
         jvmTarget = '1.8'
-        freeCompilerArgs += ['-Xopt-in=splitties.toast.UnreliableToastApi', '-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi', '-Xopt-in=kotlinx.serialization.ExperimentalSerializationApi', '-Xopt-in=kotlin.contracts.ExperimentalContracts']
+        freeCompilerArgs += ['-Xopt-in=splitties.toast.UnreliableToastApi', '-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi', '-Xopt-in=kotlinx.coroutines.FlowPreview', '-Xopt-in=kotlinx.serialization.ExperimentalSerializationApi', '-Xopt-in=kotlin.contracts.ExperimentalContracts']
     }
     compileSdkVersion 31
 }
@@ -119,6 +119,7 @@ dependencies {
     def localizationVersion = '1.2.10'
     def loadersPackVersion = '1.2.3'
     def surveyKitVersion = '2.0.0-alpha-4'
+    def anyChartVersion = '1.1.4'
     def coroutinesVersion = '1.5.2'
     def serializationPropertiesVersion = '1.3.1'
     def testVersion = '1.4.0'
@@ -170,11 +171,13 @@ dependencies {
     implementation "com.akexorcist:localization:$localizationVersion"
     implementation "com.agrawalsuneet.androidlibs:loaderspack:$loadersPackVersion"
     implementation "com.quickbirdstudios:surveykit:$surveyKitVersion"
+    implementation "com.github.AnyChart:AnyChart-Android:$anyChartVersion"
     kapt "com.github.bumptech.glide:compiler:$glideVersion"
     kapt "com.google.dagger:hilt-android-compiler:$hiltVersion"
     testImplementation "io.kotest:kotest-runner-junit5-jvm:$koTestVersion"
     testImplementation "io.kotest:kotest-assertions-core-jvm:$koTestVersion"
     testImplementation "io.mockk:mockk:$mockkVersion"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
     androidTestImplementation "androidx.test:core-ktx:$testVersion"
     androidTestImplementation "org.junit.jupiter:junit-jupiter-api:$jUnitVersion"
     androidTestRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$jUnitVersion"

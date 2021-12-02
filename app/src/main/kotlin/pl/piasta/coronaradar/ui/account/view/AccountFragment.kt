@@ -113,27 +113,27 @@ class AccountFragment :
 
     private fun displayUploadUserAvatarResult(result: ResultState<Uri>) {
         when (result) {
-            Loading -> viewModel.setProgressIndicationVisibility(true)
+            Loading -> viewModel.setProgressIndicatorVisibility(true)
             else -> {
-                viewModel.setProgressIndicationVisibility(false)
+                viewModel.setProgressIndicatorVisibility(false)
                 (result is Error).ifTrue { longToast(R.string.general_failure_message) }
             }
         }
     }
 
     private fun displaySignOutResult(result: ResultState<Nothing>) = when (result) {
-        is Success -> viewModel.setProgressIndicationVisibility(false)
+        is Success -> viewModel.setProgressIndicatorVisibility(false)
         is Error -> {
-            viewModel.setProgressIndicationVisibility(false)
+            viewModel.setProgressIndicatorVisibility(false)
             longToast(R.string.general_failure_message)
         }
-        Loading -> viewModel.setProgressIndicationVisibility(true)
+        Loading -> viewModel.setProgressIndicatorVisibility(true)
     }
 
     private fun displayUpdateUserProfileResult(result: ResultState<Nothing>) {
         when (result) {
             is Success -> {
-                viewModel.setProgressIndicationVisibility(false)
+                viewModel.setProgressIndicatorVisibility(false)
                 OkDialogFragment.newInstance(
                     OkDialogData(
                         R.string.update_profile_success,
@@ -145,7 +145,7 @@ class AccountFragment :
                 )
             }
             is Error -> {
-                viewModel.setProgressIndicationVisibility(false)
+                viewModel.setProgressIndicatorVisibility(false)
                 when (result.ex) {
                     is FirebaseAuthRecentLoginRequiredException -> OkDialogFragment.newInstance(
                         OkDialogData(
@@ -161,7 +161,7 @@ class AccountFragment :
                     else -> longToast(R.string.general_failure_message)
                 }
             }
-            Loading -> viewModel.setProgressIndicationVisibility(true)
+            Loading -> viewModel.setProgressIndicatorVisibility(true)
         }
     }
 }
