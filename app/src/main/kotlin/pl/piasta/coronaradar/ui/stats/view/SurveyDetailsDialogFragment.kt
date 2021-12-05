@@ -16,7 +16,9 @@ import pl.piasta.coronaradar.util.TAG
 class SurveyDetailsDialogFragment :
     BaseDialogFragment<SurveyDetailsDialogBinding, StatsViewModel>(R.layout.survey_details_dialog) {
 
-    companion object;
+    companion object {
+        const val DATA = "data"
+    }
 
     override val dialogTheme = R.style.Theme_CoronaRadar_Dialog_FullScreen
 
@@ -24,7 +26,7 @@ class SurveyDetailsDialogFragment :
 
     override fun setupView() {
         dialog?.window?.setLayout(MATCH_PARENT, MATCH_PARENT)
-        val data = requireArguments().getParcelable<Survey>("data")!!
+        val data = requireArguments().getParcelable<Survey>(DATA)!!
         binding.survey = data
     }
 
@@ -37,11 +39,15 @@ class SurveyDetailsDialogFragment :
 
     private fun displaySurveyDetailsInfoDialog(illnesses: Boolean) {
         when (illnesses) {
-            true -> newFragmentInstance<SurveyDetailsIllnessesInfoDialogFragment>("data" to binding.survey!!).show(
+            true -> newFragmentInstance<SurveyDetailsIllnessesInfoDialogFragment>(
+                SurveyDetailsIllnessesInfoDialogFragment.DATA to binding.survey!!
+            ).show(
                 childFragmentManager,
                 SurveyDetailsIllnessesInfoDialogFragment.TAG
             )
-            false -> newFragmentInstance<SurveyDetailsSymptomsInfoDialogFragment>("data" to binding.survey!!).show(
+            false -> newFragmentInstance<SurveyDetailsSymptomsInfoDialogFragment>(
+                SurveyDetailsSymptomsInfoDialogFragment.DATA to binding.survey!!
+            ).show(
                 childFragmentManager,
                 SurveyDetailsSymptomsInfoDialogFragment.TAG
             )

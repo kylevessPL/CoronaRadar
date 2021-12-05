@@ -91,7 +91,10 @@ class AccountFragment :
 
     private fun displayAvatarSizeTooLargeDialog() {
         newFragmentInstance<OkDialogFragment>(
-            "data" to OkDialogData(R.string.set_avatar, R.string.set_avatar_size_failure)
+            OkDialogFragment.DATA to OkDialogData(
+                R.string.set_avatar,
+                R.string.set_avatar_size_failure
+            )
         ).show(
             parentFragmentManager,
             OkDialogFragment::class.TAG
@@ -100,7 +103,7 @@ class AccountFragment :
 
     private fun displaySignOutDialog() {
         newFragmentInstance<OkDialogFragment>(
-            "data" to OkDialogData(
+            OkDialogFragment.DATA to OkDialogData(
                 R.string.signout,
                 R.string.signout_message,
                 { activityViewModel.signOut() },
@@ -137,7 +140,7 @@ class AccountFragment :
             is Success -> {
                 viewModel.setProgressIndicatorVisibility(false)
                 newFragmentInstance<OkDialogFragment>(
-                    "data" to OkDialogData(
+                    OkDialogFragment.DATA to OkDialogData(
                         R.string.update_profile_success,
                         R.string.update_profile_success_message
                     )
@@ -150,7 +153,7 @@ class AccountFragment :
                 viewModel.setProgressIndicatorVisibility(false)
                 when (result.ex) {
                     is FirebaseAuthRecentLoginRequiredException -> newFragmentInstance<OkDialogFragment>(
-                        "data" to OkDialogData(
+                        OkDialogFragment.DATA to OkDialogData(
                             R.string.signout,
                             R.string.reauthentication_required,
                             { activityViewModel.signOut() },

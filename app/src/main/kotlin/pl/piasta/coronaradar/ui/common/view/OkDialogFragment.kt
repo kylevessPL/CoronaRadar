@@ -14,8 +14,12 @@ import splitties.alertdialog.material.materialAlertDialog
 @AndroidEntryPoint
 class OkDialogFragment : DialogFragment() {
 
+    companion object {
+        const val DATA = "data"
+    }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val data = requireArguments().getParcelable<OkDialogData>("data")!!
+        val data = requireArguments().getParcelable<OkDialogData>(DATA)!!
         return requireContext().materialAlertDialog {
             titleResource = data.titleRes
             messageResource = data.messageRes

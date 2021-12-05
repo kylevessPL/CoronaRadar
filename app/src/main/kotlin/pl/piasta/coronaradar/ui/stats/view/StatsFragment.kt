@@ -84,7 +84,7 @@ class StatsFragment :
     }
 
     private fun displaySurveyDialog(survey: Survey) {
-        newFragmentInstance<SurveyDetailsDialogFragment>("data" to survey).show(
+        newFragmentInstance<SurveyDetailsDialogFragment>(SurveyDetailsDialogFragment.DATA to survey).show(
             childFragmentManager,
             SurveyDetailsDialogFragment.TAG
         )

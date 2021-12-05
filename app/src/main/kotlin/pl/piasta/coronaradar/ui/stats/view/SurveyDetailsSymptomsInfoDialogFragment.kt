@@ -12,12 +12,14 @@ import pl.piasta.coronaradar.ui.stats.viewmodel.StatsViewModel
 class SurveyDetailsSymptomsInfoDialogFragment :
     BaseBottomSheetDialogFragment<ViewDataBinding, StatsViewModel>(R.layout.survey_details_symptoms_info_dialog) {
 
-    companion object;
+    companion object {
+        const val DATA = "data"
+    }
 
     override val dialogTheme = R.style.Theme_CoronaRadar_Dialog_NoBackground
 
     override fun setupView() {
-        val data = requireArguments().getParcelable<Survey>("data")!!
+        val data = requireArguments().getParcelable<Survey>(DATA)!!
         binding.setVariable(BR.survey, data)
     }
 }

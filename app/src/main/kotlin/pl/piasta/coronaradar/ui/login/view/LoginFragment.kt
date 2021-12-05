@@ -138,14 +138,14 @@ class LoginFragment :
                             false -> R.string.login_failure_bad_credentials_message
                         }
                         newFragmentInstance<OkDialogFragment>(
-                            "data" to OkDialogData(R.string.login_failure, messageId)
+                            OkDialogFragment.DATA to OkDialogData(R.string.login_failure, messageId)
                         ).show(
                             parentFragmentManager,
                             OkDialogFragment::class.TAG
                         )
                     }
                     is EmailNotVerifiedException -> newFragmentInstance<OkDialogFragment>(
-                        "data" to OkDialogData(
+                        OkDialogFragment.DATA to OkDialogData(
                             R.string.login_failure,
                             R.string.verification_email_message,
                             { activityViewModel.sendVerificationEmail() },

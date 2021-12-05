@@ -108,7 +108,9 @@ class RadarFragment :
             when (result) {
                 is Success -> {
                     viewModel.saveUserHistory(result.data!!)
-                    newFragmentInstance<ClassificationResultDialogFragment>("data" to result.data)
+                    newFragmentInstance<ClassificationResultDialogFragment>(
+                        ClassificationResultDialogFragment.DATA to result.data
+                    )
                         .show(
                             childFragmentManager,
                             ClassificationResultDialogFragment::class.TAG
@@ -127,7 +129,7 @@ class RadarFragment :
     private fun displayRequestPermissionsResult(result: List<PermissionStatus>) {
         when {
             result.anyPermanentlyDenied() -> newFragmentInstance<OkDialogFragment>(
-                "data" to OkDialogData(
+                OkDialogFragment.DATA to OkDialogData(
                     R.string.permissions_required,
                     R.string.permissions_required_message,
                     { startActivity(appSettingsIntent) },
@@ -139,7 +141,7 @@ class RadarFragment :
                 OkDialogFragment::class.TAG
             )
             result.anyShouldShowRationale() -> newFragmentInstance<OkDialogFragment>(
-                "data" to OkDialogData(
+                OkDialogFragment.DATA to OkDialogData(
                     R.string.permissions_required,
                     R.string.permissions_required_message,
                     { permissionsRequest.send() },

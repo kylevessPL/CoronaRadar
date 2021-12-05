@@ -65,7 +65,7 @@ class RegisterFragment :
             is Error -> {
                 when (result.ex) {
                     is FirebaseAuthUserCollisionException -> newFragmentInstance<OkDialogFragment>(
-                        "data" to OkDialogData(
+                        OkDialogFragment.DATA to OkDialogData(
                             R.string.register_failure,
                             R.string.register_failure_email_exists_message
                         )
@@ -83,7 +83,7 @@ class RegisterFragment :
     private fun displayVerificationEmailResult(result: ResultState<FirebaseUser>) =
         (result is Success).ifTrue {
             newFragmentInstance<OkDialogFragment>(
-                "data" to OkDialogData(
+                OkDialogFragment.DATA to OkDialogData(
                     R.string.register_success,
                     R.string.register_success_message,
                     { navigateToLoginFragment() })

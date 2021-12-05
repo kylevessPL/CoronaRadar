@@ -13,6 +13,10 @@ import splitties.views.onClick
 class ClassificationResultDialogFragment :
     BaseDialogFragment<ClassificationResultDialogBinding, RadarViewModel>(R.layout.classification_result_dialog) {
 
+    companion object {
+        const val DATA = "data"
+    }
+
     override val dialogTheme = R.style.Theme_CoronaRadar_Dialog_NoBackground
 
     override val viewModel: RadarViewModel by viewModels(ownerProducer = { requireParentFragment() })
@@ -22,7 +26,7 @@ class ClassificationResultDialogFragment :
     }
 
     override fun setupView() {
-        val data = requireArguments().getParcelable<Classification>("data")!!
+        val data = requireArguments().getParcelable<Classification>(DATA)!!
         with(binding) {
             classification = data
             classificationButton.onClick { dismiss() }
