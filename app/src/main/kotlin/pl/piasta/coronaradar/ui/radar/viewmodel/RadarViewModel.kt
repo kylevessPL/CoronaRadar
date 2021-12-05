@@ -36,8 +36,6 @@ import pl.piasta.coronaradar.data.survey.model.SurveyDetails
 import pl.piasta.coronaradar.data.survey.repository.SurveyRepository
 import pl.piasta.coronaradar.ui.radar.model.Classification
 import pl.piasta.coronaradar.ui.util.contentBytes
-import pl.piasta.coronaradar.ui.util.findByLabel
-import pl.piasta.coronaradar.ui.util.findLastResult
 import pl.piasta.coronaradar.ui.util.recordingPath
 import pl.piasta.coronaradar.util.*
 import pl.piasta.coronaradar.util.ResultState.*
@@ -221,7 +219,7 @@ class RadarViewModel @Inject constructor(
             data.result,
             data.probability.toLong(),
             findLastResult<TextQuestionResult>(0)?.answer!!,
-            findLastResult<IntegerQuestionResult>(1)?.answer!!.toLong(),
+            findLastResult<TextQuestionResult>(1)?.answer!!.toLong(),
             findByLabel(findLastResult<ValuePickerQuestionResult>(2)?.answer!!)!!,
             findLastResult<TextQuestionResult>(3)?.answer!!,
             findLastResult<MultipleChoiceQuestionResult>(4)?.answer?.map {

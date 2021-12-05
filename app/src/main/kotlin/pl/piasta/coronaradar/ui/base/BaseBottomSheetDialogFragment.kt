@@ -15,7 +15,7 @@ import pl.piasta.coronaradar.BR
 import pl.piasta.coronaradar.ui.util.expandDialog
 import pl.piasta.coronaradar.util.ifTrue
 
-abstract class BaseBottomSheetDialogFragment<DB : ViewDataBinding, PVM : ViewModel?>(@LayoutRes private val layoutRes: Int) :
+abstract class BaseBottomSheetDialogFragment<DB : ViewDataBinding, VM : ViewModel?>(@LayoutRes private val layoutRes: Int) :
     BottomSheetDialogFragment() {
 
     protected open val dialogTheme = theme
@@ -23,7 +23,7 @@ abstract class BaseBottomSheetDialogFragment<DB : ViewDataBinding, PVM : ViewMod
     private var _binding: DB? = null
 
     protected val binding get() = _binding!!
-    protected open val parentViewModel: PVM? get() = null
+    protected open val viewModel: VM? get() = null
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,8 +34,8 @@ abstract class BaseBottomSheetDialogFragment<DB : ViewDataBinding, PVM : ViewMod
     @CallSuper
     override fun onStart() {
         super.onStart()
-        parentViewModel?.let {
-            binding.setVariable(BR.viewModel, parentViewModel)
+        viewModel?.let {
+            binding.setVariable(BR.viewModel, viewModel)
         }
         binding.lifecycleOwner = viewLifecycleOwner
     }

@@ -13,6 +13,7 @@ import pl.piasta.coronaradar.ui.common.model.OkDialogData
 import pl.piasta.coronaradar.ui.common.view.OkDialogFragment
 import pl.piasta.coronaradar.ui.register.viewmodel.RegisterViewModel
 import pl.piasta.coronaradar.ui.user.viewmodel.UserViewModel
+import pl.piasta.coronaradar.ui.util.newFragmentInstance
 import pl.piasta.coronaradar.ui.util.observeNotNull
 import pl.piasta.coronaradar.util.ResultState
 import pl.piasta.coronaradar.util.ResultState.*
@@ -22,12 +23,13 @@ import splitties.toast.longToast
 
 @AndroidEntryPoint
 class RegisterFragment :
-    BaseFragment<FragmentRegisterBinding, RegisterViewModel>(R.layout.fragment_register) {
+    BaseFragment<FragmentRegisterBinding, RegisterViewModel>(
+        R.string.signup,
+        R.layout.fragment_register
+    ) {
 
     override val viewModel: RegisterViewModel by viewModels()
     private val activityViewModel: UserViewModel by activityViewModels()
-
-    override val title = R.string.signup
 
     override fun updateUI() {
         activityViewModel.firebaseUser.observeNotNull(viewLifecycleOwner) {
@@ -62,8 +64,8 @@ class RegisterFragment :
             }
             is Error -> {
                 when (result.ex) {
-                    is FirebaseAuthUserCollisionException -> OkDialogFragment.newInstance(
-                        OkDialogData(
+                    is FirebaseAuthUserCollisionException -> newFragmentInstance<OkDialogFragment>(
+                        "data" to OkDialogData(
                             R.string.register_failure,
                             R.string.register_failure_email_exists_message
                         )
@@ -80,8 +82,8 @@ class RegisterFragment :
 
     private fun displayVerificationEmailResult(result: ResultState<FirebaseUser>) =
         (result is Success).ifTrue {
-            OkDialogFragment.newInstance(
-                OkDialogData(
+            newFragmentInstance<OkDialogFragment>(
+                "data" to OkDialogData(
                     R.string.register_success,
                     R.string.register_success_message,
                     { navigateToLoginFragment() })

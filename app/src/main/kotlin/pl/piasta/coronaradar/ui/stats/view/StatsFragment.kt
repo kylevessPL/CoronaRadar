@@ -1,6 +1,9 @@
 package pl.piasta.coronaradar.ui.stats.view
 
 import android.content.Intent
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -18,6 +21,7 @@ import pl.piasta.coronaradar.ui.common.adapter.RecyclerViewClickListener
 import pl.piasta.coronaradar.ui.main.viewmodel.MainViewModel
 import pl.piasta.coronaradar.ui.stats.adapter.StatsAdapter
 import pl.piasta.coronaradar.ui.stats.viewmodel.StatsViewModel
+import pl.piasta.coronaradar.ui.util.newFragmentInstance
 import pl.piasta.coronaradar.ui.util.observeNotNull
 import pl.piasta.coronaradar.ui.util.setGoogleSchemeColors
 import pl.piasta.coronaradar.util.TAG
@@ -25,7 +29,8 @@ import pl.piasta.coronaradar.util.ifTrue
 import splitties.toast.toast
 
 @AndroidEntryPoint
-class StatsFragment : BaseFragment<FragmentStatsBinding, StatsViewModel>(R.layout.fragment_stats) {
+class StatsFragment :
+    BaseFragment<FragmentStatsBinding, StatsViewModel>(R.string.stats, R.layout.fragment_stats) {
 
     @Suppress("NOTIFYDATASETCHANGED")
     private val timeZoneObserver by lazy {
@@ -42,7 +47,21 @@ class StatsFragment : BaseFragment<FragmentStatsBinding, StatsViewModel>(R.layou
     override val viewModel: StatsViewModel by viewModels()
     private val activityViewModel: MainViewModel by activityViewModels()
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.fragment_stats_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        (item.itemId == R.id.action_chart).ifTrue {
+            StatsChartDialogFragment().show(childFragmentManager, StatsChartDialogFragment.TAG)
+            return true
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     override fun setupView() {
+        setHasOptionsMenu(true)
         setupSwipeRefresh()
         setupAdapter()
     }
@@ -65,7 +84,7 @@ class StatsFragment : BaseFragment<FragmentStatsBinding, StatsViewModel>(R.layou
     }
 
     private fun displaySurveyDialog(survey: Survey) {
-        SurveyDetailsDialogFragment.newInstance(survey).show(
+        newFragmentInstance<SurveyDetailsDialogFragment>("data" to survey).show(
             childFragmentManager,
             SurveyDetailsDialogFragment.TAG
         )

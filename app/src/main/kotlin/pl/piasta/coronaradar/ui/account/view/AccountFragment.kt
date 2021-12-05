@@ -1,6 +1,6 @@
 package pl.piasta.coronaradar.ui.account.view
 
-import android.app.Activity
+import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.net.Uri
 import android.provider.MediaStore
@@ -19,6 +19,7 @@ import pl.piasta.coronaradar.ui.common.model.OkDialogData
 import pl.piasta.coronaradar.ui.common.view.OkDialogFragment
 import pl.piasta.coronaradar.ui.user.viewmodel.UserViewModel
 import pl.piasta.coronaradar.ui.util.fileSize
+import pl.piasta.coronaradar.ui.util.newFragmentInstance
 import pl.piasta.coronaradar.ui.util.observeNotNull
 import pl.piasta.coronaradar.ui.util.observeNull
 import pl.piasta.coronaradar.util.ResultState
@@ -30,11 +31,14 @@ import splitties.toast.longToast
 
 @AndroidEntryPoint
 class AccountFragment :
-    BaseFragment<FragmentAccountBinding, AccountViewModel>(R.layout.fragment_account) {
+    BaseFragment<FragmentAccountBinding, AccountViewModel>(
+        R.string.my_account,
+        R.layout.fragment_account
+    ) {
 
     private val chooseAvatar =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-            (result.resultCode == Activity.RESULT_OK).ifTrue {
+            (result.resultCode == RESULT_OK).ifTrue {
                 result.data?.data?.let { uri ->
                     uri.fileSize(requireContext()).takeIf { it / (1024 * 1024) <= 2 }?.also {
                         viewModel.setUserAvatar(uri)
@@ -45,8 +49,6 @@ class AccountFragment :
 
     override val viewModel: AccountViewModel by viewModels()
     private val activityViewModel: UserViewModel by activityViewModels()
-
-    override val title = R.string.my_account
 
     override fun updateUI() {
         activityViewModel.firebaseUser.observeNull(viewLifecycleOwner) {
@@ -88,8 +90,8 @@ class AccountFragment :
     }
 
     private fun displayAvatarSizeTooLargeDialog() {
-        OkDialogFragment.newInstance(
-            OkDialogData(R.string.set_avatar, R.string.set_avatar_size_failure)
+        newFragmentInstance<OkDialogFragment>(
+            "data" to OkDialogData(R.string.set_avatar, R.string.set_avatar_size_failure)
         ).show(
             parentFragmentManager,
             OkDialogFragment::class.TAG
@@ -97,8 +99,8 @@ class AccountFragment :
     }
 
     private fun displaySignOutDialog() {
-        OkDialogFragment.newInstance(
-            OkDialogData(
+        newFragmentInstance<OkDialogFragment>(
+            "data" to OkDialogData(
                 R.string.signout,
                 R.string.signout_message,
                 { activityViewModel.signOut() },
@@ -134,8 +136,8 @@ class AccountFragment :
         when (result) {
             is Success -> {
                 viewModel.setProgressIndicatorVisibility(false)
-                OkDialogFragment.newInstance(
-                    OkDialogData(
+                newFragmentInstance<OkDialogFragment>(
+                    "data" to OkDialogData(
                         R.string.update_profile_success,
                         R.string.update_profile_success_message
                     )
@@ -147,8 +149,8 @@ class AccountFragment :
             is Error -> {
                 viewModel.setProgressIndicatorVisibility(false)
                 when (result.ex) {
-                    is FirebaseAuthRecentLoginRequiredException -> OkDialogFragment.newInstance(
-                        OkDialogData(
+                    is FirebaseAuthRecentLoginRequiredException -> newFragmentInstance<OkDialogFragment>(
+                        "data" to OkDialogData(
                             R.string.signout,
                             R.string.reauthentication_required,
                             { activityViewModel.signOut() },

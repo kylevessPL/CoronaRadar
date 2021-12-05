@@ -33,12 +33,12 @@ import splitties.resources.str
 class SurveyDialogFragment :
     BaseBottomSheetDialogFragment<SurveyDialogBinding, RadarViewModel>(R.layout.survey_dialog) {
 
-    override val parentViewModel: RadarViewModel by viewModels(ownerProducer = { requireParentFragment() })
+    override val viewModel: RadarViewModel by viewModels(ownerProducer = { requireParentFragment() })
 
     override fun setupView() = setupSurvey()
 
     override fun updateUI() =
-        parentViewModel.collectSurveyDataResult.observeNotNull(viewLifecycleOwner) { dismiss() }
+        viewModel.collectSurveyDataResult.observeNotNull(viewLifecycleOwner) { dismiss() }
 
     private fun setupSurvey() {
         val steps = listOf(
@@ -74,8 +74,12 @@ class SurveyDialogFragment :
                 title = str(R.string.age_question_title),
                 text = str(R.string.age_question_message),
                 nextButtonText = str(R.string.next),
-                answerFormat = AnswerFormat.IntegerAnswerFormat(
-                    hint = str(R.string.your_age)
+                answerFormat = AnswerFormat.TextAnswerFormat(
+                    hintText = str(R.string.your_age),
+                    maxLines = 1,
+                    isValid = {
+                        IntRange(1, 150).contains(it.toIntOrNull())
+                    }
                 )
             ),
             QuestionStep(

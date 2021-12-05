@@ -20,7 +20,10 @@ import splitties.toast.toast
 
 @AndroidEntryPoint
 class HistoryFragment :
-    BaseFragment<FragmentHistoryBinding, HistoryViewModel>(R.layout.fragment_history) {
+    BaseFragment<FragmentHistoryBinding, HistoryViewModel>(
+        R.string.my_history,
+        R.layout.fragment_history
+    ) {
 
     @Suppress("NOTIFYDATASETCHANGED")
     private val timeZoneObserver by lazy {

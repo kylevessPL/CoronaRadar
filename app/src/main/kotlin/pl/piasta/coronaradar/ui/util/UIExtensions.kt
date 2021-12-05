@@ -9,6 +9,8 @@ import android.view.Window
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -16,12 +18,8 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.quickbirdstudios.surveykit.StepIdentifier
-import com.quickbirdstudios.surveykit.result.QuestionResult
-import com.quickbirdstudios.surveykit.result.StepResult
 import pl.piasta.coronaradar.R
-import pl.piasta.coronaradar.data.base.Labellable
 import pl.piasta.coronaradar.util.ifTrue
-import splitties.resources.appStr
 import splitties.resources.color
 
 fun <T> LiveData<T>.observeNotNull(owner: LifecycleOwner, observer: (t: T) -> Unit) {
@@ -58,18 +56,17 @@ fun SwipeRefreshLayout.setGoogleSchemeColors() = setColorSchemeColors(
     color(R.color.google_green)
 )
 
+inline fun <reified T : Fragment> newFragmentInstance(vararg params: Pair<String, Any>): T =
+    T::class.java.newInstance().apply {
+        arguments = bundleOf(*params)
+    }
+
 fun BottomSheetDialogFragment.expandDialog() {
     val dialog = dialog as BottomSheetDialog
     dialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
 }
 
 val Context.recordingPath get() = filesDir.resolve("rec.wav")
-
-inline fun <reified T> findByLabel(label: String): T? where T : Enum<T>, T : Labellable =
-    enumValues<T>().find { appStr(it.label) == label }
-
-inline fun <reified T> List<StepResult>.findLastResult(id: Int): T? where T : QuestionResult =
-    find { it.id.id == id.toString() }?.results?.lastOrNull() as? T
 
 fun Uri.contentBytes(ctx: Context) =
     ctx.contentResolver.openInputStream(this)?.use { it.readBytes() }

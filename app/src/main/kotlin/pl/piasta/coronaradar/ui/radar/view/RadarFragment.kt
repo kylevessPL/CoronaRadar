@@ -25,6 +25,7 @@ import pl.piasta.coronaradar.ui.common.model.OkDialogData
 import pl.piasta.coronaradar.ui.common.view.OkDialogFragment
 import pl.piasta.coronaradar.ui.radar.model.Classification
 import pl.piasta.coronaradar.ui.radar.viewmodel.RadarViewModel
+import pl.piasta.coronaradar.ui.util.newFragmentInstance
 import pl.piasta.coronaradar.ui.util.observeNotNull
 import pl.piasta.coronaradar.util.EMPTY
 import pl.piasta.coronaradar.util.ResultState
@@ -35,7 +36,8 @@ import splitties.resources.str
 import splitties.toast.longToast
 
 @AndroidEntryPoint
-class RadarFragment : BaseFragment<FragmentRadarBinding, RadarViewModel>(R.layout.fragment_radar) {
+class RadarFragment :
+    BaseFragment<FragmentRadarBinding, RadarViewModel>(R.string.radar, R.layout.fragment_radar) {
 
     private val permissionsRequest by lazy { permissionsBuilder(RECORD_AUDIO).build() }
 
@@ -106,7 +108,7 @@ class RadarFragment : BaseFragment<FragmentRadarBinding, RadarViewModel>(R.layou
             when (result) {
                 is Success -> {
                     viewModel.saveUserHistory(result.data!!)
-                    ClassificationResultDialogFragment.newInstance(result.data)
+                    newFragmentInstance<ClassificationResultDialogFragment>("data" to result.data)
                         .show(
                             childFragmentManager,
                             ClassificationResultDialogFragment::class.TAG
@@ -124,8 +126,8 @@ class RadarFragment : BaseFragment<FragmentRadarBinding, RadarViewModel>(R.layou
 
     private fun displayRequestPermissionsResult(result: List<PermissionStatus>) {
         when {
-            result.anyPermanentlyDenied() -> OkDialogFragment.newInstance(
-                OkDialogData(
+            result.anyPermanentlyDenied() -> newFragmentInstance<OkDialogFragment>(
+                "data" to OkDialogData(
                     R.string.permissions_required,
                     R.string.permissions_required_message,
                     { startActivity(appSettingsIntent) },
@@ -136,8 +138,8 @@ class RadarFragment : BaseFragment<FragmentRadarBinding, RadarViewModel>(R.layou
                 parentFragmentManager,
                 OkDialogFragment::class.TAG
             )
-            result.anyShouldShowRationale() -> OkDialogFragment.newInstance(
-                OkDialogData(
+            result.anyShouldShowRationale() -> newFragmentInstance<OkDialogFragment>(
+                "data" to OkDialogData(
                     R.string.permissions_required,
                     R.string.permissions_required_message,
                     { permissionsRequest.send() },

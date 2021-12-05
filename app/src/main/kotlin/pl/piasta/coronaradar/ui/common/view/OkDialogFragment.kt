@@ -14,18 +14,6 @@ import splitties.alertdialog.material.materialAlertDialog
 @AndroidEntryPoint
 class OkDialogFragment : DialogFragment() {
 
-    companion object {
-        @JvmStatic
-        fun newInstance(data: OkDialogData): OkDialogFragment {
-            val dialog = OkDialogFragment()
-            val args = Bundle()
-            args.putParcelable("data", data)
-            return dialog.apply {
-                arguments = args
-            }
-        }
-    }
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val data = requireArguments().getParcelable<OkDialogData>("data")!!
         return requireContext().materialAlertDialog {

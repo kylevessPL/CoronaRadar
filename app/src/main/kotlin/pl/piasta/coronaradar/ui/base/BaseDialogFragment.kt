@@ -13,7 +13,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModel
 import pl.piasta.coronaradar.BR
 
-abstract class BaseDialogFragment<DB : ViewDataBinding, PVM : ViewModel?>(@LayoutRes private val layoutRes: Int) :
+abstract class BaseDialogFragment<DB : ViewDataBinding, VM : ViewModel?>(@LayoutRes private val layoutRes: Int) :
     DialogFragment() {
 
     private var _binding: DB? = null
@@ -22,7 +22,7 @@ abstract class BaseDialogFragment<DB : ViewDataBinding, PVM : ViewModel?>(@Layou
 
     protected open val dialogTheme = theme
 
-    protected open val parentViewModel: PVM? get() = null
+    protected open val viewModel: VM? get() = null
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,8 +50,8 @@ abstract class BaseDialogFragment<DB : ViewDataBinding, PVM : ViewModel?>(@Layou
     @CallSuper
     override fun onStart() {
         super.onStart()
-        parentViewModel?.let {
-            binding.setVariable(BR.viewModel, parentViewModel)
+        viewModel?.let {
+            binding.setVariable(BR.viewModel, viewModel)
         }
         binding.lifecycleOwner = viewLifecycleOwner
     }

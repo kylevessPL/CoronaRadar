@@ -15,16 +15,16 @@ import androidx.lifecycle.ViewModel
 import pl.piasta.coronaradar.BR
 import splitties.resources.str
 
-abstract class BaseFragment<DB : ViewDataBinding, VM : ViewModel?>(@LayoutRes private val layoutRes: Int) :
+abstract class BaseFragment<DB : ViewDataBinding, VM : ViewModel?>(
+    @StringRes private val title: Int,
+    @LayoutRes private val layoutRes: Int
+) :
     Fragment() {
 
     private var _binding: DB? = null
 
     protected val binding get() = _binding!!
     protected open val viewModel: VM? get() = null
-
-    @StringRes
-    protected open val title: Int? = null
 
     @CallSuper
     override fun onCreateView(
@@ -43,9 +43,7 @@ abstract class BaseFragment<DB : ViewDataBinding, VM : ViewModel?>(@LayoutRes pr
             binding.setVariable(BR.viewModel, viewModel)
         }
         binding.lifecycleOwner = viewLifecycleOwner
-        title?.let {
-            (requireActivity() as AppCompatActivity).title = str(it)
-        }
+        (requireActivity() as AppCompatActivity).title = str(title)
         setupView()
         updateUI()
     }

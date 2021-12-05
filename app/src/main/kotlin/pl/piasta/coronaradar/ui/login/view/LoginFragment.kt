@@ -26,6 +26,7 @@ import pl.piasta.coronaradar.ui.common.view.OkDialogFragment
 import pl.piasta.coronaradar.ui.login.viewmodel.LoginViewModel
 import pl.piasta.coronaradar.ui.user.view.PasswordResetEmailDialogFragment
 import pl.piasta.coronaradar.ui.user.viewmodel.UserViewModel
+import pl.piasta.coronaradar.ui.util.newFragmentInstance
 import pl.piasta.coronaradar.ui.util.observeNotNull
 import pl.piasta.coronaradar.util.ResultState
 import pl.piasta.coronaradar.util.ResultState.*
@@ -35,7 +36,8 @@ import splitties.toast.longToast
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(R.layout.fragment_login) {
+class LoginFragment :
+    BaseFragment<FragmentLoginBinding, LoginViewModel>(R.string.signin, R.layout.fragment_login) {
 
     @Inject
     lateinit var googleSignInClient: GoogleSignInClient
@@ -53,8 +55,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(R.layou
                 }
             }
         }
-
-    override val title = R.string.signin
 
     override val viewModel: LoginViewModel by viewModels()
     private val activityViewModel: UserViewModel by activityViewModels()
@@ -137,15 +137,15 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(R.layou
                             true -> R.string.login_failure_other_provider_message
                             false -> R.string.login_failure_bad_credentials_message
                         }
-                        OkDialogFragment.newInstance(
-                            OkDialogData(R.string.login_failure, messageId)
+                        newFragmentInstance<OkDialogFragment>(
+                            "data" to OkDialogData(R.string.login_failure, messageId)
                         ).show(
                             parentFragmentManager,
                             OkDialogFragment::class.TAG
                         )
                     }
-                    is EmailNotVerifiedException -> OkDialogFragment.newInstance(
-                        OkDialogData(
+                    is EmailNotVerifiedException -> newFragmentInstance<OkDialogFragment>(
+                        "data" to OkDialogData(
                             R.string.login_failure,
                             R.string.verification_email_message,
                             { activityViewModel.sendVerificationEmail() },
