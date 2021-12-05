@@ -119,7 +119,8 @@ dependencies {
     def localizationVersion = '1.2.10'
     def loadersPackVersion = '1.2.3'
     def surveyKitVersion = '2.0.0-alpha-4'
-    def anyChartVersion = '1.1.4'
+    def mpAndroidChartVersion = 'v3.1.0'
+    def dotsIndicatorVersion = '4.2'
     def coroutinesVersion = '1.5.2'
     def serializationPropertiesVersion = '1.3.1'
     def testVersion = '1.4.0'
@@ -171,7 +172,8 @@ dependencies {
     implementation "com.akexorcist:localization:$localizationVersion"
     implementation "com.agrawalsuneet.androidlibs:loaderspack:$loadersPackVersion"
     implementation "com.quickbirdstudios:surveykit:$surveyKitVersion"
-    implementation "com.github.AnyChart:AnyChart-Android:$anyChartVersion"
+    implementation "com.github.PhilJay:MPAndroidChart:$mpAndroidChartVersion"
+    implementation "com.tbuonomo:dotsindicator:$dotsIndicatorVersion"
     kapt "com.github.bumptech.glide:compiler:$glideVersion"
     kapt "com.google.dagger:hilt-android-compiler:$hiltVersion"
     testImplementation "io.kotest:kotest-runner-junit5-jvm:$koTestVersion"
