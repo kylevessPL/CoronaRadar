@@ -8,8 +8,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hadilq.liveevent.LiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
@@ -19,7 +19,6 @@ import pl.piasta.coronaradar.ui.util.contentBytes
 import pl.piasta.coronaradar.util.ResultState
 import pl.piasta.coronaradar.util.ifTrue
 import javax.inject.Inject
-import kotlin.coroutines.coroutineContext
 
 @HiltViewModel
 class AccountViewModel @Inject constructor(
@@ -120,7 +119,7 @@ class AccountViewModel @Inject constructor(
                 _uploadUserAvatarResult.postValue(result)
                 when (result) {
                     is ResultState.Success -> userDetailsForm.input.avatar.set(result.data)
-                    is ResultState.Error -> coroutineContext.cancel()
+                    is ResultState.Error -> throw CancellationException()
                     else -> {
                     }
                 }

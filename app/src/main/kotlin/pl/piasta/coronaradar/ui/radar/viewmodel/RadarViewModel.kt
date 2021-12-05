@@ -17,8 +17,8 @@ import com.quickbirdstudios.surveykit.FinishReason.Completed
 import com.quickbirdstudios.surveykit.result.TaskResult
 import com.quickbirdstudios.surveykit.result.question_results.*
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flattenMerge
@@ -46,7 +46,6 @@ import java.time.Instant
 import java.time.temporal.ChronoUnit
 import java.util.*
 import javax.inject.Inject
-import kotlin.coroutines.coroutineContext
 import kotlin.math.pow
 import kotlin.streams.toList
 
@@ -262,7 +261,9 @@ class RadarViewModel @Inject constructor(
             mlRepository.downloadModel(lastUpdate != Instant.EPOCH && updateWifiOnly)
                 .collect { result ->
                     _updateModelResult.postValue(result)
-                    (result is Error).ifTrue { coroutineContext.cancel() }
+                    (result is Error && it == Instant.EPOCH).ifTrue {
+                        throw CancellationException()
+                    }
                 }
         }
     }
@@ -272,9 +273,9 @@ class RadarViewModel @Inject constructor(
         val result =
             script.callAttr("generate", application.recordingPath.absolutePath, modelPath.path)
                 .use { it.toJava(Float::class.java) }
-        val labels =
-            BufferedReader(InputStreamReader(application.assets.open("labels.txt"))).lines()
-                .toList()
+        val labels = application.assets.open("labels.txt").use {
+            BufferedReader(InputStreamReader(it)).lines().toList()
+        }
         return Classification(
             ResultLabel.valueOf(labels[(result >= 0.5).toInt()]),
             result.percent()
