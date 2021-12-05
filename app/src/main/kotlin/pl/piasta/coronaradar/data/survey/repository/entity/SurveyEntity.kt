@@ -15,6 +15,7 @@ data class SurveyEntity(
 ) : BaseEntity<String> {
 
     companion object {
+        @JvmStatic
         fun from(survey: Survey) = with(survey) {
             SurveyEntity(Timestamp(Date.from(date)), details.asMap)
         }

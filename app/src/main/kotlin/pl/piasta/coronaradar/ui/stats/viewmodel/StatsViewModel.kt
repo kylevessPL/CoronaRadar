@@ -5,12 +5,17 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.hadilq.liveevent.LiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import pl.piasta.coronaradar.data.survey.model.Statistics
 import pl.piasta.coronaradar.data.survey.model.Survey
 import pl.piasta.coronaradar.data.survey.repository.SurveyRepository
 import javax.inject.Inject
 
 @HiltViewModel
 class StatsViewModel @Inject constructor(surveyRepository: SurveyRepository) : ViewModel() {
+
+    private val _statisticsData = surveyRepository.watchStatistics().asLiveData()
+    val statisticsData: LiveData<Statistics>
+        get() = _statisticsData
 
     private val _surveysData = surveyRepository.getAllSurveysPaged()
         .cachedIn(viewModelScope)
@@ -33,6 +38,10 @@ class StatsViewModel @Inject constructor(surveyRepository: SurveyRepository) : V
     private val _surveyDetailsDialogDismiss = LiveEvent<Boolean>()
     val surveyDetailsDialogDismiss: LiveData<Boolean>
         get() = _surveyDetailsDialogDismiss
+
+    private val _statsChartDialogDismiss = LiveEvent<Boolean>()
+    val statsChartDialogDismiss: LiveData<Boolean>
+        get() = _statsChartDialogDismiss
 
     private val _displayIllnessDetails = LiveEvent<Boolean>()
     val displayIllnessDetails: LiveData<Boolean>
@@ -64,5 +73,9 @@ class StatsViewModel @Inject constructor(surveyRepository: SurveyRepository) : V
 
     fun surveyDetailsDialogDismissEvent() {
         _surveyDetailsDialogDismiss.value = true
+    }
+
+    fun statsChartDialogDismissEvent() {
+        _statsChartDialogDismiss.value = true
     }
 }

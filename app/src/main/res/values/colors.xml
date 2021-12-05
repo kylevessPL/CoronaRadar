@@ -5,9 +5,11 @@
     <color name="picton_blue_500">#33A3DE</color>
     <color name="picton_blue_600">#2E95D0</color>
     <color name="picton_blue_800">#2472A9</color>
+    <color name="carrot_orange_400">#FAA735</color>
     <color name="carrot_orange_600">#F48D1E</color>
     <color name="carrot_orange_800">#E76E19</color>
     <color name="carrot_orange_900">#DD5716</color>
+    <color name="purple_500">#8B21A8</color>
     <color name="red_600">#E53935</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
@@ -20,4 +22,5 @@
     <color name="google_green">#34A853</color>
     <color name="google_yellow">#FBBC05</color>
     <color name="google_red">#EA4335</color>
+    <color name="google_dark_blue">#185ABC</color>
 </resources>

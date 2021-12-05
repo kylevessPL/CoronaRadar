@@ -15,6 +15,7 @@ data class HistoryEntity(
 ) : BaseEntity<String> {
 
     companion object {
+        @JvmStatic
         fun from(history: History) = with(history) {
             HistoryEntity(Timestamp(Date.from(date)), details.asMap)
         }

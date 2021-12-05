@@ -31,7 +31,6 @@
             android:theme="@style/Theme.CoronaRadar.AppBarOverlay">
 
             <androidx.appcompat.widget.Toolbar
-                android:id="@+id/survey_details_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
@@ -51,8 +50,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="?attr/dialogPreferredPadding"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+                android:padding="?attr/dialogPreferredPadding">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/survey_details_1"

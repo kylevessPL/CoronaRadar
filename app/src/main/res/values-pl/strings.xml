@@ -156,4 +156,8 @@
     <string name="covid_test_result_question_message">Wybierz swój wynik testu</string>
     <string name="covid_test_attendance_question_title">Czy zostałeś przebadany na COVID-19?</string>
     <string name="nothing_to_show">Nic tu nie ma</string>
+    <string name="no_data_available">Brak dostępnych danych</string>
+    <string name="range_18_minus">Poniżej 18</string>
+    <string name="range_65_plus">Powyżej 65</string>
+    <string name="charts">Wykresy</string>
 </resources>

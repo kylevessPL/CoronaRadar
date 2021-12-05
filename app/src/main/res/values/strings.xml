@@ -174,4 +174,17 @@
     <string name="covid_test_result_question_message">Choose your test result</string>
     <string name="covid_test_attendance_question_title">Have you been tested for COVID-19?</string>
     <string name="nothing_to_show">Nothing to show</string>
+    <string name="no_data_available">No data available</string>
+    <string name="range_18_minus">Under 18</string>
+    <string name="range_18_24" translatable="false">18–24</string>
+    <string name="range_25_34" translatable="false">25–34</string>
+    <string name="range_35_44" translatable="false">35–44</string>
+    <string name="range_45_54" translatable="false">45–54</string>
+    <string name="range_55_64" translatable="false">55–64</string>
+    <string name="range_65_plus">65 and above</string>
+    <string name="charts">Charts</string>
+    <string name="chart1">Chart 1</string>
+    <string name="chart2">Chart 2</string>
+    <string name="chart3">Chart 3</string>
+    <string name="chart4">Chart 4</string>
 </resources>
