@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="pl.piasta.coronaradar.ui.stats.viewmodel.StatsViewModel" />
+            type="pl.piasta.coronaradar.ui.stats.viewmodel.StatsChartViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -24,9 +24,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
-                app:title="@string/charts"
+                app:title="@string/stats"
                 app:navigationIcon="@drawable/ic_close_24"
-                app:navigationOnClickListener="@{() -> viewModel.statsChartDialogDismissEvent()}"
+                app:navigationOnClickListener="@{() -> viewModel.dialogDismissEvent()}"
                 app:popupTheme="@style/Theme.CoronaRadar.PopupOverlay" />
 
         </com.google.android.material.appbar.AppBarLayout>
@@ -38,11 +38,22 @@
             android:padding="?attr/dialogPreferredPadding"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/stats_chart_view_pager"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_above="@id/stats_chart_dots_indicator" />
+                android:layout_above="@id/stats_chart_dots_indicator">
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/view_pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="500dp"
+                    android:onPageChanged="@{viewModel.chartDisplayedEvent}"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
                 android:id="@+id/stats_chart_dots_indicator"

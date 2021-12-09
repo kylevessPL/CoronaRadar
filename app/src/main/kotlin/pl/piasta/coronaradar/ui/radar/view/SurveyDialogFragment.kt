@@ -15,10 +15,7 @@ import com.quickbirdstudios.surveykit.steps.InstructionStep
 import com.quickbirdstudios.surveykit.steps.QuestionStep
 import dagger.hilt.android.AndroidEntryPoint
 import pl.piasta.coronaradar.R
-import pl.piasta.coronaradar.data.common.CommonIllness
-import pl.piasta.coronaradar.data.common.CommonSymptom
-import pl.piasta.coronaradar.data.common.Gender
-import pl.piasta.coronaradar.data.common.ResultLabel
+import pl.piasta.coronaradar.data.common.*
 import pl.piasta.coronaradar.databinding.SurveyDialogBinding
 import pl.piasta.coronaradar.ui.base.BaseBottomSheetDialogFragment
 import pl.piasta.coronaradar.ui.radar.viewmodel.RadarViewModel
@@ -93,12 +90,11 @@ class SurveyDialogFragment :
             ),
             QuestionStep(
                 id = stepOf(3),
-                title = str(R.string.country_question_title),
-                text = str(R.string.country_question_message),
+                title = str(R.string.continent_question_title),
+                text = str(R.string.continent_question_message),
                 nextButtonText = str(R.string.next),
-                answerFormat = AnswerFormat.TextAnswerFormat(
-                    hintText = str(R.string.your_country),
-                    maxLines = 1
+                answerFormat = AnswerFormat.ValuePickerAnswerFormat(
+                    choices = Continent.values().map { str(it.label) }
                 )
             ),
             QuestionStep(

@@ -29,6 +29,7 @@ import androidx.transition.Slide
 import androidx.transition.TransitionManager
 import androidx.transition.Visibility.MODE_IN
 import androidx.transition.Visibility.MODE_OUT
+import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -75,6 +76,15 @@ fun staticValue(view: Slider, active: Boolean) {
             })
         }
     }.takeIf { active }?.invoke()
+}
+
+@BindingAdapter("android:onPageChanged")
+fun onPageChanged(view: ViewPager2, block: (Int) -> Unit) {
+    view.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+        override fun onPageSelected(position: Int) {
+            block(position)
+        }
+    })
 }
 
 @BindingAdapter("android:errorText")

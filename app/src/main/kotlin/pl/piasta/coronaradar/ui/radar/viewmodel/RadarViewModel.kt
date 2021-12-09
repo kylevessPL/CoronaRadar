@@ -220,7 +220,7 @@ class RadarViewModel @Inject constructor(
             findLastResult<TextQuestionResult>(0)?.answer!!,
             findLastResult<TextQuestionResult>(1)?.answer!!.toLong(),
             findByLabel(findLastResult<ValuePickerQuestionResult>(2)?.answer!!)!!,
-            findLastResult<TextQuestionResult>(3)?.answer!!,
+            findByLabel(findLastResult<ValuePickerQuestionResult>(3)?.answer!!)!!,
             findLastResult<MultipleChoiceQuestionResult>(4)?.answer?.map {
                 findByLabel(it.value)!!
             } ?: emptyList(),

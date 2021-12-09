@@ -3,13 +3,14 @@ package pl.piasta.coronaradar.data.survey.model
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 import pl.piasta.coronaradar.data.common.AgeRange
+import pl.piasta.coronaradar.data.common.Continent
 import pl.piasta.coronaradar.data.common.Gender
 import java.time.YearMonth
 
 @Parcelize
 data class Statistics(
     val ageStatistics: AgeStatistics,
-    val countryStatistics: CountryStatistics,
+    val continentStatistics: ContinentStatistics,
     val dateStatistics: DateStatistics,
     val genderStatistics: GenderStatistics
 ) : Parcelable
@@ -21,9 +22,9 @@ data class AgeStatistics(
 ) : Parcelable
 
 @Parcelize
-data class CountryStatistics(
-    val negative: Map<String, Long>,
-    val positive: Map<String, Long>
+data class ContinentStatistics(
+    val negative: Map<Continent, Long>,
+    val positive: Map<Continent, Long>
 ) : Parcelable
 
 @Parcelize

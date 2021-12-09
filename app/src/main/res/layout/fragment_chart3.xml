@@ -20,12 +20,40 @@
                 app:cardElevation="4dp"
                 app:cardUseCompatPadding="true">
 
-                <com.github.mikephil.charting.charts.BarChart
-                    android:id="@+id/chart3"
+                <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:noDataText="@{@string/no_data_available}"
-                    android:noDataTextSize="@{14}" />
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/chart_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/layout_item_text"
+                        android:gravity="center"
+                        android:text="@string/chart3_title"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <com.github.mikephil.charting.charts.LineChart
+                            android:id="@+id/chart"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:minHeight="500dp"
+                            android:layout_gravity="center"
+                            android:noDataText="@{@string/no_data_available}"
+                            android:noDataTextSize="@{14}"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.appcompat.widget.LinearLayoutCompat>
             </com.google.android.material.card.MaterialCardView>
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.core.widget.NestedScrollView>

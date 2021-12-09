@@ -106,8 +106,8 @@
     <string name="age_question_message">Choose your age</string>
     <string name="gender_question_title">What is your gender?</string>
     <string name="gender_question_message">Choose your gender</string>
-    <string name="country_question_title">What country do you live in?</string>
-    <string name="country_question_message">Type your country of residence</string>
+    <string name="continent_question_title">What continent do you live in?</string>
+    <string name="continent_question_message">Type your continent</string>
     <string name="illnesses_question_title">Do you have any of the following conditions?</string>
     <string name="cancer">Cancer</string>
     <string name="chronic_lung_disease">Chronic lung disease</string>
@@ -140,7 +140,6 @@
     <string name="close_contact_question_title">Did you have a close contact of a person diagnosed with COVID-19 recently?</string>
     <string name="travel_abroad_question_title">Did you travel abroad recently?</string>
     <string name="smoker_question_title">Do you have a smoking habit?</string>
-    <string name="your_country">Your country</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="skip">Skip</string>
@@ -153,8 +152,8 @@
     <string name="age_icon">Age icon</string>
     <string name="gender_icon">Gender icon</string>
     <string name="gender">Gender</string>
-    <string name="country_icon">Country icon</string>
-    <string name="country">Country</string>
+    <string name="continent_icon">Continent icon</string>
+    <string name="continent">Continent</string>
     <string name="illnesses">Illnesses</string>
     <string name="symptoms">Symptoms</string>
     <string name="survey_details_info_icon">Survey details info icon</string>
@@ -187,4 +186,15 @@
     <string name="chart2">Chart 2</string>
     <string name="chart3">Chart 3</string>
     <string name="chart4">Chart 4</string>
+    <string name="chart1_title">COVID-19 disease distribution by gender</string>
+    <string name="chart2_title">COVID-19 disease distribution by continent</string>
+    <string name="north_america">North America</string>
+    <string name="south_america">South America</string>
+    <string name="africa">Africa</string>
+    <string name="asia">Asia</string>
+    <string name="europe">Europe</string>
+    <string name="antartica">Antartica</string>
+    <string name="australia">Australia</string>
+    <string name="chart3_title">COVID-19 disease distribution by month</string>
+    <string name="chart4_title">COVID-19 test results distribution by age range</string>
 </resources>

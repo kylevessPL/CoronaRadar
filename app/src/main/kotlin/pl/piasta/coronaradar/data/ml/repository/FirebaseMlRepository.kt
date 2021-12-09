@@ -7,7 +7,6 @@ import com.google.firebase.ml.modeldownloader.DownloadType.LATEST_MODEL
 import com.google.firebase.ml.modeldownloader.DownloadType.LOCAL_MODEL
 import com.google.firebase.ml.modeldownloader.FirebaseModelDownloader
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
@@ -20,7 +19,7 @@ import javax.inject.Inject
 class FirebaseMlRepository @Inject constructor(private val modelDownloader: FirebaseModelDownloader) :
     MlRepository {
 
-    override fun downloadModel(isWiFiRequired: Boolean): Flow<ResultState<Nothing>> = flow {
+    override fun downloadModel(isWiFiRequired: Boolean) = flow {
         emit(ResultState.Loading)
         val conditions = CustomModelDownloadConditions.Builder().apply {
             requireWifi().takeIf { isWiFiRequired }
@@ -37,7 +36,7 @@ class FirebaseMlRepository @Inject constructor(private val modelDownloader: Fire
         emit(ResultState.Error(ex))
     }.flowOn(Dispatchers.IO)
 
-    override suspend fun getLocalModel(): Uri? = runCatching {
+    override suspend fun getLocalModel() = runCatching {
         val conditions = CustomModelDownloadConditions.Builder().build()
         val model = modelDownloader.getModel(
             ML_MODEL_NAME,

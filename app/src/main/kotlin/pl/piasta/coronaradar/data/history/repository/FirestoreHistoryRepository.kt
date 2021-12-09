@@ -8,7 +8,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query.Direction.DESCENDING
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
@@ -49,7 +48,7 @@ class FirestoreHistoryRepository @Inject constructor(
         FirestorePagingSource<History>(getAllUserHistoryPagingQuery, HistoryEntity::class.java)
     }.flow.flowOn(Dispatchers.IO)
 
-    override fun createHistory(history: History): Flow<ResultState<Nothing>> = flow {
+    override fun createHistory(history: History) = flow {
         emit(ResultState.Loading)
         userHistoryCollection
             .document(history.id.toString())

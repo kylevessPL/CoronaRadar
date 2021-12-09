@@ -8,18 +8,18 @@ import pl.piasta.coronaradar.databinding.StatsChartDialogBinding
 import pl.piasta.coronaradar.ui.base.BaseDialogFragment
 import pl.piasta.coronaradar.ui.common.adapter.ViewPagerAdapter
 import pl.piasta.coronaradar.ui.common.adapter.ZoomOutPageTransformer
-import pl.piasta.coronaradar.ui.stats.viewmodel.StatsViewModel
+import pl.piasta.coronaradar.ui.stats.viewmodel.StatsChartViewModel
 import pl.piasta.coronaradar.ui.util.observeNotNull
 
 @AndroidEntryPoint
 class StatsChartDialogFragment :
-    BaseDialogFragment<StatsChartDialogBinding, StatsViewModel>(R.layout.stats_chart_dialog) {
+    BaseDialogFragment<StatsChartDialogBinding, StatsChartViewModel>(R.layout.stats_chart_dialog) {
+
+    companion object;
 
     override val dialogTheme = R.style.Theme_CoronaRadar_Dialog_FullScreen
 
-    override val viewModel: StatsViewModel by viewModels(ownerProducer = { requireParentFragment() })
-
-    companion object;
+    override val viewModel: StatsChartViewModel by viewModels()
 
     override fun setupView() {
         dialog?.window?.setLayout(MATCH_PARENT, MATCH_PARENT)
@@ -27,11 +27,11 @@ class StatsChartDialogFragment :
     }
 
     override fun updateUI() {
-        viewModel.statsChartDialogDismiss.observeNotNull(viewLifecycleOwner) { dismiss() }
+        viewModel.dialogDismiss.observeNotNull(viewLifecycleOwner) { dismiss() }
     }
 
     private fun setupViewPager() {
-        with(binding.statsChartViewPager) {
+        with(binding.viewPager) {
             adapter = ViewPagerAdapter(
                 listOf(
                     StatsChart1Fragment(),

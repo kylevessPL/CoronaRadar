@@ -7,10 +7,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.properties.Properties
 import kotlinx.serialization.properties.decodeFromMap
 import kotlinx.serialization.properties.encodeToMap
-import pl.piasta.coronaradar.data.common.CommonIllness
-import pl.piasta.coronaradar.data.common.CommonSymptom
-import pl.piasta.coronaradar.data.common.Gender
-import pl.piasta.coronaradar.data.common.ResultLabel
+import pl.piasta.coronaradar.data.common.*
 import java.time.Instant
 import java.util.*
 
@@ -29,7 +26,7 @@ data class SurveyDetails(
     val name: String,
     val age: Long,
     val gender: Gender,
-    val country: String,
+    val continent: Continent,
     val illnesses: List<CommonIllness> = emptyList(),
     val inQuarantine: Boolean,
     val closeContact: Boolean,

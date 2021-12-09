@@ -89,8 +89,8 @@
     <string name="age_question_message">Wskaż swój wiek</string>
     <string name="gender_question_title">Jaka jest twoja płeć?</string>
     <string name="gender_question_message">Wybierz swoją płeć</string>
-    <string name="country_question_title">W jakim kraju mieszkasz?</string>
-    <string name="country_question_message">Podaj swój kraj zamieszkania</string>
+    <string name="continent_question_title">Na jakim kontynencie mieszkasz?</string>
+    <string name="continent_question_message">Podaj swój kontynent</string>
     <string name="illnesses_question_title">Czy masz którąkolwiek z podanych dolegliwości?</string>
     <string name="cancer">Nowotwór</string>
     <string name="chronic_lung_disease">Przewlekła choroba płuc</string>
@@ -122,7 +122,6 @@
     <string name="close_contact_question_title">Czy miałeś ostatnio kontakt z osobą, u której zdiagnozowano COVID-19?</string>
     <string name="travel_abroad_question_title">Czy podróżowałeś ostatnio za granicę?</string>
     <string name="smoker_question_title">Czy jesteś osobą palącą?</string>
-    <string name="your_country">Twój kraj</string>
     <string name="yes">Tak</string>
     <string name="no">Nie</string>
     <string name="skip">Pomiń</string>
@@ -135,8 +134,8 @@
     <string name="age_icon">Ikona wieku</string>
     <string name="gender_icon">Ikona płci</string>
     <string name="gender">Płeć</string>
-    <string name="country_icon">Ikona kraju</string>
-    <string name="country">Kraj</string>
+    <string name="continent_icon">Ikona kontynentu</string>
+    <string name="continent">Kontynent</string>
     <string name="illnesses">Choroby</string>
     <string name="symptoms">Symptomy</string>
     <string name="survey_details_info_icon">Ikona informacji szczegółów ankiety</string>
@@ -160,4 +159,5 @@
     <string name="range_18_minus">Poniżej 18</string>
     <string name="range_65_plus">Powyżej 65</string>
     <string name="charts">Wykresy</string>
+    <string name="chart1_title">Struktura zachorowań na COVID-19 względem płci</string>
 </resources>

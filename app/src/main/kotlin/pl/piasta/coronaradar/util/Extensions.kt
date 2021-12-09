@@ -46,6 +46,7 @@ inline fun <reified T> List<StepResult>.findLastResult(id: Int): T? where T : Qu
     find { it.id.id == id.toString() }?.results?.lastOrNull() as? T
 
 fun CollectionReference.getQuerySnapshotFlow() = callbackFlow {
+    Log.d(TAG, "Registering the listener on collection at path - $path")
     val callback = addSnapshotListener { querySnapshot, ex ->
         ex?.let {
             cancel(

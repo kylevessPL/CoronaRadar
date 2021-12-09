@@ -10,7 +10,6 @@ import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
@@ -54,7 +53,7 @@ class FirestoreSurveyRepository @Inject constructor(
             .limit(PAGE_SIZE.toLong())
     }
 
-    override fun watchStatistics(): Flow<Statistics> = statisticsCollection.getDataFlow {
+    override fun watchStatistics() = statisticsCollection.getDataFlow {
         createStatistics(it!!.documents)
     }.flowOn(Dispatchers.IO)
 
@@ -62,16 +61,16 @@ class FirestoreSurveyRepository @Inject constructor(
         FirestorePagingSource<Survey>(getAllSurveysPagingQuery, SurveyEntity::class.java)
     }.flow.flowOn(Dispatchers.IO)
 
-    override fun createSurvey(survey: Survey): Flow<ResultState<Nothing>> = flow {
+    override fun createSurvey(survey: Survey) = flow {
         emit(ResultState.Loading)
         firestore.runTransaction { transaction ->
             val ageStatistics = transaction.get(statisticsCollection.document(AGE))
                 .toObject<AgeStatisticsEntity>()!!.also {
                     updateAgeStatistics(survey, it)
                 }
-            val countryStatistics = transaction.get(statisticsCollection.document(COUNTRY))
-                .toObject<CountryStatisticsEntity>()!!.also {
-                    updateCountryStatistics(survey, it)
+            val continentStatistics = transaction.get(statisticsCollection.document(CONTINENT))
+                .toObject<ContinentStatisticsEntity>()!!.also {
+                    updateContinentStatistics(survey, it)
                 }
             val dateStatistics = transaction.get(statisticsCollection.document(DATE))
                 .toObject<DateStatisticsEntity>()!!.also {
@@ -87,8 +86,8 @@ class FirestoreSurveyRepository @Inject constructor(
                 SetOptions.merge()
             )
             transaction.set(
-                statisticsCollection.document(COUNTRY),
-                countryStatistics,
+                statisticsCollection.document(CONTINENT),
+                continentStatistics,
                 SetOptions.merge()
             )
             transaction.set(
@@ -126,10 +125,22 @@ class FirestoreSurveyRepository @Inject constructor(
     }.flowOn(Dispatchers.IO)
 
     private fun createStatistics(documents: List<DocumentSnapshot>) = Statistics(
-        documents.find { it.id == AGE }?.toObject()!!,
-        documents.find { it.id == COUNTRY }?.toObject()!!,
-        documents.find { it.id == DATE }?.toObject()!!,
-        documents.find { it.id == GENDER }?.toObject()!!
+        documents.find { it.id == AGE }!!.run {
+            val entity = toObject<AgeStatisticsEntity>()!!
+            entity.toModel(id)
+        },
+        documents.find { it.id == CONTINENT }!!.run {
+            val entity = toObject<ContinentStatisticsEntity>()!!
+            entity.toModel(id)
+        },
+        documents.find { it.id == DATE }!!.run {
+            val entity = toObject<DateStatisticsEntity>()!!
+            entity.toModel(id)
+        },
+        documents.find { it.id == GENDER }!!.run {
+            val entity = toObject<GenderStatisticsEntity>()!!
+            entity.toModel(id)
+        },
     )
 
     private fun updateAgeStatistics(survey: Survey, ageStatistics: AgeStatisticsEntity) =
@@ -142,16 +153,16 @@ class FirestoreSurveyRepository @Inject constructor(
             updateStatisticsMapByResult(result, ageStatistics, map)
         }
 
-    private fun updateCountryStatistics(
+    private fun updateContinentStatistics(
         survey: Survey,
-        countryStatistics: CountryStatisticsEntity
+        continentStatistics: ContinentStatisticsEntity
     ) {
         val result = survey.details.result
-        val country = survey.details.country.replaceFirstChar { it.uppercaseChar() }
-        val map = getStatisticsMapByResult(result, countryStatistics)!!
-        val current = map.getOrPut(country, { 0L })
-        map[country] = current.plus(1)
-        updateStatisticsMapByResult(result, countryStatistics, map)
+        val continent = survey.details.continent.name
+        val map = getStatisticsMapByResult(result, continentStatistics)!!
+        val current = map.getOrPut(continent, { 0L })
+        map[continent] = current.plus(1)
+        updateStatisticsMapByResult(result, continentStatistics, map)
     }
 
     private fun updateDateStatistics(survey: Survey, dateStatistics: DateStatisticsEntity) {

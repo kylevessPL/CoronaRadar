@@ -90,19 +90,19 @@
 
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                        android:id="@+id/survey_details_country"
+                        android:id="@+id/survey_details_continent"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
-                        android:hint="@string/country"
+                        android:hint="@string/continent"
                         app:startIconDrawable="@drawable/ic_flag_24"
-                        app:startIconContentDescription="@string/country_icon"
+                        app:startIconContentDescription="@string/continent_icon"
                         app:expandedHintEnabled="false">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@{survey.details.country}"
+                            android:text="@{survey.details.continent.label}"
                             android:focusable="false"
                             android:focusableInTouchMode="false"
                             android:inputType="@{InputType.TYPE_NULL}"
