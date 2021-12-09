@@ -1,11 +1,8 @@
 package pl.piasta.coronaradar.ui.stats.view
 
-import android.graphics.Color.LTGRAY
 import android.graphics.Color.WHITE
-import android.graphics.Typeface
 import androidx.fragment.app.viewModels
 import com.github.mikephil.charting.animation.Easing
-import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.data.RadarData
 import com.github.mikephil.charting.data.RadarDataSet
 import com.github.mikephil.charting.data.RadarEntry
@@ -26,40 +23,11 @@ import java.text.DecimalFormat
 
 @AndroidEntryPoint
 class StatsChart4Fragment : BaseFragment<FragmentChart4Binding, StatsChartViewModel>(
-    R.string.chart4,
+    R.string.chart,
     R.layout.fragment_chart4
 ) {
 
     override val viewModel: StatsChartViewModel by viewModels(ownerProducer = { requireParentFragment() })
-
-    override fun setupView() {
-        val chart = binding.chart
-        chart.setExtraOffsets(5F, 5F, 5F, 5F)
-        chart.description.isEnabled = false
-        chart.webColor = LTGRAY
-        chart.webColorInner = LTGRAY
-        chart.webLineWidthInner = 1F
-        chart.webAlpha = 100
-        chart.isRotationEnabled = false
-        val xAxis = chart.xAxis
-        xAxis.textSize = 13F
-        xAxis.textColor = WHITE
-        xAxis.valueFormatter = object : ValueFormatter() {
-            val labels = enumValues<AgeRange>().map { str(it.label) }
-            override fun getFormattedValue(value: Float) = labels[value.toInt() % labels.size]
-        }
-        val yAxis = chart.yAxis
-        yAxis.setLabelCount(5, false)
-        yAxis.axisMinimum = 0F
-        yAxis.setDrawLabels(false)
-        val l = chart.legend
-        l.verticalAlignment = Legend.LegendVerticalAlignment.TOP
-        l.horizontalAlignment = Legend.LegendHorizontalAlignment.CENTER
-        l.textColor = WHITE
-        l.textSize = 14F
-        l.typeface = Typeface.DEFAULT_BOLD
-        l.yOffset = 10F
-    }
 
     override fun updateUI() {
         viewModel.currentChartDisplayed.observe(viewLifecycleOwner) { position ->

@@ -19,40 +19,11 @@ import java.time.YearMonth
 
 @AndroidEntryPoint
 class StatsChart3Fragment : BaseFragment<FragmentChart3Binding, StatsChartViewModel>(
-    R.string.chart3,
+    R.string.chart,
     R.layout.fragment_chart3
 ) {
 
     override val viewModel: StatsChartViewModel by viewModels(ownerProducer = { requireParentFragment() })
-
-    override fun setupView() {
-        val chart = binding.chart
-        chart.setExtraOffsets(5F, 30F, 5F, 5F)
-        chart.description.isEnabled = false
-        chart.setTouchEnabled(false)
-        chart.isDragEnabled = false
-        val x = chart.xAxis
-        x.setDrawAxisLine(false)
-        x.setDrawGridLines(false)
-        x.textColor = Color.WHITE
-        x.textSize = 13F
-        x.yOffset = 20F
-        x.granularity = 1F
-        x.setAvoidFirstLastClipping(true)
-        val y = chart.axisLeft
-        y.setLabelCount(6, false)
-        y.textColor = Color.WHITE
-        y.textSize = 13F
-        y.axisMinimum = 0F
-        y.granularity = 1F
-        y.valueFormatter = object : ValueFormatter() {
-            override fun getFormattedValue(value: Float) = value.toInt().toString()
-        }
-        y.axisLineColor = Color.WHITE
-        y.xOffset = 10F
-        chart.axisRight.isEnabled = false
-        chart.legend.isEnabled = false
-    }
 
     override fun updateUI() {
         viewModel.currentChartDisplayed.observe(viewLifecycleOwner) { position ->

@@ -1,13 +1,8 @@
 package pl.piasta.coronaradar.ui.stats.view
 
 import android.graphics.Color.WHITE
-import android.graphics.Typeface.DEFAULT_BOLD
 import androidx.fragment.app.viewModels
 import com.github.mikephil.charting.animation.Easing.EaseInOutQuad
-import com.github.mikephil.charting.components.Legend.LegendForm.CIRCLE
-import com.github.mikephil.charting.components.Legend.LegendHorizontalAlignment.CENTER
-import com.github.mikephil.charting.components.Legend.LegendOrientation.VERTICAL
-import com.github.mikephil.charting.components.Legend.LegendVerticalAlignment.TOP
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
@@ -28,33 +23,11 @@ import java.text.DecimalFormat
 @AndroidEntryPoint
 class StatsChart1Fragment :
     BaseFragment<FragmentChart1Binding, StatsChartViewModel>(
-        R.string.chart1,
+        R.string.chart,
         R.layout.fragment_chart1
     ) {
 
     override val viewModel: StatsChartViewModel by viewModels(ownerProducer = { requireParentFragment() })
-
-    override fun setupView() {
-        val chart = binding.chart
-        chart.setUsePercentValues(true)
-        chart.setExtraOffsets(5F, 20F, 5F, 5F)
-        chart.description.isEnabled = false
-        chart.centerText = str(R.string.gender)
-        chart.setCenterTextSize(18F)
-        chart.setCenterTextTypeface(DEFAULT_BOLD)
-        chart.isRotationEnabled = false
-        chart.legend.apply {
-            orientation = VERTICAL
-            verticalAlignment = TOP
-            horizontalAlignment = CENTER
-            form = CIRCLE
-            textSize = 14F
-            textColor = WHITE
-            typeface = DEFAULT_BOLD
-            yOffset = 10F
-        }
-        chart.setEntryLabelTextSize(13f)
-    }
 
     override fun updateUI() {
         viewModel.currentChartDisplayed.observe(viewLifecycleOwner) { position ->

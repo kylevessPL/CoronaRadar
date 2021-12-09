@@ -1,12 +1,8 @@
 package pl.piasta.coronaradar.ui.stats.view
 
 import android.graphics.Color.WHITE
-import android.graphics.Typeface.DEFAULT_BOLD
 import androidx.fragment.app.viewModels
 import com.github.mikephil.charting.animation.Easing
-import com.github.mikephil.charting.components.Legend.LegendHorizontalAlignment.CENTER
-import com.github.mikephil.charting.components.Legend.LegendOrientation.VERTICAL
-import com.github.mikephil.charting.components.Legend.LegendVerticalAlignment.TOP
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
@@ -26,41 +22,11 @@ import splitties.resources.str
 
 @AndroidEntryPoint
 class StatsChart2Fragment : BaseFragment<FragmentChart2Binding, StatsChartViewModel>(
-    R.string.chart2,
+    R.string.chart,
     R.layout.fragment_chart2
 ) {
 
     override val viewModel: StatsChartViewModel by viewModels(ownerProducer = { requireParentFragment() })
-
-    override fun setupView() {
-        val chart = binding.chart
-        chart.setExtraOffsets(5F, 50F, 5F, 5F)
-        chart.setDrawGridBackground(false)
-        chart.setDrawBarShadow(false)
-        chart.description.isEnabled = false
-        chart.legend.apply {
-            orientation = VERTICAL
-            verticalAlignment = TOP
-            horizontalAlignment = CENTER
-            textSize = 14F
-            textColor = WHITE
-            typeface = DEFAULT_BOLD
-            yOffset = 10F
-        }
-        chart.isDoubleTapToZoomEnabled = false
-        chart.isHighlightPerTapEnabled = false
-        chart.isHighlightFullBarEnabled = true
-        chart.isHighlightPerDragEnabled = false
-        chart.axisLeft.apply {
-            axisMinimum = 0F
-            granularity = 1F
-            textSize = 13F
-            textColor = WHITE
-            xOffset = 10F
-        }
-        chart.axisRight.isEnabled = false
-        chart.xAxis.isEnabled = false
-    }
 
     override fun updateUI() {
         viewModel.currentChartDisplayed.observe(viewLifecycleOwner) { position ->

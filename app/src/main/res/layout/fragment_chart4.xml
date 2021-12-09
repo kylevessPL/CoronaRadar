@@ -2,6 +2,19 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+
+        <import type="android.graphics.Typeface" />
+
+        <import type="android.graphics.Color" />
+
+        <import type="com.github.mikephil.charting.components.Legend.LegendVerticalAlignment" />
+
+        <import type="com.github.mikephil.charting.components.Legend.LegendHorizontalAlignment" />
+
+        <import type="pl.piasta.coronaradar.data.common.AgeRange" />
+    </data>
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -48,6 +61,28 @@
                             android:layout_gravity="center"
                             android:noDataText="@{@string/no_data_available}"
                             android:noDataTextSize="@{14}"
+                            android:extraTopOffset="@{5F}"
+                            android:extraBottomOffset="@{5F}"
+                            android:extraLeftOffset="@{5F}"
+                            android:extraRightOffset="@{5F}"
+                            android:descriptionEnabled="@{false}"
+                            android:webColor="@{Color.LTGRAY}"
+                            android:webInnerColor="@{Color.LTGRAY}"
+                            android:webInnerLineWidth="@{1F}"
+                            android:webAlpha="@{100}"
+                            android:rotationEnabled="@{false}"
+                            android:legendVerticalAlignment="@{LegendVerticalAlignment.TOP}"
+                            android:legendHorizontalAlignment="@{LegendHorizontalAlignment.CENTER}"
+                            android:legendTextSize="@{14F}"
+                            android:legendTextColor="@{@color/white}"
+                            android:legendTextTypeface="@{Typeface.DEFAULT_BOLD}"
+                            android:legendYOffset="@{10F}"
+                            android:xAxisTextSize="@{13F}"
+                            android:xAxisTextColor="@{@color/white}"
+                            android:xAxisFormatAsString="@{AgeRange.getLabelValues()}"
+                            android:yAxisMin="@{0F}"
+                            android:yAxisLabelCount="@{5}"
+                            android:yAxisDrawLabels="@{false}"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"

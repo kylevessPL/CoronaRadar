@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.graphics.Typeface" />
+
+        <import type="com.github.mikephil.charting.components.Legend.LegendOrientation" />
+
+        <import type="com.github.mikephil.charting.components.Legend.LegendVerticalAlignment" />
+
+        <import type="com.github.mikephil.charting.components.Legend.LegendHorizontalAlignment" />
+
+        <import type="com.github.mikephil.charting.components.Legend.LegendForm" />
+    </data>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -34,7 +48,8 @@
                         android:text="@string/chart1_title"
                         android:textColor="@color/white"
                         android:textStyle="bold"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
+                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                        tools:ignore="TextContrastCheck" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
@@ -49,6 +64,25 @@
                             android:noDataText="@{@string/no_data_available}"
                             android:noDataTextSize="@{14}"
                             android:noDataTextColor="@{@color/white}"
+                            android:usePercentValues="@{true}"
+                            android:extraTopOffset="@{20F}"
+                            android:extraBottomOffset="@{5F}"
+                            android:extraLeftOffset="@{5F}"
+                            android:extraRightOffset="@{5F}"
+                            android:descriptionEnabled="@{false}"
+                            android:centerText="@{@string/gender}"
+                            android:centerTextSize="@{18F}"
+                            android:centerTextTypeface="@{Typeface.DEFAULT_BOLD}"
+                            android:rotationEnabled="@{false}"
+                            android:legendOrientation="@{LegendOrientation.VERTICAL}"
+                            android:legendVerticalAlignment="@{LegendVerticalAlignment.TOP}"
+                            android:legendHorizontalAlignment="@{LegendHorizontalAlignment.CENTER}"
+                            android:legendForm="@{LegendForm.CIRCLE}"
+                            android:legendTextSize="@{14F}"
+                            android:legendTextColor="@{@color/white}"
+                            android:legendTextTypeface="@{Typeface.DEFAULT_BOLD}"
+                            android:legendYOffset="@{10F}"
+                            android:entryLabelTextSize="@{13F}"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"

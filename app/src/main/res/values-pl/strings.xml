@@ -159,5 +159,16 @@
     <string name="range_18_minus">Poniżej 18</string>
     <string name="range_65_plus">Powyżej 65</string>
     <string name="charts">Wykresy</string>
+    <string name="chart">Wykres</string>
     <string name="chart1_title">Struktura zachorowań na COVID-19 względem płci</string>
+    <string name="chart2_title">Struktura zachorowań na COVID-19 względem kontynentu</string>
+    <string name="chart3_title">Struktura zachorowań na COVID-19 względem miesiąca</string>
+    <string name="chart4_title">Struktura wyników badania COVID-19 względem wieku</string>
+    <string name="north_america">Ameryka Północna</string>
+    <string name="south_america">Ameryka Południowa</string>
+    <string name="africa">Afryka</string>
+    <string name="asia">Azja</string>
+    <string name="europe">Europa</string>
+    <string name="antartica">Antartyka</string>
+    <string name="australia">Australia</string>
 </resources>

@@ -2,6 +2,17 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+
+        <import type="android.graphics.Typeface" />
+
+        <import type="com.github.mikephil.charting.components.Legend.LegendOrientation" />
+
+        <import type="com.github.mikephil.charting.components.Legend.LegendVerticalAlignment" />
+
+        <import type="com.github.mikephil.charting.components.Legend.LegendHorizontalAlignment" />
+    </data>
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -48,6 +59,31 @@
                             android:layout_gravity="center"
                             android:noDataText="@{@string/no_data_available}"
                             android:noDataTextSize="@{14}"
+                            android:extraTopOffset="@{50F}"
+                            android:extraBottomOffset="@{5F}"
+                            android:extraLeftOffset="@{5F}"
+                            android:extraRightOffset="@{5F}"
+                            android:drawGridBackground="@{false}"
+                            android:drawBarShadow="@{false}"
+                            android:descriptionEnabled="@{false}"
+                            android:legendOrientation="@{LegendOrientation.VERTICAL}"
+                            android:legendVerticalAlignment="@{LegendVerticalAlignment.TOP}"
+                            android:legendHorizontalAlignment="@{LegendHorizontalAlignment.CENTER}"
+                            android:legendTextSize="@{14F}"
+                            android:legendTextColor="@{@color/white}"
+                            android:legendTextTypeface="@{Typeface.DEFAULT_BOLD}"
+                            android:legendYOffset="@{10F}"
+                            android:leftAxisMin="@{0F}"
+                            android:leftAxisGranularity="@{1F}"
+                            android:leftAxisTextSize="@{13F}"
+                            android:leftAxisTextColor="@{@color/white}"
+                            android:leftAxisXOffset="@{10F}"
+                            android:rightAxisEnabled="@{false}"
+                            android:xAxisEnabled="@{false}"
+                            android:doubleTapToZoomEnabled="@{false}"
+                            android:highlightPerTapEnabled="@{false}"
+                            android:highlightFullBarEnabled="@{true}"
+                            android:highlightPerDragEnabled="@{false}"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"

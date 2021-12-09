@@ -182,10 +182,7 @@
     <string name="range_55_64" translatable="false">55–64</string>
     <string name="range_65_plus">65 and above</string>
     <string name="charts">Charts</string>
-    <string name="chart1">Chart 1</string>
-    <string name="chart2">Chart 2</string>
-    <string name="chart3">Chart 3</string>
-    <string name="chart4">Chart 4</string>
+    <string name="chart">Chart</string>
     <string name="chart1_title">COVID-19 disease distribution by gender</string>
     <string name="chart2_title">COVID-19 disease distribution by continent</string>
     <string name="north_america">North America</string>

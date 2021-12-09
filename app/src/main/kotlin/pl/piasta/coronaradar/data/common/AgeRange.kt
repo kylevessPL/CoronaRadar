@@ -28,5 +28,8 @@ enum class AgeRange(override val label: Int) : Labellable {
         fun fromAge(age: Int) = enumValues<AgeRange>().find {
             it.asIntRange().contains(age)
         }
+
+        @JvmStatic
+        fun getLabelValues() = enumValues<AgeRange>().map { it.label }
     }
 }

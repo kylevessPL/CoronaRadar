@@ -1,5 +1,6 @@
 package pl.piasta.coronaradar.ui.util
 
+import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.SystemClock
@@ -35,8 +36,10 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
-import com.github.mikephil.charting.charts.Chart
+import com.github.mikephil.charting.charts.*
 import com.github.mikephil.charting.charts.Chart.PAINT_INFO
+import com.github.mikephil.charting.components.Legend.*
+import com.github.mikephil.charting.formatter.ValueFormatter
 import com.google.android.material.progressindicator.BaseProgressIndicator
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.slider.Slider
@@ -153,6 +156,283 @@ fun noDataTextSize(view: Chart<*>, textSize: Int) {
         setTextSize(sizePx)
     }
     view.setPaint(paint, PAINT_INFO)
+}
+
+@BindingAdapter("android:usePercentValues")
+fun usePercentValues(chart: PieChart, value: Boolean) = chart.setUsePercentValues(value)
+
+@BindingAdapter("android:extraTopOffset")
+fun extraTopOffset(chart: Chart<*>, value: Float) {
+    chart.extraTopOffset = value
+}
+
+@BindingAdapter("android:extraBottomOffset")
+fun extraBottomOffset(chart: Chart<*>, value: Float) {
+    chart.extraBottomOffset = value
+}
+
+@BindingAdapter("android:extraLeftOffset")
+fun extraLeftOffset(chart: Chart<*>, value: Float) {
+    chart.extraLeftOffset = value
+}
+
+@BindingAdapter("android:extraRightOffset")
+fun extraRightOffset(chart: Chart<*>, value: Float) {
+    chart.extraRightOffset = value
+}
+
+@BindingAdapter("android:descriptionEnabled")
+fun descriptionEnabled(chart: Chart<*>, value: Boolean) {
+    chart.description.isEnabled = value
+}
+
+@BindingAdapter("android:centerText")
+fun centerText(chart: PieChart, @StringRes textRes: Int) {
+    chart.centerText = appStr(textRes)
+}
+
+@BindingAdapter("android:centerTextSize")
+fun centerTextSize(chart: PieChart, value: Float) = chart.setCenterTextSize(value)
+
+@BindingAdapter("android:centerTextTypeface")
+fun centerTextTypeface(chart: PieChart, value: Typeface) = chart.setCenterTextTypeface(value)
+
+@BindingAdapter("android:webColor")
+fun webColor(chart: RadarChart, @ColorInt value: Int) {
+    chart.webColor = value
+}
+
+@BindingAdapter("android:webAlpha")
+fun webAlpha(chart: RadarChart, value: Int) {
+    chart.webAlpha = value
+}
+
+@BindingAdapter("android:webInnerColor")
+fun webInnerColor(chart: RadarChart, @ColorInt value: Int) {
+    chart.webColorInner = value
+}
+
+@BindingAdapter("android:webInnerLineWidth")
+fun webInnerLineWidth(chart: RadarChart, value: Float) {
+    chart.webLineWidthInner = value
+}
+
+@BindingAdapter("android:rotationEnabled")
+fun rotationEnabled(chart: PieChart, value: Boolean) {
+    chart.isRotationEnabled = value
+}
+
+@BindingAdapter("android:legendEnabled")
+fun legendEnabled(chart: Chart<*>, value: Boolean) {
+    chart.legend.isEnabled = value
+}
+
+@BindingAdapter("android:legendOrientation")
+fun legendOrientation(chart: Chart<*>, value: LegendOrientation) {
+    chart.legend.orientation = value
+}
+
+@BindingAdapter("android:legendVerticalAlignment")
+fun legendVerticalAlignment(chart: Chart<*>, value: LegendVerticalAlignment) {
+    chart.legend.verticalAlignment = value
+}
+
+@BindingAdapter("android:legendHorizontalAlignment")
+fun legendHorizontalAlignment(chart: Chart<*>, value: LegendHorizontalAlignment) {
+    chart.legend.horizontalAlignment = value
+}
+
+@BindingAdapter("android:legendForm")
+fun legendForm(chart: Chart<*>, value: LegendForm) {
+    chart.legend.form = value
+}
+
+@BindingAdapter("android:legendTextSize")
+fun legendTextSize(chart: Chart<*>, value: Float) {
+    chart.legend.textSize = value
+}
+
+@BindingAdapter("android:legendTextColor")
+fun legendTextColor(chart: Chart<*>, @ColorInt value: Int) {
+    chart.legend.textColor = value
+}
+
+@BindingAdapter("android:legendTextTypeface")
+fun legendTextTypeface(chart: Chart<*>, value: Typeface) {
+    chart.legend.typeface = value
+}
+
+@BindingAdapter("android:legendYOffset")
+fun legendYOffset(chart: Chart<*>, value: Float) {
+    chart.legend.yOffset = value
+}
+
+@BindingAdapter("android:entryLabelTextSize")
+fun entryLabelTextSize(chart: PieChart, value: Float) = chart.setEntryLabelTextSize(value)
+
+@BindingAdapter("android:drawGridBackground")
+fun drawGridBackground(chart: BarChart, value: Boolean) = chart.setDrawGridBackground(value)
+
+@BindingAdapter("android:drawBarShadow")
+fun drawBarShadow(chart: BarChart, value: Boolean) = chart.setDrawBarShadow(value)
+
+@BindingAdapter("android:doubleTapToZoomEnabled")
+fun doubleTapToZoomEnabled(chart: BarChart, value: Boolean) {
+    chart.isDoubleTapToZoomEnabled = value
+}
+
+@BindingAdapter("android:highlightPerTapEnabled")
+fun highlightPerTapEnabled(chart: Chart<*>, value: Boolean) {
+    chart.isHighlightPerTapEnabled = value
+}
+
+@BindingAdapter("android:highlightFullBarEnabled")
+fun highlightFullBarEnabled(chart: BarChart, value: Boolean) {
+    chart.isHighlightFullBarEnabled = value
+}
+
+@BindingAdapter("android:highlightPerDragEnabled")
+fun highlightPerDragEnabled(chart: BarChart, value: Boolean) {
+    chart.isHighlightPerDragEnabled = value
+}
+
+@BindingAdapter("android:leftAxisMin")
+fun leftAxisMin(chart: BarChart, value: Float) {
+    chart.axisLeft.axisMinimum = value
+}
+
+@BindingAdapter("android:leftAxisMin")
+fun leftAxisMin(chart: LineChart, value: Float) {
+    chart.axisLeft.axisMinimum = value
+}
+
+@BindingAdapter("android:leftAxisGranularity")
+fun leftAxisGranularity(chart: BarChart, value: Float) {
+    chart.axisLeft.granularity = value
+}
+
+@BindingAdapter("android:leftAxisGranularity")
+fun leftAxisGranularity(chart: LineChart, value: Float) {
+    chart.axisLeft.granularity = value
+}
+
+@BindingAdapter("android:leftAxisTextSize")
+fun leftAxisTextSize(chart: BarChart, value: Float) {
+    chart.axisLeft.textSize = value
+}
+
+@BindingAdapter("android:leftAxisTextSize")
+fun leftAxisTextSize(chart: LineChart, value: Float) {
+    chart.axisLeft.textSize = value
+}
+
+@BindingAdapter("android:leftAxisTextColor")
+fun leftAxisTextColor(chart: BarChart, @ColorInt value: Int) {
+    chart.axisLeft.textColor = value
+}
+
+@BindingAdapter("android:leftAxisTextColor")
+fun leftAxisTextColor(chart: LineChart, @ColorInt value: Int) {
+    chart.axisLeft.textColor = value
+}
+
+@BindingAdapter("android:leftAxisLineColor")
+fun leftAxisLineColor(chart: LineChart, @ColorInt value: Int) {
+    chart.axisLeft.axisLineColor = value
+}
+
+@BindingAdapter("android:leftAxisXOffset")
+fun leftAxisXOffset(chart: BarChart, value: Float) {
+    chart.axisLeft.xOffset = value
+}
+
+@BindingAdapter("android:leftAxisXOffset")
+fun leftAxisXOffset(chart: LineChart, value: Float) {
+    chart.axisLeft.xOffset = value
+}
+
+@BindingAdapter("android:leftAxisFormatAsInt")
+fun leftAxisFormatAsInt(chart: LineChart, value: Boolean) {
+    {
+        chart.axisLeft.valueFormatter = object : ValueFormatter() {
+            override fun getFormattedValue(value: Float) = value.toInt().toString()
+        }
+    }.takeIf { value }?.invoke()
+}
+
+@BindingAdapter("android:leftAxisLabelCount")
+fun leftAxisLabelCount(chart: LineChart, value: Int) = chart.axisLeft.setLabelCount(value, false)
+
+@BindingAdapter("android:rightAxisEnabled")
+fun rightAxisEnabled(chart: BarChart, value: Boolean) {
+    chart.axisRight.isEnabled = value
+}
+
+@BindingAdapter("android:rightAxisEnabled")
+fun rightAxisEnabled(chart: LineChart, value: Boolean) {
+    chart.axisRight.isEnabled = value
+}
+
+@BindingAdapter("android:touchEnabled")
+fun touchEnabled(chart: Chart<*>, value: Boolean) = chart.setTouchEnabled(value)
+
+@BindingAdapter("android:dragEnabled")
+fun dragEnabled(chart: LineChart, value: Boolean) {
+    chart.isDragEnabled = value
+}
+
+@BindingAdapter("android:xAxisEnabled")
+fun xAxisEnabled(chart: BarChart, value: Boolean) {
+    chart.xAxis.isEnabled = value
+}
+
+@BindingAdapter("android:xAxisFormatAsString")
+fun xAxisFormatAsString(chart: Chart<*>, values: List<Int>) {
+    chart.xAxis.valueFormatter = object : ValueFormatter() {
+        val labels = values.map { appStr(it) }
+        override fun getFormattedValue(value: Float) = labels[value.toInt() % labels.size]
+    }
+}
+
+@BindingAdapter("android:xAxisDrawAxisLine")
+fun xAxisDrawAxisLine(chart: Chart<*>, value: Boolean) = chart.xAxis.setDrawAxisLine(value)
+
+@BindingAdapter("android:xAxisDrawGridLines")
+fun xAxisDrawGridLines(chart: Chart<*>, value: Boolean) = chart.xAxis.setDrawGridLines(value)
+
+@BindingAdapter("android:xAxisGranularity")
+fun xAxisGranularity(chart: Chart<*>, value: Float) {
+    chart.xAxis.granularity = value
+}
+
+@BindingAdapter("android:xAxisTextSize")
+fun xAxisTextSize(chart: Chart<*>, value: Float) {
+    chart.xAxis.textSize = value
+}
+
+@BindingAdapter("android:xAxisTextColor")
+fun xAxisTextColor(chart: Chart<*>, @ColorInt value: Int) {
+    chart.xAxis.textColor = value
+}
+
+@BindingAdapter("android:xAxisYOffset")
+fun xAxisYOffset(chart: Chart<*>, value: Float) {
+    chart.xAxis.yOffset = value
+}
+
+@BindingAdapter("android:xAxisAvoidClipping")
+fun xAxisAvoidClipping(chart: Chart<*>, value: Boolean) =
+    chart.xAxis.setAvoidFirstLastClipping(value)
+
+@BindingAdapter("android:yAxisDrawLabels")
+fun yAxisDrawLabels(chart: RadarChart, value: Boolean) = chart.yAxis.setDrawLabels(value)
+
+@BindingAdapter("android:yAxisLabelCount")
+fun yAxisLabelCount(chart: RadarChart, value: Int) = chart.yAxis.setLabelCount(value, false)
+
+@BindingAdapter("android:yAxisMin")
+fun yAxisMin(chart: RadarChart, value: Float) {
+    chart.yAxis.axisMinimum = value
 }
 
 @BindingAdapter("android:itemDecoration")
