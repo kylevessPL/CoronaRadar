@@ -5,12 +5,17 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.hadilq.liveevent.LiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 import pl.piasta.coronaradar.data.history.model.History
 import pl.piasta.coronaradar.data.history.repository.HistoryRepository
+import pl.piasta.coronaradar.di.IoDispatcher
 import javax.inject.Inject
 
 @HiltViewModel
-class HistoryViewModel @Inject constructor(historyRepository: HistoryRepository) : ViewModel() {
+class HistoryViewModel @Inject constructor(
+    @IoDispatcher private val coroutineDispatcher: CoroutineDispatcher,
+    historyRepository: HistoryRepository
+) : ViewModel() {
 
     private val _historyData = historyRepository.getAllCurrentUserHistoryPaged()
         .cachedIn(viewModelScope)

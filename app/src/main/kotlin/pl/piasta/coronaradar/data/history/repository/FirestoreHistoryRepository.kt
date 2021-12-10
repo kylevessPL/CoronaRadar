@@ -7,7 +7,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query.Direction.DESCENDING
 import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
@@ -19,11 +19,13 @@ import pl.piasta.coronaradar.data.util.DATE
 import pl.piasta.coronaradar.data.util.HISTORY
 import pl.piasta.coronaradar.data.util.PAGE_SIZE
 import pl.piasta.coronaradar.data.util.USERS
+import pl.piasta.coronaradar.di.IoDispatcher
 import pl.piasta.coronaradar.util.ResultState
 import pl.piasta.coronaradar.util.TAG
 import javax.inject.Inject
 
 class FirestoreHistoryRepository @Inject constructor(
+    @IoDispatcher private val coroutineDispatcher: CoroutineDispatcher,
     private val firestore: FirebaseFirestore,
     private val pagingConfig: PagingConfig
 ) : HistoryRepository {
@@ -46,7 +48,7 @@ class FirestoreHistoryRepository @Inject constructor(
 
     override fun getAllCurrentUserHistoryPaged() = Pager(pagingConfig) {
         FirestorePagingSource<History>(getAllUserHistoryPagingQuery, HistoryEntity::class.java)
-    }.flow.flowOn(Dispatchers.IO)
+    }.flow.flowOn(coroutineDispatcher)
 
     override fun createHistory(history: History) = flow {
         emit(ResultState.Loading)
@@ -59,5 +61,5 @@ class FirestoreHistoryRepository @Inject constructor(
     }.catch { ex ->
         Log.w(this@FirestoreHistoryRepository.TAG, "createHistory:failure", ex)
         emit(ResultState.Error(ex))
-    }.flowOn(Dispatchers.IO)
+    }.flowOn(coroutineDispatcher)
 }

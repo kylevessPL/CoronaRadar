@@ -16,7 +16,6 @@ import com.google.firebase.ml.modeldownloader.FirebaseMlException
 import com.google.firebase.ml.modeldownloader.FirebaseMlException.NOT_ENOUGH_SPACE
 import com.google.firebase.ml.modeldownloader.FirebaseMlException.NO_NETWORK_CONNECTION
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import pl.piasta.coronaradar.R
 import pl.piasta.coronaradar.databinding.FragmentRadarBinding
@@ -152,14 +151,12 @@ class RadarFragment :
                 parentFragmentManager,
                 OkDialogFragment::class.TAG
             )
-            result.allGranted() -> lifecycleScope.launch(Dispatchers.IO) {
-                when (viewModel.isRecording.value) {
-                    true -> lifecycleScope.launch(Dispatchers.IO) {
-                        viewModel.analyzeData()
-                    }
-                    else -> lifecycleScope.launch(Dispatchers.IO) {
-                        viewModel.recordData()
-                    }
+            result.allGranted() -> when (viewModel.isRecording.value) {
+                true -> lifecycleScope.launch {
+                    viewModel.analyzeData()
+                }
+                else -> lifecycleScope.launch {
+                    viewModel.recordData()
                 }
             }
         }

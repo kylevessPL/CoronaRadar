@@ -9,11 +9,12 @@ import androidx.lifecycle.viewModelScope
 import com.hadilq.liveevent.LiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
 import pl.piasta.coronaradar.data.auth.repository.AuthRepository
+import pl.piasta.coronaradar.di.IoDispatcher
 import pl.piasta.coronaradar.ui.account.model.UserDetailsForm
 import pl.piasta.coronaradar.ui.util.contentBytes
 import pl.piasta.coronaradar.util.ResultState
@@ -22,6 +23,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AccountViewModel @Inject constructor(
+    @IoDispatcher private val coroutineDispatcher: CoroutineDispatcher,
     private val application: Application,
     private val authRepository: AuthRepository
 ) : ViewModel() {
@@ -83,13 +85,13 @@ class AccountViewModel @Inject constructor(
     }
 
     fun validatePassword() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(coroutineDispatcher) {
             _userDetailsForm.validatePassword()
         }
     }
 
     fun validatePasswordConfirm() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(coroutineDispatcher) {
             _userDetailsForm.validatePasswordConfirm()
         }
     }
@@ -97,7 +99,7 @@ class AccountViewModel @Inject constructor(
     fun setUserAvatar(uri: Uri) = _userDetailsForm.input.avatar.set(uri)
 
     fun updateProfile() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(coroutineDispatcher) {
             _userDetailsForm.isProcessing = true
             disableFields()
             uploadUserAvatar()

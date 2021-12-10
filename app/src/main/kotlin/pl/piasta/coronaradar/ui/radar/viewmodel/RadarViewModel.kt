@@ -18,7 +18,7 @@ import com.quickbirdstudios.surveykit.result.TaskResult
 import com.quickbirdstudios.surveykit.result.question_results.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CancellationException
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flattenMerge
@@ -34,6 +34,7 @@ import pl.piasta.coronaradar.data.ml.repository.MlRepository
 import pl.piasta.coronaradar.data.survey.model.Survey
 import pl.piasta.coronaradar.data.survey.model.SurveyDetails
 import pl.piasta.coronaradar.data.survey.repository.SurveyRepository
+import pl.piasta.coronaradar.di.IoDispatcher
 import pl.piasta.coronaradar.ui.radar.model.Classification
 import pl.piasta.coronaradar.ui.util.contentBytes
 import pl.piasta.coronaradar.ui.util.recordingPath
@@ -51,6 +52,7 @@ import kotlin.streams.toList
 
 @HiltViewModel
 class RadarViewModel @Inject constructor(
+    @IoDispatcher private val coroutineDispatcher: CoroutineDispatcher,
     private val application: Application,
     private val authRepository: AuthRepository,
     private val mlRepository: MlRepository,
@@ -156,14 +158,14 @@ class RadarViewModel @Inject constructor(
     }.apply()
 
     fun recordData() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(coroutineDispatcher) {
             updateModel()
             recorder.startRecording()
         }
     }
 
     fun analyzeData() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(coroutineDispatcher) {
             recorder.stopRecording()
             _classificationResult.postValue(Loading)
             val modelPath = mlRepository.getLocalModel()!!
@@ -173,7 +175,7 @@ class RadarViewModel @Inject constructor(
     }
 
     fun saveUserHistory(classification: Classification) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(coroutineDispatcher) {
             authRepository.currentUser ?: return@launch
             val history = with(classification) {
                 History(
@@ -191,7 +193,7 @@ class RadarViewModel @Inject constructor(
     private fun collectSurveyData(result: TaskResult, reason: FinishReason) {
         _collectSurveyDataResult.value = true
         (reason == Completed).ifTrue {
-            viewModelScope.launch(Dispatchers.IO) {
+            viewModelScope.launch(coroutineDispatcher) {
                 val covidTestResult = extractCovidTestResult(result)
                 val details = createSurveyDetails(result)
                 val survey = Survey(

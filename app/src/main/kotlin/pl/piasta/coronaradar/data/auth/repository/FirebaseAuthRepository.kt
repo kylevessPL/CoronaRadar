@@ -12,7 +12,7 @@ import com.google.firebase.auth.*
 import com.google.firebase.auth.ActionCodeResult.*
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import com.google.firebase.storage.FirebaseStorage
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
@@ -22,6 +22,7 @@ import pl.piasta.coronaradar.data.auth.model.ActionCode.PasswordReset
 import pl.piasta.coronaradar.data.auth.model.ActionCode.VerifyEmail
 import pl.piasta.coronaradar.data.auth.model.UserDetails
 import pl.piasta.coronaradar.data.auth.util.registerMCallback
+import pl.piasta.coronaradar.di.IoDispatcher
 import pl.piasta.coronaradar.di.ResetPasswordEmailSettings
 import pl.piasta.coronaradar.di.VerificationEmailSettings
 import pl.piasta.coronaradar.util.ResultState
@@ -30,6 +31,7 @@ import pl.piasta.coronaradar.util.ifNullOrEmpty
 import javax.inject.Inject
 
 class FirebaseAuthRepository @Inject constructor(
+    @IoDispatcher private val coroutineDispatcher: CoroutineDispatcher,
     private val auth: FirebaseAuth,
     private val storage: FirebaseStorage,
     private val dynamicLinks: FirebaseDynamicLinks,
@@ -52,7 +54,7 @@ class FirebaseAuthRepository @Inject constructor(
     }.catch { ex ->
         Log.w(this@FirebaseAuthRepository.TAG, "login:failure", ex)
         emit(ResultState.Error(ex))
-    }.flowOn(Dispatchers.IO)
+    }.flowOn(coroutineDispatcher)
 
     override fun register(
         email: String,
@@ -65,7 +67,7 @@ class FirebaseAuthRepository @Inject constructor(
     }.catch { ex ->
         Log.w(this@FirebaseAuthRepository.TAG, "register:failure", ex)
         emit(ResultState.Error(ex))
-    }.flowOn(Dispatchers.IO)
+    }.flowOn(coroutineDispatcher)
 
     override fun logout() = flow {
         emit(ResultState.Loading)
@@ -77,7 +79,7 @@ class FirebaseAuthRepository @Inject constructor(
     }.catch { ex ->
         Log.w(this@FirebaseAuthRepository.TAG, "logout:failure", ex)
         emit(ResultState.Error(ex))
-    }.flowOn(Dispatchers.IO)
+    }.flowOn(coroutineDispatcher)
 
     override fun sendPasswordResetEmail(email: String) = flow {
         emit(ResultState.Loading)
@@ -90,7 +92,7 @@ class FirebaseAuthRepository @Inject constructor(
             is FirebaseAuthInvalidUserException -> emit(ResultState.Success(false))
             else -> emit(ResultState.Error(ex))
         }
-    }.flowOn(Dispatchers.IO)
+    }.flowOn(coroutineDispatcher)
 
     override fun sendVerificationEmail() = flow {
         emit(ResultState.Loading)
@@ -100,7 +102,7 @@ class FirebaseAuthRepository @Inject constructor(
     }.catch { ex ->
         Log.w(this@FirebaseAuthRepository.TAG, "sendVerificationEmail:failure", ex)
         emit(ResultState.Error(ex))
-    }.flowOn(Dispatchers.IO)
+    }.flowOn(coroutineDispatcher)
 
     override fun loginWithGoogle(task: Task<GoogleSignInAccount>) = flow {
         emit(ResultState.Loading)
@@ -112,7 +114,7 @@ class FirebaseAuthRepository @Inject constructor(
     }.catch { ex ->
         Log.w(this@FirebaseAuthRepository.TAG, "loginWithGoogle:failure", ex)
         emit(ResultState.Error(ex))
-    }.flowOn(Dispatchers.IO)
+    }.flowOn(coroutineDispatcher)
 
     override fun loginWithFacebook(callbackManager: CallbackManager) = flow {
         emit(ResultState.Loading)
@@ -124,7 +126,7 @@ class FirebaseAuthRepository @Inject constructor(
     }.catch { ex ->
         Log.w(this@FirebaseAuthRepository.TAG, "loginWithFacebook:failure", ex)
         emit(ResultState.Error(ex))
-    }.flowOn(Dispatchers.IO)
+    }.flowOn(coroutineDispatcher)
 
     override fun verifyActionCode(data: Uri) = flow {
         emit(ResultState.Loading)
@@ -137,7 +139,7 @@ class FirebaseAuthRepository @Inject constructor(
     }.catch { ex ->
         Log.w(this@FirebaseAuthRepository.TAG, "verifyActionCode:failure", ex)
         emit(ResultState.Error(ex))
-    }.flowOn(Dispatchers.IO)
+    }.flowOn(coroutineDispatcher)
 
     override fun verifyEmail(actionCode: String) = flow {
         emit(ResultState.Loading)
@@ -148,7 +150,7 @@ class FirebaseAuthRepository @Inject constructor(
     }.catch { ex ->
         Log.w(this@FirebaseAuthRepository.TAG, "verifyEmail:failure", ex)
         emit(ResultState.Error(ex))
-    }.flowOn(Dispatchers.IO)
+    }.flowOn(coroutineDispatcher)
 
     override fun resetPassword(
         actionCode: String,
@@ -161,7 +163,7 @@ class FirebaseAuthRepository @Inject constructor(
     }.catch { ex ->
         Log.w(this@FirebaseAuthRepository.TAG, "resetPassword:failure", ex)
         emit(ResultState.Error(ex))
-    }.flowOn(Dispatchers.IO)
+    }.flowOn(coroutineDispatcher)
 
     override fun updateCurrentUserPassword(password: String) = flow {
         emit(ResultState.Loading)
@@ -171,7 +173,7 @@ class FirebaseAuthRepository @Inject constructor(
     }.catch { ex ->
         Log.w(this@FirebaseAuthRepository.TAG, "updateCurrentUserPassword:failure", ex)
         emit(ResultState.Error(ex))
-    }.flowOn(Dispatchers.IO)
+    }.flowOn(coroutineDispatcher)
 
     override fun updateCurrentUserDetails(displayName: String, avatarUri: Uri?) = flow {
         emit(ResultState.Loading)
@@ -186,7 +188,7 @@ class FirebaseAuthRepository @Inject constructor(
     }.catch { ex ->
         Log.w(this@FirebaseAuthRepository.TAG, "updateCurrentUserDetails:failure", ex)
         emit(ResultState.Error(ex))
-    }.flowOn(Dispatchers.IO)
+    }.flowOn(coroutineDispatcher)
 
     override fun uploadAvatar(byteArray: ByteArray) = flow {
         emit(ResultState.Loading)
@@ -198,7 +200,7 @@ class FirebaseAuthRepository @Inject constructor(
     }.catch { ex ->
         Log.w(this@FirebaseAuthRepository.TAG, "uploadAvatar:failure", ex)
         emit(ResultState.Error(ex))
-    }.flowOn(Dispatchers.IO)
+    }.flowOn(coroutineDispatcher)
 
     private suspend fun reloadCurrentUserData() {
         auth.currentUser?.reload()?.await()

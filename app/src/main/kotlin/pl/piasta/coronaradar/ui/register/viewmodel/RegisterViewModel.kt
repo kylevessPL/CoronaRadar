@@ -7,17 +7,20 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseUser
 import com.hadilq.liveevent.LiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import pl.piasta.coronaradar.data.auth.repository.AuthRepository
+import pl.piasta.coronaradar.di.IoDispatcher
 import pl.piasta.coronaradar.ui.register.model.RegisterForm
 import pl.piasta.coronaradar.util.ResultState
 import javax.inject.Inject
 
 @HiltViewModel
-class RegisterViewModel @Inject constructor(private val authRepository: AuthRepository) :
-    ViewModel() {
+class RegisterViewModel @Inject constructor(
+    @IoDispatcher private val coroutineDispatcher: CoroutineDispatcher,
+    private val authRepository: AuthRepository
+) : ViewModel() {
 
     private val _registerForm = RegisterForm()
     val registerForm: RegisterForm
@@ -40,19 +43,19 @@ class RegisterViewModel @Inject constructor(private val authRepository: AuthRepo
     }
 
     fun validateEmail() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(coroutineDispatcher) {
             _registerForm.validateEmail()
         }
     }
 
     fun validatePassword() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(coroutineDispatcher) {
             _registerForm.validatePassword()
         }
     }
 
     fun validatePasswordConfirm() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(coroutineDispatcher) {
             _registerForm.validatePasswordConfirm()
         }
     }
@@ -62,7 +65,7 @@ class RegisterViewModel @Inject constructor(private val authRepository: AuthRepo
     }
 
     fun signUp() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(coroutineDispatcher) {
             _registerForm.isProcessing = true
             authRepository.register(
                 _registerForm.input.email.get()!!,

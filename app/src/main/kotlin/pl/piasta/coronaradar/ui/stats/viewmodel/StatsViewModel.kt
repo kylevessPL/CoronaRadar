@@ -5,12 +5,17 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.hadilq.liveevent.LiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 import pl.piasta.coronaradar.data.survey.model.Survey
 import pl.piasta.coronaradar.data.survey.repository.SurveyRepository
+import pl.piasta.coronaradar.di.IoDispatcher
 import javax.inject.Inject
 
 @HiltViewModel
-class StatsViewModel @Inject constructor(surveyRepository: SurveyRepository) : ViewModel() {
+class StatsViewModel @Inject constructor(
+    @IoDispatcher private val coroutineDispatcher: CoroutineDispatcher,
+    surveyRepository: SurveyRepository
+) : ViewModel() {
 
     private val _surveysData = surveyRepository.getAllSurveysPaged()
         .cachedIn(viewModelScope)

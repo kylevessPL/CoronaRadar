@@ -9,11 +9,12 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseUser
 import com.hadilq.liveevent.LiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import pl.piasta.coronaradar.data.auth.model.ActionCode
 import pl.piasta.coronaradar.data.auth.repository.AuthRepository
+import pl.piasta.coronaradar.di.IoDispatcher
 import pl.piasta.coronaradar.ui.common.viewmodel.ConnectivityLiveData
 import pl.piasta.coronaradar.ui.common.viewmodel.FirebaseUserLiveData
 import pl.piasta.coronaradar.util.ResultState
@@ -21,6 +22,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class UserViewModel @Inject constructor(
+    @IoDispatcher private val coroutineDispatcher: CoroutineDispatcher,
     application: Application,
     private val authRepository: AuthRepository
 ) : ViewModel() {
@@ -66,7 +68,7 @@ class UserViewModel @Inject constructor(
     }
 
     fun verifyActionCode(data: Uri) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(coroutineDispatcher) {
             authRepository.verifyActionCode(data).collect { result ->
                 _verifyActionCodeResult.postValue(result)
             }
@@ -74,21 +76,21 @@ class UserViewModel @Inject constructor(
     }
 
     fun sendVerificationEmail() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(coroutineDispatcher) {
             authRepository.sendVerificationEmail().collect { result ->
                 _verificationEmailResult.postValue(result)
             }
         }
     }
 
-    fun verifyEmail(oob: String) = viewModelScope.launch(Dispatchers.IO) {
+    fun verifyEmail(oob: String) = viewModelScope.launch(coroutineDispatcher) {
         authRepository.verifyEmail(oob).collect { result ->
             _verifyEmailResult.postValue(result)
         }
     }
 
     fun sendPasswordResetEmail(email: String) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(coroutineDispatcher) {
             authRepository.sendPasswordResetEmail(email).collect { result ->
                 _passwordResetEmailResult.postValue(result)
             }
@@ -96,7 +98,7 @@ class UserViewModel @Inject constructor(
     }
 
     fun resetPassword(oob: String, newPassword: String) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(coroutineDispatcher) {
             authRepository.resetPassword(oob, newPassword).collect { result ->
                 _passwordResetResult.postValue(result)
             }
@@ -104,7 +106,7 @@ class UserViewModel @Inject constructor(
     }
 
     fun signOut() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(coroutineDispatcher) {
             authRepository.logout()
                 .collect { result ->
                     _signOutResult.postValue(result)

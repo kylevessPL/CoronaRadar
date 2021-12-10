@@ -15,8 +15,6 @@ import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import pl.piasta.coronaradar.R
 import pl.piasta.coronaradar.data.auth.exception.EmailNotVerifiedException
 import pl.piasta.coronaradar.databinding.FragmentLoginBinding
@@ -50,9 +48,7 @@ class LoginFragment :
             val data: Intent? = result.data
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             lifecycleScope.launchWhenStarted {
-                withContext(Dispatchers.IO) {
-                    viewModel.signInWithGoogle(task)
-                }
+                viewModel.signInWithGoogle(task)
             }
         }
 
@@ -96,9 +92,7 @@ class LoginFragment :
     private fun launchFacebookSignInIntent() {
         val callbackManager = CallbackManager.Factory.create()
         lifecycleScope.launchWhenStarted {
-            withContext(Dispatchers.IO) {
-                viewModel.signInWithFacebook(callbackManager)
-            }
+            viewModel.signInWithFacebook(callbackManager)
         }
         facebookLoginManager.logInWithReadPermissions(
             this,

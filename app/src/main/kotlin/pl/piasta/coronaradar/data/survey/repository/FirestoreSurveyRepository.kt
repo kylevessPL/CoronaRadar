@@ -9,7 +9,7 @@ import com.google.firebase.firestore.Query.Direction.DESCENDING
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.storage.FirebaseStorage
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
@@ -24,6 +24,7 @@ import pl.piasta.coronaradar.data.survey.model.Statistics
 import pl.piasta.coronaradar.data.survey.model.Survey
 import pl.piasta.coronaradar.data.survey.repository.entity.*
 import pl.piasta.coronaradar.data.util.*
+import pl.piasta.coronaradar.di.IoDispatcher
 import pl.piasta.coronaradar.util.ResultState
 import pl.piasta.coronaradar.util.TAG
 import pl.piasta.coronaradar.util.getDataFlow
@@ -33,6 +34,7 @@ import java.util.*
 import javax.inject.Inject
 
 class FirestoreSurveyRepository @Inject constructor(
+    @IoDispatcher private val coroutineDispatcher: CoroutineDispatcher,
     private val firestore: FirebaseFirestore,
     private val storage: FirebaseStorage,
     private val pagingConfig: PagingConfig
@@ -55,11 +57,11 @@ class FirestoreSurveyRepository @Inject constructor(
 
     override fun watchStatistics() = statisticsCollection.getDataFlow {
         createStatistics(it!!.documents)
-    }.flowOn(Dispatchers.IO)
+    }.flowOn(coroutineDispatcher)
 
     override fun getAllSurveysPaged() = Pager(pagingConfig) {
         FirestorePagingSource<Survey>(getAllSurveysPagingQuery, SurveyEntity::class.java)
-    }.flow.flowOn(Dispatchers.IO)
+    }.flow.flowOn(coroutineDispatcher)
 
     override fun createSurvey(survey: Survey) = flow {
         emit(ResultState.Loading)
@@ -110,7 +112,7 @@ class FirestoreSurveyRepository @Inject constructor(
     }.catch { ex ->
         Log.w(this@FirestoreSurveyRepository.TAG, "createSurvey:failure", ex)
         emit(ResultState.Error(ex))
-    }.flowOn(Dispatchers.IO)
+    }.flowOn(coroutineDispatcher)
 
     override fun uploadCoughAudio(label: ResultLabel, byteArray: ByteArray) = flow {
         emit(ResultState.Loading)
@@ -122,7 +124,7 @@ class FirestoreSurveyRepository @Inject constructor(
     }.catch { ex ->
         Log.w(this@FirestoreSurveyRepository.TAG, "uploadCoughAudio:failure", ex)
         emit(ResultState.Error(ex))
-    }.flowOn(Dispatchers.IO)
+    }.flowOn(coroutineDispatcher)
 
     private fun createStatistics(documents: List<DocumentSnapshot>) = Statistics(
         documents.find { it.id == AGE }!!.run {

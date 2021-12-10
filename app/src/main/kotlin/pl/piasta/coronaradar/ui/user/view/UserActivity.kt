@@ -6,8 +6,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import com.google.firebase.auth.FirebaseAuthActionCodeException
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import pl.piasta.coronaradar.R
 import pl.piasta.coronaradar.data.auth.model.ActionCode
 import pl.piasta.coronaradar.data.auth.model.ActionCode.PasswordReset
@@ -55,9 +53,7 @@ class UserActivity : BaseActivity<ActivityUserBinding, UserViewModel>(R.layout.a
 
     private fun processActionCode() {
         lifecycleScope.launchWhenStarted {
-            withContext(Dispatchers.IO) {
-                intent.data?.let { viewModel.verifyActionCode(it) }
-            }
+            intent.data?.let { viewModel.verifyActionCode(it) }
         }
     }
 
