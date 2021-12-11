@@ -5,17 +5,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.hadilq.liveevent.LiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineDispatcher
 import pl.piasta.coronaradar.data.survey.model.Statistics
 import pl.piasta.coronaradar.data.survey.repository.SurveyRepository
-import pl.piasta.coronaradar.di.IoDispatcher
 import javax.inject.Inject
 
 @HiltViewModel
-class StatsChartViewModel @Inject constructor(
-    @IoDispatcher private val coroutineDispatcher: CoroutineDispatcher,
-    surveyRepository: SurveyRepository
-) : ViewModel() {
+class StatsChartViewModel @Inject constructor(surveyRepository: SurveyRepository) : ViewModel() {
 
     private val _statisticsData = surveyRepository.watchStatistics().asLiveData()
     val statisticsData: LiveData<Statistics>

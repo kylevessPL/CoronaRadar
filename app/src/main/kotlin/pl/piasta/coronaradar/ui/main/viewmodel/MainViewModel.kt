@@ -7,18 +7,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineDispatcher
-import pl.piasta.coronaradar.di.IoDispatcher
 import pl.piasta.coronaradar.ui.common.viewmodel.ConnectivityLiveData
 import pl.piasta.coronaradar.ui.common.viewmodel.FirebaseUserLiveData
 import pl.piasta.coronaradar.ui.common.viewmodel.LiveBroadcast
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(
-    @IoDispatcher private val coroutineDispatcher: CoroutineDispatcher,
-    application: Application
-) : ViewModel() {
+class MainViewModel @Inject constructor(application: Application) : ViewModel() {
 
     private val _timeZone = LiveBroadcast(application, listOf(ACTION_TIMEZONE_CHANGED))
     val timeZone: LiveData<Intent>

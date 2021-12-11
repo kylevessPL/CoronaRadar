@@ -1,12 +1,15 @@
-package pl.piasta.coronaradar
+package pl.piasta.coronaradar.ui.base
 
 import androidx.arch.core.executor.ArchTaskExecutor
 import androidx.arch.core.executor.TaskExecutor
 import io.kotest.core.listeners.TestListener
 import io.kotest.core.spec.Spec
 import io.kotest.core.spec.style.BehaviorSpec
+import io.kotest.core.test.TestCase
+import io.kotest.core.test.TestResult
+import io.mockk.clearAllMocks
 
-open class BaseViewModelTest : BehaviorSpec() {
+open class BaseViewModelTest(body: BehaviorSpec.() -> Unit = {}) : BehaviorSpec(body) {
 
     init {
         listener(InstantExecutorListener())
@@ -27,5 +30,10 @@ class InstantExecutorListener : TestListener {
             override fun postToMainThread(runnable: Runnable) = runnable.run()
             override fun isMainThread() = true
         })
+    }
+
+    override suspend fun afterContainer(testCase: TestCase, result: TestResult) {
+        super.afterContainer(testCase, result)
+        clearAllMocks()
     }
 }
