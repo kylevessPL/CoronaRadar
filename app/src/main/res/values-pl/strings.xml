@@ -101,6 +101,7 @@
     <string name="hypertension">Nadciśnienie</string>
     <string name="male">Mężczyzna</string>
     <string name="female">Kobieta</string>
+    <string name="cancel">Anuluj</string>
     <string name="survey_cancel_title">Anuluj ankietę</string>
     <string name="survey_cancel_message">Czy jesteś pewien, że chcesz przerwać wypełnianie ankiety?</string>
     <string name="survey_complete_title">Ankieta zakończona</string>
@@ -160,10 +161,10 @@
     <string name="range_65_plus">Powyżej 65</string>
     <string name="charts">Wykresy</string>
     <string name="chart">Wykres</string>
-    <string name="chart1_title">Struktura zachorowań na COVID-19 względem płci</string>
-    <string name="chart2_title">Struktura zachorowań na COVID-19 względem kontynentu</string>
+    <string name="chart1_title">Struktura zachorowań na COVID-19 ze względu na płeć</string>
+    <string name="chart2_title">Struktura zachorowań na COVID-19 według kontynentu</string>
     <string name="chart3_title">Struktura zachorowań na COVID-19 względem miesiąca</string>
-    <string name="chart4_title">Struktura wyników badania COVID-19 względem wieku</string>
+    <string name="chart4_title">Struktura wyników badania COVID-19 ze względu na wiek</string>
     <string name="north_america">Ameryka Północna</string>
     <string name="south_america">Ameryka Południowa</string>
     <string name="africa">Afryka</string>

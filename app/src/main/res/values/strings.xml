@@ -118,6 +118,7 @@
     <string name="hypertension">Hypertension</string>
     <string name="male">Male</string>
     <string name="female">Female</string>
+    <string name="cancel">Cancel</string>
     <string name="survey_cancel_title">Cancel survey</string>
     <string name="survey_cancel_message">Are you sure you want to cancel the survey?</string>
     <string name="survey_complete_title">Survey completed</string>
