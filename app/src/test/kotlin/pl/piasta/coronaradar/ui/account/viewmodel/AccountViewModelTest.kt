@@ -4,7 +4,10 @@ import android.app.Application
 import android.net.Uri
 import androidx.lifecycle.Observer
 import io.kotest.matchers.shouldBe
-import io.mockk.*
+import io.mockk.coVerify
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.verifyOrder
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
@@ -41,6 +44,10 @@ class AccountViewModelTest : BaseViewModelTest({
                 emit(ResultState.Loading)
                 emit(ResultState.Success(avatarUri))
             }
+            every { repository.updateCurrentUserDetails(any(), any()) } returns flow {
+                emit(ResultState.Loading)
+                emit(ResultState.Success())
+            }
             val viewModel = AccountViewModel(coroutineDispatcher, application, repository).apply {
                 userDetailsForm.input.avatar.set(avatarUri)
             }
@@ -72,9 +79,10 @@ class AccountViewModelTest : BaseViewModelTest({
                     }
                 }
 
-                then("updateUserProfileResult state doesn't receive any updates") {
-                    verify(inverse = true) {
-                        updateUserProfileResultObserver.onChanged(any())
+                then("updateUserProfileResult state updates properly") {
+                    verifyOrder {
+                        updateUserProfileResultObserver.onChanged(ResultState.Loading)
+                        updateUserProfileResultObserver.onChanged(ResultState.Success())
                     }
                 }
 
