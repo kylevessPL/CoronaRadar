@@ -23,7 +23,7 @@ buildscript {
         val ktLintVersion = "10.2.0"
         val hiltPluginVersion = "2.40.5"
         val chaquopyVersion = "10.0.1"
-        val jUnit5PluginVersion = "1.8.0.0"
+        val jUnit5PluginVersion = "1.8.2.0"
 
         classpath("com.android.tools.build:gradle:$gradleBuildToolsVersion")
         classpath(kotlin("gradle-plugin", version = gradlePluginVersion))
