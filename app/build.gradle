@@ -116,7 +116,7 @@ dependencies {
     def kPermissionsVersion = '3.3.0'
     def waveRecorderVersion = '1.6.0'
     def waveAnimationVersion = '1.0.0'
-    def localizationVersion = '1.2.10'
+    def localizationVersion = '1.2.11'
     def loadersPackVersion = '1.2.3'
     def surveyKitVersion = '2.0.0-alpha-4'
     def mpAndroidChartVersion = 'v3.1.0'
