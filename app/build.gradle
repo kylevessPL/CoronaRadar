@@ -122,7 +122,7 @@ dependencies {
     def mpAndroidChartVersion = 'v3.1.0'
     def dotsIndicatorVersion = '4.2'
     def coroutinesVersion = '1.6.0'
-    def serializationPropertiesVersion = '1.3.1'
+    def serializationPropertiesVersion = '1.3.2'
     def testVersion = '1.4.0'
     def koTestVersion = '5.0.3'
     def kaspressoVersion = '1.4.0'
