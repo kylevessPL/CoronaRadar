@@ -209,12 +209,12 @@ kapt.correctErrorTypes true
 task startAdbServer {
     doLast {
         println("Starting adb server...")
+        def command = "java -jar adbserver-desktop.jar"
         def process = new ProcessBuilder().directory(new File("${projectDir}/src/androidTest/assets"))
         if (System.getProperty("os.name").toLowerCase(Locale.ROOT).contains("windows")) {
-            process.command("cmd", "/c", "adbserver-desktop.exe")
-        }
-        else {
-            process.command("/bin/bash", "-c", "java -jar adbserver-desktop.jar")
+            process.command("cmd", "/c", "$command")
+        } else {
+            process.command("/bin/bash", "-c", "$command")
         }
         process.start()
     }
@@ -226,27 +226,26 @@ task stopAdbServer {
         if (System.getProperty("os.name").toLowerCase(Locale.ROOT).contains("windows")) {
             exec {
                 executable "cmd"
-                args = ["/c", "taskkill /IM adbserver-desktop.exe /F /FI \"memusage gt 2\""]
+                args = ["/c", "wmic Path win32_process Where \"CommandLine Like '%adbserver-desktop.jar%'\" Call Terminate"]
                 ignoreExitValue true
                 standardOutput new ByteArrayOutputStream()
             }
+        } else {
             exec {
-                executable "cmd"
-                args = ["/c", "wmic Path win32_process Where \"CommandLine Like '%adbserver-desktop.exe%'\" Call Terminate"]
+                commandLine "pkill", "-9", "-f", "adbserver-desktop.jar"
                 ignoreExitValue true
-                standardOutput new ByteArrayOutputStream()
-            }
-        }
-        else {
-            exec {
-                args = ["/bin/bash", "-c", "pkill -9 -f adbserver-desktop.jar"]
-                ignoreExitValue true
-                standardOutput new ByteArrayOutputStream()
             }
         }
     }
 }
 
 startAdbServer.dependsOn stopAdbServer
+
+tasks.whenTaskAdded {
+    theTask ->
+        if (theTask.name == 'assembleDebugAndroidTest') {
+            theTask.dependsOn startAdbServer
+        }
+}
 
 tasks.preBuild.dependsOn(tasks.matching { task -> task.name == "ktlintFormat" })
