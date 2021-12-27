@@ -34,7 +34,8 @@
     <string name="avatar_image" translatable="false">Avatar image</string>
     <string name="save_user_info">Save changes</string>
     <string name="account_header">Your profile</string>
-    <string name="edit">Edit</string>
+    <string name="edit_display_name">Edit display name</string>
+    <string name="edit_password">Edit password</string>
     <string name="upload_avatar">Upload avatar</string>
     <string name="password_new_confirm">Confirm new password</string>
     <string name="password_new">New password</string>
@@ -195,4 +196,6 @@
     <string name="australia">Australia</string>
     <string name="chart3_title">COVID-19 disease distribution by month</string>
     <string name="chart4_title">COVID-19 test results distribution by age range</string>
+    <string name="toggle_password">Toggle password</string>
+    <string name="toggle_password_confirm">Toggle password confirm</string>
 </resources>

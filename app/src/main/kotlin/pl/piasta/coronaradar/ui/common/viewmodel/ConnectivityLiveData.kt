@@ -5,8 +5,7 @@ import android.content.Context
 import android.content.Context.CONNECTIVITY_SERVICE
 import android.net.ConnectivityManager
 import android.net.Network
-import android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET
-import android.net.NetworkCapabilities.NET_CAPABILITY_VALIDATED
+import android.net.NetworkCapabilities.*
 import android.net.NetworkRequest
 import androidx.annotation.RequiresPermission
 import androidx.lifecycle.LiveData
@@ -34,6 +33,9 @@ class ConnectivityLiveData @RequiresPermission(ACCESS_NETWORK_STATE) constructor
         connectivityManager.registerNetworkCallback(
             NetworkRequest.Builder()
                 .addCapability(NET_CAPABILITY_INTERNET)
+                .addTransportType(TRANSPORT_CELLULAR)
+                .addTransportType(TRANSPORT_WIFI)
+                .addTransportType(TRANSPORT_ETHERNET)
                 .addCapability(NET_CAPABILITY_VALIDATED)
                 .build(),
             networkCallback
@@ -49,7 +51,10 @@ class ConnectivityLiveData @RequiresPermission(ACCESS_NETWORK_STATE) constructor
         value = connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
             ?.let { network ->
                 network.hasCapability(NET_CAPABILITY_INTERNET) &&
-                        network.hasCapability(NET_CAPABILITY_VALIDATED)
+                        network.hasCapability(NET_CAPABILITY_VALIDATED) &&
+                        network.hasTransport(TRANSPORT_CELLULAR) ||
+                        network.hasTransport(TRANSPORT_WIFI) ||
+                        network.hasTransport(TRANSPORT_ETHERNET)
             } ?: false
     }
 }

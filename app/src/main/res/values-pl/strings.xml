@@ -26,7 +26,8 @@
     <string name="signout">Wyloguj</string>
     <string name="save_user_info">Zapisz zmiany</string>
     <string name="account_header">Twój profil</string>
-    <string name="edit">Edytuj</string>
+    <string name="edit_display_name">Edytuj nazwę wyświetlaną</string>
+    <string name="edit_password">Edytuj hasło</string>
     <string name="upload_avatar">Wgraj avatar</string>
     <string name="password_new_confirm">Powtórz nowe hasło</string>
     <string name="password_new">Nowe hasło</string>
@@ -172,4 +173,6 @@
     <string name="europe">Europa</string>
     <string name="antartica">Antartyka</string>
     <string name="australia">Australia</string>
+    <string name="toggle_password">Przełącz wyświetlanie hasła</string>
+    <string name="toggle_password_confirm">Przełącz wyświetlanie powtórzenia hasła</string>
 </resources>

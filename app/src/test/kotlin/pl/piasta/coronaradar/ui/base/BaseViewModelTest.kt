@@ -11,6 +11,8 @@ import io.mockk.clearAllMocks
 
 open class BaseViewModelTest(body: BehaviorSpec.() -> Unit = {}) : BehaviorSpec(body) {
 
+    constructor() : this({})
+
     init {
         listener(InstantExecutorListener())
     }

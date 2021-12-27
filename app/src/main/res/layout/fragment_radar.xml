@@ -15,6 +15,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:contentDescription="@string/radar"
         tools:context=".ui.radar.view.RadarFragment">
 
         <androidx.core.widget.NestedScrollView
@@ -52,6 +53,7 @@
                             android:padding="@dimen/layout_item_padding_vertical">
 
                             <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/help_card_title"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/tip"

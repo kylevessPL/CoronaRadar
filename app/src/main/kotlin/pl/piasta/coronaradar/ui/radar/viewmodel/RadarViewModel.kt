@@ -62,6 +62,10 @@ class RadarViewModel @Inject constructor(
     private val preferences: SharedPreferences
 ) : ViewModel() {
 
+    companion object {
+        private const val LABELS = "labels.txt"
+    }
+
     private val recorder: WaveRecorder by lazy {
         WaveRecorder(application.recordingPath.absolutePath).apply {
             waveConfig.channels = CHANNEL_IN_MONO
@@ -275,7 +279,7 @@ class RadarViewModel @Inject constructor(
         val result =
             script.callAttr("generate", application.recordingPath.absolutePath, modelPath.path)
                 .use { it.toJava(Float::class.java) }
-        val labels = application.assets.open("labels.txt").use {
+        val labels = application.assets.open(LABELS).use {
             BufferedReader(InputStreamReader(it)).lines().toList()
         }
         return Classification(

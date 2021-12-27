@@ -35,7 +35,7 @@ abstract class BaseBottomSheetDialogFragment<DB : ViewDataBinding, VM : ViewMode
     override fun onStart() {
         super.onStart()
         viewModel?.let {
-            binding.setVariable(BR.viewModel, viewModel)
+            binding.setVariable(BR.viewModel, it)
         }
         binding.lifecycleOwner = viewLifecycleOwner
     }

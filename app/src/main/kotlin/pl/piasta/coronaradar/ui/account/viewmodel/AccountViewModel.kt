@@ -10,7 +10,6 @@ import com.hadilq.liveevent.LiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
 import pl.piasta.coronaradar.data.auth.repository.AuthRepository
@@ -28,7 +27,7 @@ class AccountViewModel @Inject constructor(
     private val authRepository: AuthRepository
 ) : ViewModel() {
 
-    private val _userDetailsForm = UserDetailsForm(authRepository.currentUser!!)
+    private val _userDetailsForm = UserDetailsForm(authRepository.currentUser)
     val userDetailsForm: UserDetailsForm
         get() = _userDetailsForm
 

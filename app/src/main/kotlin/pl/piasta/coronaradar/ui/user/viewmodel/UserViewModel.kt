@@ -10,7 +10,6 @@ import com.google.firebase.auth.FirebaseUser
 import com.hadilq.liveevent.LiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import pl.piasta.coronaradar.data.auth.model.ActionCode
 import pl.piasta.coronaradar.data.auth.repository.AuthRepository
@@ -51,8 +50,8 @@ class UserViewModel @Inject constructor(
     val passwordResetEmailResult: LiveEvent<ResultState<Boolean>>
         get() = _passwordResetEmailResult
 
-    private val _passwordResetResult = LiveEvent<ResultState<Boolean>>()
-    val passwordResetResult: LiveEvent<ResultState<Boolean>>
+    private val _passwordResetResult = LiveEvent<ResultState<Nothing>>()
+    val passwordResetResult: LiveEvent<ResultState<Nothing>>
         get() = _passwordResetResult
 
     private val _verifyActionCodeResult = LiveEvent<ResultState<ActionCode?>>()
@@ -83,8 +82,8 @@ class UserViewModel @Inject constructor(
         }
     }
 
-    fun verifyEmail(oob: String) = viewModelScope.launch(coroutineDispatcher) {
-        authRepository.verifyEmail(oob).collect { result ->
+    fun verifyEmail(actionCode: String) = viewModelScope.launch(coroutineDispatcher) {
+        authRepository.verifyEmail(actionCode).collect { result ->
             _verifyEmailResult.postValue(result)
         }
     }
@@ -97,9 +96,9 @@ class UserViewModel @Inject constructor(
         }
     }
 
-    fun resetPassword(oob: String, newPassword: String) {
+    fun resetPassword(actionCode: String, newPassword: String) {
         viewModelScope.launch(coroutineDispatcher) {
-            authRepository.resetPassword(oob, newPassword).collect { result ->
+            authRepository.resetPassword(actionCode, newPassword).collect { result ->
                 _passwordResetResult.postValue(result)
             }
         }

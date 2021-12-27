@@ -86,6 +86,7 @@ class UserActivity : BaseActivity<ActivityUserBinding, UserViewModel>(R.layout.a
                         )
                     }
                     is VerifyEmail -> viewModel.verifyEmail(data.oob)
+                    else -> {}
                 }
             }
             is Error -> {

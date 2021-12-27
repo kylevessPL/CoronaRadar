@@ -27,6 +27,10 @@ class StatsChart1Fragment :
         R.layout.fragment_chart1
     ) {
 
+    companion object {
+        private const val PERCENT_FORMAT = "###,###,##0 '%'"
+    }
+
     override val viewModel: StatsChartViewModel by viewModels(ownerProducer = { requireParentFragment() })
 
     override fun updateUI() {
@@ -42,7 +46,7 @@ class StatsChart1Fragment :
         val entries = it.map { value -> PieEntry(value.value.toFloat(), str(value.key.label)) }
         val dataSet = PieDataSet(entries, String.EMPTY).apply {
             setDrawIcons(false)
-            valueFormatter = PercentFormatter().apply { mFormat = DecimalFormat("###,###,##0 '%'") }
+            valueFormatter = PercentFormatter().apply { mFormat = DecimalFormat(PERCENT_FORMAT) }
             valueTextSize = 12F
             valueTextColor = WHITE
             sliceSpace = 3F
