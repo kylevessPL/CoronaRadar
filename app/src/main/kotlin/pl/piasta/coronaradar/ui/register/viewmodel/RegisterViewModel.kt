@@ -8,7 +8,6 @@ import com.google.firebase.auth.FirebaseUser
 import com.hadilq.liveevent.LiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import pl.piasta.coronaradar.data.auth.repository.AuthRepository
 import pl.piasta.coronaradar.di.IoDispatcher

@@ -36,7 +36,7 @@ abstract class BaseFormDialogFragment<DB : ViewDataBinding, VM : ViewModel?>(
     override fun onStart() {
         super.onStart()
         viewModel?.let {
-            viewBinding.setVariable(BR.viewModel, viewModel)
+            viewBinding.setVariable(BR.viewModel, it)
         }
         viewBinding.lifecycleOwner = this
         registerOnPropertyChangedCallback()

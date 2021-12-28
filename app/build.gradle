@@ -1,58 +1,56 @@
 plugins {
-    id 'com.android.application'
-    id 'kotlin-android'
-    id 'kotlin-kapt'
-    id 'kotlin-parcelize'
-    id 'kotlin-noarg'
-    id 'kotlinx-serialization'
-    id 'androidx.navigation.safeargs.kotlin'
-    id 'com.google.gms.google-services'
-    id 'com.google.firebase.firebase-perf'
-    id 'com.google.firebase.appdistribution'
-    id 'dagger.hilt.android.plugin'
-    id 'de.mannodermaus.android-junit5'
-    id 'com.chaquo.python'
+    id "com.android.application"
+    id "kotlin-android"
+    id "kotlin-kapt"
+    id "kotlin-parcelize"
+    id "kotlin-noarg"
+    id "kotlinx-serialization"
+    id "androidx.navigation.safeargs.kotlin"
+    id "com.google.gms.google-services"
+    id "com.google.firebase.firebase-perf"
+    id "com.google.firebase.appdistribution"
+    id "dagger.hilt.android.plugin"
+    id "com.chaquo.python"
 }
 
 Properties properties = new Properties()
-if (project.rootProject.file('local.properties').canRead()) {
-    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+if (project.rootProject.file("local.properties").canRead()) {
+    properties.load(project.rootProject.file("local.properties").newDataInputStream())
 }
 
 android {
     compileSdk 31
 
     defaultConfig {
-        applicationId 'pl.piasta.coronaradar'
+        applicationId "pl.piasta.coronaradar"
         minSdk 26
         targetSdk 31
         versionCode 1
-        versionName '1.0'
-        resConfigs('en', 'pl')
-        buildConfigField 'String', 'SERVER_DOMAIN', "\"${properties.getProperty('app.server.domain', 'example.com')}\""
-        buildConfigField 'String', 'ML_MODEL_NAME', "\"${properties.getProperty('app.ml.model-name', 'model')}\""
-        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
-        testInstrumentationRunnerArgument 'runnerBuilder', 'de.mannodermaus.junit5.AndroidJUnit5Builder'
+        versionName "1.0"
+        resConfigs("en", "pl")
+        buildConfigField "String", "SERVER_DOMAIN", "\"${properties.getProperty("app.server.domain", "example.com")}\""
+        buildConfigField "String", "ML_MODEL_NAME", "\"${properties.getProperty("app.ml.model-name", "model")}\""
+        testInstrumentationRunner "pl.piasta.coronaradar.HiltTestRunner"
 
         ndk {
-            abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
+            abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
         }
 
         python {
             pip {
-                install 'pyparsing==2.0.2'
-                install 'matplotlib'
-                install 'librosa'
-                install 'numpy'
-                install 'pillow'
-                install 'Keras-Preprocessing'
-                install 'tflite_runtime'
+                install "pyparsing==2.0.2"
+                install "matplotlib"
+                install "librosa"
+                install "numpy"
+                install "pillow"
+                install "Keras-Preprocessing"
+                install "tflite_runtime"
             }
         }
     }
 
     androidResources {
-        noCompress 'tflite'
+        noCompress "tflite"
     }
 
     buildTypes {
@@ -60,14 +58,13 @@ android {
             signingConfig signingConfigs.debug
             firebaseAppDistribution {
                 artifactType = "APK"
-                testersFile = "${properties.getProperty('app.distribution.testers-file', 'testers.txt')}"
+                testersFile = "${properties.getProperty("app.distribution.testers-file", "testers.txt")}"
             }
         }
     }
 
     buildFeatures {
         dataBinding true
-        mlModelBinding true
     }
 
     compileOptions {
@@ -76,58 +73,59 @@ android {
     }
 
     packagingOptions {
-        resources.excludes += 'DebugProbesKt.bin'
+        resources.excludes += "DebugProbesKt.bin"
     }
 
     testOptions {
         unitTests.all {
             useJUnitPlatform()
         }
+        animationsDisabled = true
     }
 
     kotlinOptions {
-        jvmTarget = '1.8'
-        freeCompilerArgs += ['-Xopt-in=splitties.toast.UnreliableToastApi', '-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi', '-Xopt-in=kotlinx.coroutines.FlowPreview', '-Xopt-in=kotlinx.serialization.ExperimentalSerializationApi', '-Xopt-in=kotlin.contracts.ExperimentalContracts']
+        jvmTarget = "1.8"
+        freeCompilerArgs += ["-Xopt-in=splitties.toast.UnreliableToastApi", "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi", "-Xopt-in=kotlinx.coroutines.FlowPreview", "-Xopt-in=kotlinx.serialization.ExperimentalSerializationApi", "-Xopt-in=kotlin.contracts.ExperimentalContracts"]
     }
     compileSdkVersion 31
 }
 
 dependencies {
-    def materialVersion = '1.4.0'
-    def firebaseVersion = '29.0.0'
-    def appCheckVersion = '16.0.0-beta04'
-    def facebookSdkVersion = '12.2.0'
-    def gmsAuthVersion = '19.2.0'
-    def appCompatVersion = '1.4.0'
-    def coreVersion = '1.7.0'
-    def splashScreenVersion = '1.0.0-alpha02'
-    def activityVersion = '1.4.0'
-    def fragmentVersion = '1.4.0'
-    def lifecycleVersion = '2.4.0'
-    def navigationVersion = '2.3.5'
-    def preferenceVersion = '1.1.1'
-    def pagingVersion = '3.1.0'
-    def constraintLayoutVersion = '2.1.2'
-    def splittiesVersion = '3.0.0'
-    def liveEventVersion = '1.3.0'
-    def mockkVersion = '1.12.1'
-    def hiltVersion = '2.40.5'
-    def glideVersion = '4.12.0'
-    def kPermissionsVersion = '3.3.0'
-    def waveRecorderVersion = '1.6.0'
-    def waveAnimationVersion = '1.0.0'
-    def localizationVersion = '1.2.11'
-    def loadersPackVersion = '1.2.3'
-    def surveyKitVersion = '2.0.0-alpha-4'
-    def mpAndroidChartVersion = 'v3.1.0'
-    def dotsIndicatorVersion = '4.2'
-    def coroutinesVersion = '1.6.0'
-    def serializationPropertiesVersion = '1.3.2'
-    def testVersion = '1.4.0'
-    def koTestVersion = '5.0.3'
-    def kaspressoVersion = '1.4.0'
-    def mannodermausVersion = '1.3.0'
-    def jUnitVersion = '5.8.2'
+    def materialVersion = "1.4.0"
+    def firebaseVersion = "29.0.0"
+    def appCheckVersion = "16.0.0-beta04"
+    def facebookSdkVersion = "12.2.0"
+    def gmsAuthVersion = "20.0.0"
+    def appCompatVersion = "1.4.0"
+    def coreVersion = "1.7.0"
+    def splashScreenVersion = "1.0.0-alpha02"
+    def activityVersion = "1.4.0"
+    def fragmentVersion = "1.4.0"
+    def lifecycleVersion = "2.4.0"
+    def navigationVersion = "2.3.5"
+    def preferenceVersion = "1.1.1"
+    def pagingVersion = "3.1.0"
+    def constraintLayoutVersion = "2.1.2"
+    def splittiesVersion = "3.0.0"
+    def liveEventVersion = "1.3.0"
+    def mockkVersion = "1.12.1"
+    def hiltVersion = "2.40.5"
+    def hiltFragmentTestingVersion = "1.3.0"
+    def glideVersion = "4.12.0"
+    def kPermissionsVersion = "3.3.0"
+    def waveRecorderVersion = "1.6.0"
+    def waveAnimationVersion = "1.0.0"
+    def localizationVersion = "1.2.11"
+    def loadersPackVersion = "1.2.3"
+    def surveyKitVersion = "2.0.0-alpha-4"
+    def mpAndroidChartVersion = "v3.1.0"
+    def dotsIndicatorVersion = "4.2"
+    def coroutinesVersion = "1.6.0"
+    def serializationPropertiesVersion = "1.3.2"
+    def koTestVersion = "5.0.3"
+    def espressoVersion = "3.4.0"
+    def kaspressoVersion = "1.4.0"
+    def jUnitVersion = "1.1.4-alpha03"
 
     implementation "com.google.android.material:material:$materialVersion"
     implementation platform("com.google.firebase:firebase-bom:$firebaseVersion")
@@ -177,14 +175,28 @@ dependencies {
     kapt "com.github.bumptech.glide:compiler:$glideVersion"
     kapt "com.google.dagger:hilt-android-compiler:$hiltVersion"
     testImplementation "io.kotest:kotest-runner-junit5-jvm:$koTestVersion"
-    testImplementation "io.mockk:mockk:$mockkVersion"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
-    androidTestImplementation "androidx.test:core-ktx:$testVersion"
-    androidTestImplementation "org.junit.jupiter:junit-jupiter-api:$jUnitVersion"
-    androidTestRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$jUnitVersion"
-    androidTestImplementation "de.mannodermaus.junit5:android-test-core:$mannodermausVersion"
-    androidTestRuntimeOnly "de.mannodermaus.junit5:android-test-runner:$mannodermausVersion"
+    testImplementation "io.mockk:mockk:$mockkVersion"
+    testImplementation "io.mockk:mockk-agent-jvm:$mockkVersion"
+    androidTestImplementation "io.mockk:mockk-android:$mockkVersion"
+    androidTestImplementation "io.mockk:mockk-agent-jvm:$mockkVersion"
+    kaptAndroidTest "com.google.dagger:hilt-android-compiler:$hiltVersion"
+    debugImplementation "it.czerwinski.android.hilt:hilt-fragment-testing:$hiltFragmentTestingVersion"
+    androidTestImplementation "com.google.dagger:hilt-android-testing:$hiltVersion"
+    androidTestImplementation "androidx.test.ext:junit-ktx:$jUnitVersion"
+    androidTestImplementation "androidx.navigation:navigation-testing:$navigationVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-intents:$espressoVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$espressoVersion"
     androidTestImplementation "com.kaspersky.android-components:kaspresso:$kaspressoVersion"
+}
+
+configurations {
+    androidTestImplementation {
+        exclude group: "io.mockk", module: "mockk-agent-jvm"
+    }
+    all {
+        exclude group: "com.google.protobuf", module: "protobuf-lite"
+    }
 }
 
 noArg {
@@ -194,4 +206,46 @@ noArg {
 
 kapt.correctErrorTypes true
 
-tasks.preBuild.dependsOn(tasks.matching { task -> task.name == 'ktlintFormat' })
+task startAdbServer {
+    doLast {
+        println("Starting adb server...")
+        def command = "java -jar adbserver-desktop.jar"
+        def process = new ProcessBuilder().directory(new File("${projectDir}/src/androidTest/assets"))
+        if (System.getProperty("os.name").toLowerCase(Locale.ROOT).contains("windows")) {
+            process.command("cmd", "/c", "$command")
+        } else {
+            process.command("/bin/bash", "-c", "$command")
+        }
+        process.start()
+    }
+}
+
+task stopAdbServer {
+    doLast {
+        println("Stopping adb server...")
+        if (System.getProperty("os.name").toLowerCase(Locale.ROOT).contains("windows")) {
+            exec {
+                executable "cmd"
+                args = ["/c", "wmic Path win32_process Where \"CommandLine Like '%adbserver-desktop.jar%'\" Call Terminate"]
+                ignoreExitValue true
+                standardOutput new ByteArrayOutputStream()
+            }
+        } else {
+            exec {
+                commandLine "pkill", "-9", "-f", "adbserver-desktop.jar"
+                ignoreExitValue true
+            }
+        }
+    }
+}
+
+startAdbServer.dependsOn stopAdbServer
+
+tasks.whenTaskAdded {
+    theTask ->
+        if (theTask.name == 'assembleDebugAndroidTest') {
+            theTask.dependsOn startAdbServer
+        }
+}
+
+tasks.preBuild.dependsOn(tasks.matching { task -> task.name == "ktlintFormat" })

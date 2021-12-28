@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lint>
+    <issue id="IllegalIdentifier">
+        <ignore path="**/androidTest/**" />
+        <ignore path="**/test/**" />
+    </issue>
     <issue id="IconLauncherShape">
         <ignore path="src/main/res/mipmap-hdpi/ic_launcher_adaptive_back.png" />
         <ignore path="src/main/res/mipmap-mdpi/ic_launcher_adaptive_back.png" />

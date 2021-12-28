@@ -23,7 +23,6 @@ buildscript {
         val ktLintVersion = "10.2.1"
         val hiltPluginVersion = "2.40.5"
         val chaquopyVersion = "10.0.1"
-        val jUnit5PluginVersion = "1.8.2.0"
 
         classpath("com.android.tools.build:gradle:$gradleBuildToolsVersion")
         classpath(kotlin("gradle-plugin", version = gradlePluginVersion))
@@ -38,7 +37,6 @@ buildscript {
         classpath("org.jetbrains.kotlin:kotlin-noarg:$kotlinVersion")
         classpath("org.jetbrains.kotlin:kotlin-serialization:$kotlinVersion")
         classpath("com.chaquo.python:gradle:$chaquopyVersion")
-        classpath("de.mannodermaus.gradle.plugins:android-junit5:$jUnit5PluginVersion")
     }
 }
 

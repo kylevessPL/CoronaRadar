@@ -55,40 +55,37 @@ import java.time.format.FormatStyle.MEDIUM
 import java.time.format.FormatStyle.SHORT
 
 @BindingAdapter("android:staticValue")
-fun staticValue(view: Slider, active: Boolean) {
-    {
-        with(view) {
-            viewTreeObserver.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
+fun staticValue(view: Slider, active: Boolean) = {
+    with(view) {
+        viewTreeObserver.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
 
-                @Suppress("CLICKABLEVIEWACCESSIBILITY")
-                override fun onGlobalLayout() {
-                    viewTreeObserver.removeOnGlobalLayoutListener(this)
-                    dispatchTouchEvent(
-                        MotionEvent.obtain(
-                            SystemClock.uptimeMillis(),
-                            SystemClock.uptimeMillis(),
-                            MotionEvent.ACTION_DOWN,
-                            trackWidth / (valueTo - valueFrom) * (value - valueFrom),
-                            0F,
-                            0
-                        )
+            @Suppress("CLICKABLEVIEWACCESSIBILITY")
+            override fun onGlobalLayout() {
+                viewTreeObserver.removeOnGlobalLayoutListener(this)
+                dispatchTouchEvent(
+                    MotionEvent.obtain(
+                        SystemClock.uptimeMillis(),
+                        SystemClock.uptimeMillis(),
+                        MotionEvent.ACTION_DOWN,
+                        trackWidth / (valueTo - valueFrom) * (value - valueFrom),
+                        0F,
+                        0
                     )
-                    haloRadius = 0
-                    setOnTouchListener { _, _ -> true }
-                }
-            })
-        }
-    }.takeIf { active }?.invoke()
-}
+                )
+                haloRadius = 0
+                setOnTouchListener { _, _ -> true }
+            }
+        })
+    }
+}.takeIf { active }?.invoke()
 
 @BindingAdapter("android:onPageChanged")
-fun onPageChanged(view: ViewPager2, block: (Int) -> Unit) {
+fun onPageChanged(view: ViewPager2, block: (Int) -> Unit) =
     view.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
         override fun onPageSelected(position: Int) {
             block(position)
         }
     })
-}
 
 @BindingAdapter("android:errorText")
 fun errorText(input: TextInputLayout, @StringRes errorText: Int?) {
@@ -96,9 +93,8 @@ fun errorText(input: TextInputLayout, @StringRes errorText: Int?) {
 }
 
 @BindingAdapter("android:onEndIconClick")
-fun onEndIconClick(input: TextInputLayout, block: () -> Unit) {
+fun onEndIconClick(input: TextInputLayout, block: () -> Unit) =
     input.setEndIconOnClickListener { block() }
-}
 
 @BindingAdapter("android:onFocusChange")
 fun onFocusChange(input: TextInputEditText, block: () -> Unit) {
@@ -107,20 +103,18 @@ fun onFocusChange(input: TextInputEditText, block: () -> Unit) {
 }
 
 @BindingAdapter("android:loseFocusOnDone")
-fun loseFocusOnDone(input: TextInputEditText, value: Boolean) {
-    {
-        input.setOnEditorActionListener { view, actionId, _ ->
-            (actionId == IME_ACTION_DONE).also {
-                it.ifTrue {
-                    view.clearFocus()
-                    val imm =
-                        view.context.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-                    imm.hideSoftInputFromWindow(view.windowToken, 0)
-                }
+fun loseFocusOnDone(input: TextInputEditText, value: Boolean) = {
+    input.setOnEditorActionListener { view, actionId, _ ->
+        (actionId == IME_ACTION_DONE).also {
+            it.ifTrue {
+                view.clearFocus()
+                val imm =
+                    view.context.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(view.windowToken, 0)
             }
         }
-    }.takeIf { value }?.invoke()
-}
+    }
+}.takeIf { value }?.invoke()
 
 @BindingAdapter("android:animatedVisibility")
 fun animatedVisibility(view: CardView, isVisible: Boolean) {
@@ -352,13 +346,11 @@ fun leftAxisXOffset(chart: LineChart, value: Float) {
 }
 
 @BindingAdapter("android:leftAxisFormatAsInt")
-fun leftAxisFormatAsInt(chart: LineChart, value: Boolean) {
-    {
-        chart.axisLeft.valueFormatter = object : ValueFormatter() {
-            override fun getFormattedValue(value: Float) = value.toInt().toString()
-        }
-    }.takeIf { value }?.invoke()
-}
+fun leftAxisFormatAsInt(chart: LineChart, value: Boolean) = {
+    chart.axisLeft.valueFormatter = object : ValueFormatter() {
+        override fun getFormattedValue(value: Float) = value.toInt().toString()
+    }
+}.takeIf { value }?.invoke()
 
 @BindingAdapter("android:leftAxisLabelCount")
 fun leftAxisLabelCount(chart: LineChart, value: Int) = chart.axisLeft.setLabelCount(value, false)
@@ -436,11 +428,9 @@ fun yAxisMin(chart: RadarChart, value: Float) {
 }
 
 @BindingAdapter("android:itemDecoration")
-fun itemDecoration(view: RecyclerView, value: Boolean) {
-    {
-        view.addItemDecoration(DividerItemDecoration(view.context, VERTICAL))
-    }.takeIf { value }?.invoke()
-}
+fun itemDecoration(view: RecyclerView, value: Boolean) = {
+    view.addItemDecoration(DividerItemDecoration(view.context, VERTICAL))
+}.takeIf { value }?.invoke()
 
 @BindingAdapter("android:progressCompat")
 fun progressCompat(view: BaseProgressIndicator<*>, value: Int) = view.setProgressCompat(value, true)
@@ -468,7 +458,7 @@ fun imageUri(
         .error(placeholderDrawable)
         .listener(object : RequestListener<Drawable> {
             override fun onLoadFailed(
-                e: GlideException?,
+                ex: GlideException?,
                 model: Any?,
                 target: Target<Drawable>?,
                 isFirstResource: Boolean

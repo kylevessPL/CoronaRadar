@@ -15,6 +15,7 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:contentDescription="@string/account"
         android:fillViewport="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -126,7 +127,7 @@
                     app:startIconDrawable="@drawable/ic_face_24"
                     app:startIconContentDescription="@string/display_name_icon"
                     app:endIconDrawable="@{viewModel.displayNameEnabled ? @drawable/ic_edit_off_24 : @drawable/ic_edit_24}"
-                    app:endIconContentDescription="@string/edit"
+                    app:endIconContentDescription="@string/edit_display_name"
                     app:endIconMode="custom"
                     app:errorEnabled="true"
                     app:expandedHintEnabled="false">
@@ -185,7 +186,7 @@
                     app:startIconDrawable="@drawable/ic_lock_24"
                     app:startIconContentDescription="@string/password_icon"
                     app:endIconDrawable="@{viewModel.passwordEnabled ? @drawable/ic_edit_off_24 : @drawable/ic_edit_24}"
-                    app:endIconContentDescription="@string/edit"
+                    app:endIconContentDescription="@string/edit_password"
                     app:endIconMode="custom"
                     app:errorEnabled="true"
                     app:expandedHintEnabled="false">
@@ -234,7 +235,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:theme="@style/BlueButtonThemeOverlay"
-                    android:id="@+id/save_user_info_button"
+                    android:id="@+id/save_changes_button"
                     android:layout_width="match_parent"
                     android:layout_height="58dp"
                     android:text="@string/save_user_info"

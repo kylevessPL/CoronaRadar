@@ -2,12 +2,14 @@ package pl.piasta.coronaradar.ui.account.view
 
 import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.content.Intent.*
 import android.net.Uri
-import android.provider.MediaStore
+import android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuthRecentLoginRequiredException
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,6 +24,7 @@ import pl.piasta.coronaradar.ui.util.fileSize
 import pl.piasta.coronaradar.ui.util.newFragmentInstance
 import pl.piasta.coronaradar.ui.util.observeNotNull
 import pl.piasta.coronaradar.ui.util.observeNull
+import pl.piasta.coronaradar.util.IMAGE_MIME_TYPE
 import pl.piasta.coronaradar.util.ResultState
 import pl.piasta.coronaradar.util.ResultState.*
 import pl.piasta.coronaradar.util.TAG
@@ -30,7 +33,7 @@ import splitties.resources.str
 import splitties.toast.longToast
 
 @AndroidEntryPoint
-class AccountFragment :
+class AccountFragment(activityViewModelFactory: (() -> ViewModelProvider.Factory)? = null) :
     BaseFragment<FragmentAccountBinding, AccountViewModel>(
         R.string.my_account,
         R.layout.fragment_account
@@ -40,15 +43,16 @@ class AccountFragment :
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             (result.resultCode == RESULT_OK).ifTrue {
                 result.data?.data?.let { uri ->
-                    uri.fileSize(requireContext()).takeIf { it / (1024 * 1024) <= 2 }?.also {
-                        viewModel.setUserAvatar(uri)
-                    } ?: displayAvatarSizeTooLargeDialog()
+                    uri.fileSize(requireContext()).takeIf { it / (1024 * 1024).toFloat() <= 2F }
+                        ?.also {
+                            viewModel.setUserAvatar(uri)
+                        } ?: displayAvatarSizeTooLargeDialog()
                 }
             }
         }
 
     override val viewModel: AccountViewModel by viewModels()
-    private val activityViewModel: UserViewModel by activityViewModels()
+    private val activityViewModel: UserViewModel by activityViewModels(activityViewModelFactory)
 
     override fun updateUI() {
         activityViewModel.firebaseUser.observeNull(viewLifecycleOwner) {
@@ -77,15 +81,16 @@ class AccountFragment :
     }
 
     private fun launchChooseAvatarIntent() {
-        val documentsIntent = Intent(Intent.ACTION_GET_CONTENT)
-        documentsIntent.type = "image/*"
-        val galleriesIntent =
-            Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        galleriesIntent.type = "image/*"
-        val chooserIntent = Intent.createChooser(
+        val documentsIntent = Intent(ACTION_GET_CONTENT).apply {
+            type = IMAGE_MIME_TYPE
+        }
+        val galleriesIntent = Intent(ACTION_PICK, EXTERNAL_CONTENT_URI).apply {
+            type = IMAGE_MIME_TYPE
+        }
+        val chooserIntent = createChooser(
             documentsIntent,
             str(R.string.set_avatar)
-        ).putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(galleriesIntent))
+        ).putExtra(EXTRA_INITIAL_INTENTS, arrayOf(galleriesIntent))
         chooseAvatar.launch(chooserIntent)
     }
 

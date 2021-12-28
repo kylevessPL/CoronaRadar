@@ -11,17 +11,14 @@ import io.mockk.clearAllMocks
 
 open class BaseViewModelTest(body: BehaviorSpec.() -> Unit = {}) : BehaviorSpec(body) {
 
+    constructor() : this({})
+
     init {
         listener(InstantExecutorListener())
     }
 }
 
 class InstantExecutorListener : TestListener {
-
-    override suspend fun afterSpec(spec: Spec) {
-        super.afterSpec(spec)
-        ArchTaskExecutor.getInstance().setDelegate(null)
-    }
 
     override suspend fun beforeSpec(spec: Spec) {
         super.beforeSpec(spec)
@@ -30,6 +27,11 @@ class InstantExecutorListener : TestListener {
             override fun postToMainThread(runnable: Runnable) = runnable.run()
             override fun isMainThread() = true
         })
+    }
+
+    override suspend fun afterSpec(spec: Spec) {
+        super.afterSpec(spec)
+        ArchTaskExecutor.getInstance().setDelegate(null)
     }
 
     override suspend fun afterContainer(testCase: TestCase, result: TestResult) {

@@ -44,6 +44,17 @@
             android:name="com.facebook.sdk.ClientToken"
             android:value="@string/facebook_client_token" />
 
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="pl.piasta.coronaradar.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
         <activity
             android:name=".ui.main.view.MainActivity"
             android:exported="true"

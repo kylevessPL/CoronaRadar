@@ -13,6 +13,7 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:contentDescription="@string/signin"
         android:fillViewport="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -147,6 +148,7 @@
                     app:startIconDrawable="@drawable/ic_lock_24"
                     app:startIconContentDescription="@string/password_icon"
                     app:endIconMode="password_toggle"
+                    app:endIconContentDescription="@string/toggle_password"
                     app:errorEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -173,7 +175,7 @@
                     android:onClick="@{() -> viewModel.signIn()}"
                     app:icon="@drawable/ic_login_24"
                     app:iconGravity="textStart"
-                    tools:ignore="TextContrastCheck" />
+                    tools:ignore="TextContrastCheck,DuplicateSpeakableTextCheck" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"

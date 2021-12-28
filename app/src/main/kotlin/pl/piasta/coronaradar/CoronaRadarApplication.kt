@@ -10,18 +10,17 @@ import com.google.firebase.FirebaseApp
 import com.google.firebase.appcheck.FirebaseAppCheck
 import com.google.firebase.appcheck.safetynet.SafetyNetAppCheckProviderFactory
 import dagger.hilt.android.HiltAndroidApp
+import pl.piasta.coronaradar.util.supportedLocales
 import java.util.*
 
 @HiltAndroidApp
-class CoronaRadarApplication : LocalizationApplication() {
+class CoronaRadarApplication : BaseApplication()
 
-    private val supportedLocales: Set<String> = setOf("en", "pl")
+abstract class BaseApplication : LocalizationApplication() {
 
-    override fun getDefaultLanguage(base: Context): Locale =
-        ConfigurationCompat.getLocales(Resources.getSystem().configuration).get(0).language.takeIf {
+    override fun getDefaultLanguage(context: Context): Locale =
+        ConfigurationCompat.getLocales(Resources.getSystem().configuration).get(0).takeIf {
             it in supportedLocales
-        }?.let { language ->
-            Locale.forLanguageTag(language)
         } ?: Locale.ENGLISH
 
     override fun onCreate() {

@@ -14,6 +14,7 @@
         android:id="@+id/stats_swipe_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:contentDescription="@string/stats"
         app:refreshing="@{viewModel.isRefreshing}"
         app:onRefreshListener="@{() -> viewModel.refreshDataEvent()}"
         tools:context="pl.piasta.coronaradar.ui.stats.view.StatsFragment">

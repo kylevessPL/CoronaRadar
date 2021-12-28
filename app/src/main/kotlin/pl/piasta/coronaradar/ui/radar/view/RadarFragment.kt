@@ -109,11 +109,10 @@ class RadarFragment :
                     viewModel.saveUserHistory(result.data!!)
                     newFragmentInstance<ClassificationResultDialogFragment>(
                         ClassificationResultDialogFragment.DATA to result.data
+                    ).show(
+                        childFragmentManager,
+                        ClassificationResultDialogFragment::class.TAG
                     )
-                        .show(
-                            childFragmentManager,
-                            ClassificationResultDialogFragment::class.TAG
-                        )
                 }
                 else -> longToast(R.string.general_failure_message)
             }
