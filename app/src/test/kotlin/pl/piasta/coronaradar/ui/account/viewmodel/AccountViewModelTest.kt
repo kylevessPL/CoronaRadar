@@ -6,7 +6,7 @@ import androidx.lifecycle.Observer
 import io.kotest.matchers.shouldBe
 import io.mockk.*
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import pl.piasta.coronaradar.data.auth.model.UserDetails
 import pl.piasta.coronaradar.data.auth.repository.AuthRepository
@@ -18,7 +18,7 @@ import java.io.ByteArrayInputStream
 
 class AccountViewModelTest : BaseViewModelTest({
 
-    val coroutineDispatcher = StandardTestDispatcher()
+    val coroutineDispatcher = UnconfinedTestDispatcher()
 
     val application: Application = mockk(relaxed = true)
     val authRepository: AuthRepository = mockk(relaxUnitFun = true)

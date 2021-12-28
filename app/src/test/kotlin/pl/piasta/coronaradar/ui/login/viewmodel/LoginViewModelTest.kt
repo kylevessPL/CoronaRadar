@@ -10,7 +10,7 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verifyOrder
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import pl.piasta.coronaradar.data.auth.repository.AuthRepository
 import pl.piasta.coronaradar.ui.base.BaseViewModelTest
@@ -19,7 +19,7 @@ import pl.piasta.coronaradar.util.ResultState
 
 class LoginViewModelTest : BaseViewModelTest({
 
-    val coroutineDispatcher = StandardTestDispatcher()
+    val coroutineDispatcher = UnconfinedTestDispatcher()
 
     val authRepository: AuthRepository = mockk(relaxUnitFun = true)
     val firebaseUser: FirebaseUser = mockk()

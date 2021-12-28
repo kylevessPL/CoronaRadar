@@ -20,11 +20,6 @@ open class BaseViewModelTest(body: BehaviorSpec.() -> Unit = {}) : BehaviorSpec(
 
 class InstantExecutorListener : TestListener {
 
-    override suspend fun afterSpec(spec: Spec) {
-        super.afterSpec(spec)
-        ArchTaskExecutor.getInstance().setDelegate(null)
-    }
-
     override suspend fun beforeSpec(spec: Spec) {
         super.beforeSpec(spec)
         ArchTaskExecutor.getInstance().setDelegate(object : TaskExecutor() {
@@ -32,6 +27,11 @@ class InstantExecutorListener : TestListener {
             override fun postToMainThread(runnable: Runnable) = runnable.run()
             override fun isMainThread() = true
         })
+    }
+
+    override suspend fun afterSpec(spec: Spec) {
+        super.afterSpec(spec)
+        ArchTaskExecutor.getInstance().setDelegate(null)
     }
 
     override suspend fun afterContainer(testCase: TestCase, result: TestResult) {

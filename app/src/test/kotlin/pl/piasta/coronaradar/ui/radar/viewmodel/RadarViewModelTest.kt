@@ -9,7 +9,7 @@ import io.mockk.mockk
 import io.mockk.verify
 import io.mockk.verifyOrder
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import pl.piasta.coronaradar.data.auth.model.UserDetails
 import pl.piasta.coronaradar.data.auth.repository.AuthRepository
@@ -25,7 +25,7 @@ import pl.piasta.coronaradar.util.ResultState
 
 class RadarViewModelTest : BaseViewModelTest({
 
-    val coroutineDispatcher = StandardTestDispatcher()
+    val coroutineDispatcher = UnconfinedTestDispatcher()
 
     val application: Application = mockk(relaxed = true)
     val preferences: SharedPreferences = mockk(relaxUnitFun = true)
@@ -71,7 +71,9 @@ class RadarViewModelTest : BaseViewModelTest({
                 }
             }
         }
+    }
 
+    runTest {
         given("not logged in user and radar classification") {
             val classification = Classification(POSITIVE, 0)
             val saveUserHistoryResultObserver: Observer<ResultState<Nothing>> =

@@ -7,7 +7,7 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verifyOrder
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import pl.piasta.coronaradar.data.auth.model.ActionCode
 import pl.piasta.coronaradar.data.auth.repository.AuthRepository
@@ -17,7 +17,7 @@ import pl.piasta.coronaradar.util.ResultState
 
 class UserViewModelTest : BaseViewModelTest({
 
-    val coroutineDispatcher = StandardTestDispatcher()
+    val coroutineDispatcher = UnconfinedTestDispatcher()
 
     val application: Application = mockk(relaxed = true)
     val authRepository: AuthRepository = mockk(relaxUnitFun = true)
@@ -55,7 +55,9 @@ class UserViewModelTest : BaseViewModelTest({
                 }
             }
         }
+    }
 
+    runTest {
         given("uri with invalid action code") {
             val verifyActionCodeResultObserver: Observer<ResultState<ActionCode?>> =
                 mockk(relaxUnitFun = true)
@@ -81,7 +83,9 @@ class UserViewModelTest : BaseViewModelTest({
                 }
             }
         }
+    }
 
+    runTest {
         given("not verified user") {
             val verificationEmailResultObserver: Observer<ResultState<Nothing>> =
                 mockk(relaxUnitFun = true)
@@ -106,7 +110,9 @@ class UserViewModelTest : BaseViewModelTest({
                 }
             }
         }
+    }
 
+    runTest {
         given("verify email action code") {
             val actionCode = "oob"
             val verifyEmailResultObserver: Observer<ResultState<Nothing>> =
@@ -132,7 +138,9 @@ class UserViewModelTest : BaseViewModelTest({
                 }
             }
         }
+    }
 
+    runTest {
         given("email of user which exists in database") {
             val email = "email@example.com"
             val passwordResetEmailResultObserver: Observer<ResultState<Boolean>> =
@@ -158,7 +166,9 @@ class UserViewModelTest : BaseViewModelTest({
                 }
             }
         }
+    }
 
+    runTest {
         given("email of user which does not exist in database") {
             val email = "email@example.com"
             val passwordResetEmailResultObserver: Observer<ResultState<Boolean>> =
@@ -184,7 +194,9 @@ class UserViewModelTest : BaseViewModelTest({
                 }
             }
         }
+    }
 
+    runTest {
         given("password reset action code and new password") {
             val actionCode = "oob"
             val newPassword = "password"
@@ -211,7 +223,9 @@ class UserViewModelTest : BaseViewModelTest({
                 }
             }
         }
+    }
 
+    runTest {
         given("logged in user") {
             val signOutResultObserver: Observer<ResultState<Nothing>> =
                 mockk(relaxUnitFun = true)
