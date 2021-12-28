@@ -74,10 +74,10 @@ class CheckAccountFragmentInputDisplayScenario<ScenarioData> : BaseScenario<Scen
         }
         step("Check if all inputs are displayed properly in editable state") {
             UserScreen {
-                displayNameEditAccountButton {
+                displayNameEditButton {
                     click()
                 }
-                passwordEditInputButton {
+                passwordEditButton {
                     click()
                 }
                 displayNameAccountInput {
@@ -101,10 +101,10 @@ class CheckAccountFragmentInputDisplayScenario<ScenarioData> : BaseScenario<Scen
         }
         step("Check if all inputs are displayed properly in editable state again") {
             UserScreen {
-                displayNameEditAccountButton {
+                displayNameEditButton {
                     click()
                 }
-                passwordEditInputButton {
+                passwordEditButton {
                     click()
                 }
                 displayNameAccountInput {

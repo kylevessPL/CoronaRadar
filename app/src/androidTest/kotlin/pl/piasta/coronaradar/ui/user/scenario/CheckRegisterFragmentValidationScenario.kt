@@ -113,7 +113,7 @@ class CheckRegisterFragmentValidationScenario<ScenarioData> : BaseScenario<Scena
                 }
             }
         }
-        step("Type valid password and not matching password confirm and check if error is present on but password input and button is disabled") {
+        step("Type valid password and not matching password confirm and check if error is present on all but password input and button is disabled") {
             UserScreen {
                 closeSoftKeyboard()
                 passwordRegisterInput {

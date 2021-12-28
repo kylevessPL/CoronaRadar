@@ -96,7 +96,18 @@ class AccountFragmentTest : TestCase() {
         }
 
     @Test
-    fun `Any field input should trigger validation mechanism`() = run {
-        scenario(CheckAccountFragmentValidationScenario())
-    }
+    fun `Any field input should trigger validation mechanism`() =
+        before {
+            UserScreen {
+                displayNameEditButton {
+                    click()
+                }
+                passwordEditButton {
+                    click()
+                }
+            }
+        }.after {
+        }.run {
+            scenario(CheckAccountFragmentValidationScenario())
+        }
 }

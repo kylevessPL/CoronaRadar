@@ -235,7 +235,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:theme="@style/BlueButtonThemeOverlay"
-                    android:id="@+id/save_user_info_button"
+                    android:id="@+id/save_changes_button"
                     android:layout_width="match_parent"
                     android:layout_height="58dp"
                     android:text="@string/save_user_info"
