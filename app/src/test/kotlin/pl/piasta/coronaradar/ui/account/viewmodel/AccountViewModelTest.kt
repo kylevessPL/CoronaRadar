@@ -7,7 +7,6 @@ import io.kotest.matchers.shouldBe
 import io.mockk.*
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
-import kotlinx.coroutines.test.runTest
 import pl.piasta.coronaradar.data.auth.model.UserDetails
 import pl.piasta.coronaradar.data.auth.repository.AuthRepository
 import pl.piasta.coronaradar.ui.base.BaseViewModelTest
@@ -24,302 +23,295 @@ class AccountViewModelTest : BaseViewModelTest({
     val authRepository: AuthRepository = mockk(relaxUnitFun = true)
     val avatarUri: Uri = mockk()
 
-    runTest {
-        given("logged in user and avatar uri") {
-            val avatarBytes = "test data".toByteArray()
-            val displayNameEnabledObserver: Observer<Boolean> = mockk(relaxUnitFun = true)
-            val passwordEnabledObserver: Observer<Boolean> = mockk(relaxUnitFun = true)
-            val uploadUserAvatarResultObserver: Observer<ResultState<Uri>> =
-                mockk(relaxUnitFun = true)
-            val updateUserProfileResultObserver: Observer<ResultState<Nothing>> =
-                mockk(relaxUnitFun = true)
-            every { application.contentResolver.openInputStream(any()) } returns ByteArrayInputStream(
-                avatarBytes
-            )
-            every { authRepository.currentUser } returns UserDetails(String.EMPTY, String.EMPTY)
-            every { authRepository.uploadAvatar(any()) } returns flow {
-                emit(ResultState.Loading)
-                emit(ResultState.Success(avatarUri))
+    given("logged in user and avatar uri") {
+        println(coroutineContext.toString())
+        val avatarBytes = "test data".toByteArray()
+        val displayNameEnabledObserver: Observer<Boolean> = mockk(relaxUnitFun = true)
+        val passwordEnabledObserver: Observer<Boolean> = mockk(relaxUnitFun = true)
+        val uploadUserAvatarResultObserver: Observer<ResultState<Uri>> =
+            mockk(relaxUnitFun = true)
+        val updateUserProfileResultObserver: Observer<ResultState<Nothing>> =
+            mockk(relaxUnitFun = true)
+        every { application.contentResolver.openInputStream(any()) } returns ByteArrayInputStream(
+            avatarBytes
+        )
+        every { authRepository.currentUser } returns UserDetails(String.EMPTY, String.EMPTY)
+        every { authRepository.uploadAvatar(any()) } returns flow {
+            emit(ResultState.Loading)
+            emit(ResultState.Success(avatarUri))
+        }
+        every { authRepository.updateCurrentUserDetails(any(), any()) } returns flow {
+            emit(ResultState.Loading)
+            emit(ResultState.Success())
+        }
+        val viewModel =
+            AccountViewModel(coroutineDispatcher, application, authRepository).apply {
+                userDetailsForm.input.avatar.set(avatarUri)
             }
-            every { authRepository.updateCurrentUserDetails(any(), any()) } returns flow {
-                emit(ResultState.Loading)
-                emit(ResultState.Success())
+
+        `when`("update user avatar only") {
+            with(viewModel) {
+                mapOf(
+                    displayNameEnabled to displayNameEnabledObserver,
+                    passwordEnabled to passwordEnabledObserver,
+                    uploadUserAvatarResult to uploadUserAvatarResultObserver,
+                    updateUserProfileResult to updateUserProfileResultObserver
+                ).observeMultipleForTesting {
+                    updateProfile()
+                }
             }
-            val viewModel =
-                AccountViewModel(coroutineDispatcher, application, authRepository).apply {
-                    userDetailsForm.input.avatar.set(avatarUri)
-                }
 
-            `when`("update user avatar only") {
-                with(viewModel) {
-                    mapOf(
-                        displayNameEnabled to displayNameEnabledObserver,
-                        passwordEnabled to passwordEnabledObserver,
-                        uploadUserAvatarResult to uploadUserAvatarResultObserver,
-                        updateUserProfileResult to updateUserProfileResultObserver
-                    ).observeMultipleForTesting {
-                        updateProfile()
-                    }
-                }
+            then("displayNameEnabled state updates properly") {
+                viewModel.displayNameEnabled.value shouldBe false
+            }
 
-                then("displayNameEnabled state updates properly") {
-                    viewModel.displayNameEnabled.value shouldBe false
-                }
+            then("passwordEnabled state updates properly") {
+                viewModel.passwordEnabled.value shouldBe false
+            }
 
-                then("passwordEnabled state updates properly") {
-                    viewModel.passwordEnabled.value shouldBe false
+            then("uploadUserAvatarResult state updates properly") {
+                verifyOrder {
+                    uploadUserAvatarResultObserver.onChanged(ResultState.Loading)
+                    uploadUserAvatarResultObserver.onChanged(ResultState.Success(avatarUri))
                 }
+            }
 
-                then("uploadUserAvatarResult state updates properly") {
-                    verifyOrder {
-                        uploadUserAvatarResultObserver.onChanged(ResultState.Loading)
-                        uploadUserAvatarResultObserver.onChanged(ResultState.Success(avatarUri))
-                    }
+            then("updateUserProfileResult state updates properly") {
+                verifyOrder {
+                    updateUserProfileResultObserver.onChanged(ResultState.Loading)
+                    updateUserProfileResultObserver.onChanged(ResultState.Success())
                 }
+            }
 
-                then("updateUserProfileResult state updates properly") {
-                    verifyOrder {
-                        updateUserProfileResultObserver.onChanged(ResultState.Loading)
-                        updateUserProfileResultObserver.onChanged(ResultState.Success())
-                    }
+            then("only upload avatar and update details repository function is invoked") {
+                coVerify {
+                    authRepository.uploadAvatar(avatarBytes)
+                    authRepository.updateCurrentUserDetails(any(), avatarUri)
                 }
-
-                then("only upload avatar and update details repository function is invoked") {
-                    coVerify {
-                        authRepository.uploadAvatar(avatarBytes)
-                        authRepository.updateCurrentUserDetails(any(), avatarUri)
-                    }
-                    coVerify(inverse = true) {
-                        authRepository.updateCurrentUserPassword(any())
-                    }
+                coVerify(inverse = true) {
+                    authRepository.updateCurrentUserPassword(any())
                 }
             }
         }
     }
 
-    runTest {
-        given("logged in user, display name and password") {
-            val displayName = "Name Surname"
-            val email = "email@example.com"
-            val password = "password"
-            val displayNameEnabledObserver: Observer<Boolean> = mockk(relaxUnitFun = true)
-            val passwordEnabledObserver: Observer<Boolean> = mockk(relaxUnitFun = true)
-            val uploadUserAvatarResultObserver: Observer<ResultState<Uri>> =
-                mockk(relaxUnitFun = true)
-            val updateUserProfileResultObserver: Observer<ResultState<Nothing>> =
-                mockk(relaxUnitFun = true)
-            every { authRepository.currentUser } returns UserDetails(displayName, email)
-            every { authRepository.updateCurrentUserPassword(any()) } returns flow {
-                emit(ResultState.Loading)
-                emit(ResultState.Success())
+    given("logged in user, display name and password") {
+        val displayName = "Name Surname"
+        val email = "email@example.com"
+        val password = "password"
+        val displayNameEnabledObserver: Observer<Boolean> = mockk(relaxUnitFun = true)
+        val passwordEnabledObserver: Observer<Boolean> = mockk(relaxUnitFun = true)
+        val uploadUserAvatarResultObserver: Observer<ResultState<Uri>> =
+            mockk(relaxUnitFun = true)
+        val updateUserProfileResultObserver: Observer<ResultState<Nothing>> =
+            mockk(relaxUnitFun = true)
+        every { authRepository.currentUser } returns UserDetails(displayName, email)
+        every { authRepository.updateCurrentUserPassword(any()) } returns flow {
+            emit(ResultState.Loading)
+            emit(ResultState.Success())
+        }
+        every { authRepository.updateCurrentUserDetails(any(), any()) } returns flow {
+            emit(ResultState.Loading)
+            emit(ResultState.Success())
+        }
+        val viewModel =
+            AccountViewModel(coroutineDispatcher, application, authRepository).apply {
+                userDetailsForm.input.let {
+                    it.initialDisplayName = String.EMPTY
+                    it.displayName.set(displayName)
+                    it.password.set(password)
+                    it.passwordConfirm.set(password)
+                }
             }
-            every { authRepository.updateCurrentUserDetails(any(), any()) } returns flow {
-                emit(ResultState.Loading)
-                emit(ResultState.Success())
+
+        `when`("update display name and passsword") {
+            with(viewModel) {
+                mapOf(
+                    displayNameEnabled to displayNameEnabledObserver,
+                    passwordEnabled to passwordEnabledObserver,
+                    uploadUserAvatarResult to uploadUserAvatarResultObserver,
+                    updateUserProfileResult to updateUserProfileResultObserver
+                ).observeMultipleForTesting {
+                    updateProfile()
+                }
             }
-            val viewModel =
-                AccountViewModel(coroutineDispatcher, application, authRepository).apply {
-                    userDetailsForm.input.let {
-                        it.initialDisplayName = String.EMPTY
-                        it.displayName.set(displayName)
-                        it.password.set(password)
-                        it.passwordConfirm.set(password)
-                    }
-                }
 
-            `when`("update display name and passsword") {
-                with(viewModel) {
-                    mapOf(
-                        displayNameEnabled to displayNameEnabledObserver,
-                        passwordEnabled to passwordEnabledObserver,
-                        uploadUserAvatarResult to uploadUserAvatarResultObserver,
-                        updateUserProfileResult to updateUserProfileResultObserver
-                    ).observeMultipleForTesting {
-                        updateProfile()
-                    }
-                }
+            then("displayNameEnabled state updates properly") {
+                viewModel.displayNameEnabled.value shouldBe false
+            }
 
-                then("displayNameEnabled state updates properly") {
-                    viewModel.displayNameEnabled.value shouldBe false
-                }
+            then("passwordEnabled state updates properly") {
+                viewModel.passwordEnabled.value shouldBe false
+            }
 
-                then("passwordEnabled state updates properly") {
-                    viewModel.passwordEnabled.value shouldBe false
+            then("uploadUserAvatarResult state doesn't receive any updates") {
+                verify(inverse = true) {
+                    uploadUserAvatarResultObserver.onChanged(any())
                 }
+            }
 
-                then("uploadUserAvatarResult state doesn't receive any updates") {
-                    verify(inverse = true) {
-                        uploadUserAvatarResultObserver.onChanged(any())
-                    }
+            then("updateUserProfileResult state updates properly") {
+                verifyOrder {
+                    updateUserProfileResultObserver.onChanged(ResultState.Loading)
+                    updateUserProfileResultObserver.onChanged(ResultState.Success())
                 }
+            }
 
-                then("updateUserProfileResult state updates properly") {
-                    verifyOrder {
-                        updateUserProfileResultObserver.onChanged(ResultState.Loading)
-                        updateUserProfileResultObserver.onChanged(ResultState.Success())
-                    }
+            then("only update password and details repository functions are invoked") {
+                coVerify {
+                    authRepository.updateCurrentUserPassword(password)
+                    authRepository.updateCurrentUserDetails(displayName)
                 }
-
-                then("only update password and details repository functions are invoked") {
-                    coVerify {
-                        authRepository.updateCurrentUserPassword(password)
-                        authRepository.updateCurrentUserDetails(displayName)
-                    }
-                    coVerify(inverse = true) {
-                        authRepository.uploadAvatar(any())
-                    }
+                coVerify(inverse = true) {
+                    authRepository.uploadAvatar(any())
                 }
             }
         }
     }
 
-    runTest {
-        given("logged in user and password") {
-            val password = "password"
-            val displayNameEnabledObserver: Observer<Boolean> = mockk(relaxUnitFun = true)
-            val passwordEnabledObserver: Observer<Boolean> = mockk(relaxUnitFun = true)
-            val uploadUserAvatarResultObserver: Observer<ResultState<Uri>> =
-                mockk(relaxUnitFun = true)
-            val updateUserProfileResultObserver: Observer<ResultState<Nothing>> =
-                mockk(relaxUnitFun = true)
-            every { authRepository.currentUser } returns UserDetails(String.EMPTY, String.EMPTY)
-            every { authRepository.updateCurrentUserPassword(any()) } returns flow {
-                emit(ResultState.Loading)
-                emit(ResultState.Success())
+    given("logged in user and password") {
+        val password = "password"
+        val displayNameEnabledObserver: Observer<Boolean> = mockk(relaxUnitFun = true)
+        val passwordEnabledObserver: Observer<Boolean> = mockk(relaxUnitFun = true)
+        val uploadUserAvatarResultObserver: Observer<ResultState<Uri>> =
+            mockk(relaxUnitFun = true)
+        val updateUserProfileResultObserver: Observer<ResultState<Nothing>> =
+            mockk(relaxUnitFun = true)
+        every { authRepository.currentUser } returns UserDetails(String.EMPTY, String.EMPTY)
+        every { authRepository.updateCurrentUserPassword(any()) } returns flow {
+            emit(ResultState.Loading)
+            emit(ResultState.Success())
+        }
+        val viewModel =
+            AccountViewModel(coroutineDispatcher, application, authRepository).apply {
+                userDetailsForm.input.let {
+                    it.password.set(password)
+                    it.passwordConfirm.set(password)
+                }
             }
-            val viewModel =
-                AccountViewModel(coroutineDispatcher, application, authRepository).apply {
-                    userDetailsForm.input.let {
-                        it.password.set(password)
-                        it.passwordConfirm.set(password)
-                    }
-                }
 
-            `when`("update user passsword") {
-                with(viewModel) {
-                    mapOf(
-                        displayNameEnabled to displayNameEnabledObserver,
-                        passwordEnabled to passwordEnabledObserver,
-                        uploadUserAvatarResult to uploadUserAvatarResultObserver,
-                        updateUserProfileResult to updateUserProfileResultObserver
-                    ).observeMultipleForTesting {
-                        updateProfile()
-                    }
+        `when`("update user passsword") {
+            with(viewModel) {
+                mapOf(
+                    displayNameEnabled to displayNameEnabledObserver,
+                    passwordEnabled to passwordEnabledObserver,
+                    uploadUserAvatarResult to uploadUserAvatarResultObserver,
+                    updateUserProfileResult to updateUserProfileResultObserver
+                ).observeMultipleForTesting {
+                    updateProfile()
                 }
+            }
 
-                then("displayNameEnabled state updates properly") {
-                    viewModel.displayNameEnabled.value shouldBe false
+            then("displayNameEnabled state updates properly") {
+                viewModel.displayNameEnabled.value shouldBe false
+            }
+
+            then("passwordEnabled state updates properly") {
+                viewModel.passwordEnabled.value shouldBe false
+            }
+
+            then("uploadUserAvatarResult state doesn't receive any updates") {
+                verify(inverse = true) {
+                    uploadUserAvatarResultObserver.onChanged(any())
                 }
+            }
 
-                then("passwordEnabled state updates properly") {
-                    viewModel.passwordEnabled.value shouldBe false
+            then("updateUserProfileResult state updates properly") {
+                verifyOrder {
+                    updateUserProfileResultObserver.onChanged(ResultState.Loading)
+                    updateUserProfileResultObserver.onChanged(ResultState.Success())
                 }
+            }
 
-                then("uploadUserAvatarResult state doesn't receive any updates") {
-                    verify(inverse = true) {
-                        uploadUserAvatarResultObserver.onChanged(any())
-                    }
+            then("only update password repository function is invoked") {
+                coVerify {
+                    authRepository.updateCurrentUserPassword(password)
                 }
-
-                then("updateUserProfileResult state updates properly") {
-                    verifyOrder {
-                        updateUserProfileResultObserver.onChanged(ResultState.Loading)
-                        updateUserProfileResultObserver.onChanged(ResultState.Success())
-                    }
-                }
-
-                then("only update password repository function is invoked") {
-                    coVerify {
-                        authRepository.updateCurrentUserPassword(password)
-                    }
-                    coVerify(inverse = true) {
-                        authRepository.uploadAvatar(any())
-                        authRepository.updateCurrentUserDetails(any(), any())
-                    }
+                coVerify(inverse = true) {
+                    authRepository.uploadAvatar(any())
+                    authRepository.updateCurrentUserDetails(any(), any())
                 }
             }
         }
     }
 
-    runTest {
-        given("logged in user, avatar uri, display name and password") {
-            val avatarBytes = "test data".toByteArray()
-            val displayName = "Name Surname"
-            val email = "email@example.com"
-            val password = "password"
-            val displayNameEnabledObserver: Observer<Boolean> = mockk(relaxUnitFun = true)
-            val passwordEnabledObserver: Observer<Boolean> = mockk(relaxUnitFun = true)
-            val uploadUserAvatarResultObserver: Observer<ResultState<Uri>> =
-                mockk(relaxUnitFun = true)
-            val updateUserProfileResultObserver: Observer<ResultState<Nothing>> =
-                mockk(relaxUnitFun = true)
-            every { application.contentResolver.openInputStream(any()) } returns ByteArrayInputStream(
-                avatarBytes
-            )
-            every { authRepository.currentUser } returns UserDetails(displayName, email, avatarUri)
-            every { authRepository.uploadAvatar(any()) } returns flow {
-                emit(ResultState.Loading)
-                emit(ResultState.Success(avatarUri))
+    given("logged in user, avatar uri, display name and password") {
+        val avatarBytes = "test data".toByteArray()
+        val displayName = "Name Surname"
+        val email = "email@example.com"
+        val password = "password"
+        val displayNameEnabledObserver: Observer<Boolean> = mockk(relaxUnitFun = true)
+        val passwordEnabledObserver: Observer<Boolean> = mockk(relaxUnitFun = true)
+        val uploadUserAvatarResultObserver: Observer<ResultState<Uri>> =
+            mockk(relaxUnitFun = true)
+        val updateUserProfileResultObserver: Observer<ResultState<Nothing>> =
+            mockk(relaxUnitFun = true)
+        every { application.contentResolver.openInputStream(any()) } returns ByteArrayInputStream(
+            avatarBytes
+        )
+        every { authRepository.currentUser } returns UserDetails(displayName, email, avatarUri)
+        every { authRepository.uploadAvatar(any()) } returns flow {
+            emit(ResultState.Loading)
+            emit(ResultState.Success(avatarUri))
+        }
+        every { authRepository.updateCurrentUserPassword(any()) } returns flow {
+            emit(ResultState.Loading)
+            emit(ResultState.Success())
+        }
+        every { authRepository.updateCurrentUserDetails(any(), any()) } returns flow {
+            emit(ResultState.Loading)
+            emit(ResultState.Success())
+        }
+        val viewModel =
+            AccountViewModel(coroutineDispatcher, application, authRepository).apply {
+                userDetailsForm.input.let {
+                    it.avatar.set(avatarUri)
+                    it.initialDisplayName = String.EMPTY
+                    it.displayName.set(displayName)
+                    it.password.set(password)
+                    it.passwordConfirm.set(password)
+                }
             }
-            every { authRepository.updateCurrentUserPassword(any()) } returns flow {
-                emit(ResultState.Loading)
-                emit(ResultState.Success())
+
+        `when`("update user avatar, display name and passsword") {
+            with(viewModel) {
+                mapOf(
+                    displayNameEnabled to displayNameEnabledObserver,
+                    passwordEnabled to passwordEnabledObserver,
+                    uploadUserAvatarResult to uploadUserAvatarResultObserver,
+                    updateUserProfileResult to updateUserProfileResultObserver
+                ).observeMultipleForTesting {
+                    updateProfile()
+                }
             }
-            every { authRepository.updateCurrentUserDetails(any(), any()) } returns flow {
-                emit(ResultState.Loading)
-                emit(ResultState.Success())
+
+            then("displayNameEnabled state updates properly") {
+                viewModel.displayNameEnabled.value shouldBe false
             }
-            val viewModel =
-                AccountViewModel(coroutineDispatcher, application, authRepository).apply {
-                    userDetailsForm.input.let {
-                        it.avatar.set(avatarUri)
-                        it.initialDisplayName = String.EMPTY
-                        it.displayName.set(displayName)
-                        it.password.set(password)
-                        it.passwordConfirm.set(password)
-                    }
-                }
 
-            `when`("update user avatar, display name and passsword") {
-                with(viewModel) {
-                    mapOf(
-                        displayNameEnabled to displayNameEnabledObserver,
-                        passwordEnabled to passwordEnabledObserver,
-                        uploadUserAvatarResult to uploadUserAvatarResultObserver,
-                        updateUserProfileResult to updateUserProfileResultObserver
-                    ).observeMultipleForTesting {
-                        updateProfile()
-                    }
-                }
+            then("passwordEnabled state updates properly") {
+                viewModel.passwordEnabled.value shouldBe false
+            }
 
-                then("displayNameEnabled state updates properly") {
-                    viewModel.displayNameEnabled.value shouldBe false
+            then("uploadUserAvatarResult state updates properly") {
+                verifyOrder {
+                    uploadUserAvatarResultObserver.onChanged(ResultState.Loading)
+                    uploadUserAvatarResultObserver.onChanged(ResultState.Success(avatarUri))
                 }
+            }
 
-                then("passwordEnabled state updates properly") {
-                    viewModel.passwordEnabled.value shouldBe false
+            then("updateUserProfileResult state updates properly") {
+                verifyOrder {
+                    updateUserProfileResultObserver.onChanged(ResultState.Loading)
+                    updateUserProfileResultObserver.onChanged(ResultState.Success())
                 }
+            }
 
-                then("uploadUserAvatarResult state updates properly") {
-                    verifyOrder {
-                        uploadUserAvatarResultObserver.onChanged(ResultState.Loading)
-                        uploadUserAvatarResultObserver.onChanged(ResultState.Success(avatarUri))
-                    }
-                }
-
-                then("updateUserProfileResult state updates properly") {
-                    verifyOrder {
-                        updateUserProfileResultObserver.onChanged(ResultState.Loading)
-                        updateUserProfileResultObserver.onChanged(ResultState.Success())
-                    }
-                }
-
-                then("all repository functions invoked") {
-                    coVerify {
-                        authRepository.uploadAvatar(avatarBytes)
-                        authRepository.updateCurrentUserPassword(password)
-                        authRepository.updateCurrentUserDetails(displayName, avatarUri)
-                    }
+            then("all repository functions invoked") {
+                coVerify {
+                    authRepository.uploadAvatar(avatarBytes)
+                    authRepository.updateCurrentUserPassword(password)
+                    authRepository.updateCurrentUserDetails(displayName, avatarUri)
                 }
             }
         }

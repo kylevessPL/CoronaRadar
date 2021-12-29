@@ -11,7 +11,6 @@ import io.mockk.mockk
 import io.mockk.verifyOrder
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
-import kotlinx.coroutines.test.runTest
 import pl.piasta.coronaradar.data.auth.repository.AuthRepository
 import pl.piasta.coronaradar.ui.base.BaseViewModelTest
 import pl.piasta.coronaradar.ui.util.observeForTesting
@@ -24,107 +23,101 @@ class LoginViewModelTest : BaseViewModelTest({
     val authRepository: AuthRepository = mockk(relaxUnitFun = true)
     val firebaseUser: FirebaseUser = mockk()
 
-    runTest {
-        given("email and password") {
-            val email = "email@example.com"
-            val password = "password"
-            val signInResultObserver: Observer<ResultState<FirebaseUser>> =
-                mockk(relaxUnitFun = true)
-            every { authRepository.login(any(), any()) } returns flow {
-                emit(ResultState.Loading)
-                emit(ResultState.Success(firebaseUser))
-            }
-            val viewModel = LoginViewModel(coroutineDispatcher, authRepository).apply {
-                loginForm.input.email.set(email)
-                loginForm.input.password.set(password)
-            }
+    given("email and password") {
+        val email = "email@example.com"
+        val password = "password"
+        val signInResultObserver: Observer<ResultState<FirebaseUser>> =
+            mockk(relaxUnitFun = true)
+        every { authRepository.login(any(), any()) } returns flow {
+            emit(ResultState.Loading)
+            emit(ResultState.Success(firebaseUser))
+        }
+        val viewModel = LoginViewModel(coroutineDispatcher, authRepository).apply {
+            loginForm.input.email.set(email)
+            loginForm.input.password.set(password)
+        }
 
-            `when`("login user with email and password") {
-                with(viewModel) {
-                    signInResult.observeForTesting(signInResultObserver) {
-                        signIn()
-                    }
+        `when`("login user with email and password") {
+            with(viewModel) {
+                signInResult.observeForTesting(signInResultObserver) {
+                    signIn()
                 }
+            }
 
-                then("signInResult state updates properly") {
-                    verifyOrder {
-                        signInResultObserver.onChanged(ResultState.Loading)
-                        signInResultObserver.onChanged(ResultState.Success(firebaseUser))
-                    }
+            then("signInResult state updates properly") {
+                verifyOrder {
+                    signInResultObserver.onChanged(ResultState.Loading)
+                    signInResultObserver.onChanged(ResultState.Success(firebaseUser))
                 }
+            }
 
-                then("login repository function is invoked") {
-                    coVerify {
-                        authRepository.login(email, password)
-                    }
+            then("login repository function is invoked") {
+                coVerify {
+                    authRepository.login(email, password)
                 }
             }
         }
     }
 
-    runTest {
-        given("GoogleSignInAccount task") {
-            val task: Task<GoogleSignInAccount> = mockk(relaxed = true)
-            val signInResultObserver: Observer<ResultState<FirebaseUser>> =
-                mockk(relaxUnitFun = true)
-            every { authRepository.loginWithGoogle(any()) } returns flow {
-                emit(ResultState.Loading)
-                emit(ResultState.Success(firebaseUser))
+    given("GoogleSignInAccount task") {
+        val task: Task<GoogleSignInAccount> = mockk(relaxed = true)
+        val signInResultObserver: Observer<ResultState<FirebaseUser>> =
+            mockk(relaxUnitFun = true)
+        every { authRepository.loginWithGoogle(any()) } returns flow {
+            emit(ResultState.Loading)
+            emit(ResultState.Success(firebaseUser))
+        }
+        val viewModel = LoginViewModel(coroutineDispatcher, authRepository)
+
+        `when`("login user with Google") {
+            with(viewModel) {
+                signInResult.observeForTesting(signInResultObserver) {
+                    signInWithGoogle(task)
+                }
             }
-            val viewModel = LoginViewModel(coroutineDispatcher, authRepository)
 
-            `when`("login user with Google") {
-                with(viewModel) {
-                    signInResult.observeForTesting(signInResultObserver) {
-                        signInWithGoogle(task)
-                    }
+            then("signInResult state updates properly") {
+                verifyOrder {
+                    signInResultObserver.onChanged(ResultState.Loading)
+                    signInResultObserver.onChanged(ResultState.Success(firebaseUser))
                 }
+            }
 
-                then("signInResult state updates properly") {
-                    verifyOrder {
-                        signInResultObserver.onChanged(ResultState.Loading)
-                        signInResultObserver.onChanged(ResultState.Success(firebaseUser))
-                    }
-                }
-
-                then("login repository function is invoked") {
-                    coVerify {
-                        authRepository.loginWithGoogle(task)
-                    }
+            then("login repository function is invoked") {
+                coVerify {
+                    authRepository.loginWithGoogle(task)
                 }
             }
         }
     }
 
-    runTest {
-        given("facebook CallbackManager") {
-            val callbackManager: CallbackManager = mockk(relaxed = true)
-            val signInResultObserver: Observer<ResultState<FirebaseUser>> =
-                mockk(relaxUnitFun = true)
-            every { authRepository.loginWithFacebook(any()) } returns flow {
-                emit(ResultState.Loading)
-                emit(ResultState.Success(firebaseUser))
+    given("facebook CallbackManager") {
+        val callbackManager: CallbackManager = mockk(relaxed = true)
+        val signInResultObserver: Observer<ResultState<FirebaseUser>> =
+            mockk(relaxUnitFun = true)
+        every { authRepository.loginWithFacebook(any()) } returns flow {
+            emit(ResultState.Loading)
+            emit(ResultState.Success(firebaseUser))
+        }
+        val viewModel = LoginViewModel(coroutineDispatcher, authRepository)
+
+        `when`("login user with Facebook") {
+            with(viewModel) {
+                signInResult.observeForTesting(signInResultObserver) {
+                    signInWithFacebook(callbackManager)
+                }
             }
-            val viewModel = LoginViewModel(coroutineDispatcher, authRepository)
 
-            `when`("login user with Facebook") {
-                with(viewModel) {
-                    signInResult.observeForTesting(signInResultObserver) {
-                        signInWithFacebook(callbackManager)
-                    }
+            then("signInResult state updates properly") {
+                verifyOrder {
+                    signInResultObserver.onChanged(ResultState.Loading)
+                    signInResultObserver.onChanged(ResultState.Success(firebaseUser))
                 }
+            }
 
-                then("signInResult state updates properly") {
-                    verifyOrder {
-                        signInResultObserver.onChanged(ResultState.Loading)
-                        signInResultObserver.onChanged(ResultState.Success(firebaseUser))
-                    }
-                }
-
-                then("login repository function is invoked") {
-                    coVerify {
-                        authRepository.loginWithFacebook(callbackManager)
-                    }
+            then("login repository function is invoked") {
+                coVerify {
+                    authRepository.loginWithFacebook(callbackManager)
                 }
             }
         }
