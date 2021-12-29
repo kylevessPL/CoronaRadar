@@ -24,7 +24,6 @@ class AccountViewModelTest : BaseViewModelTest({
     val avatarUri: Uri = mockk()
 
     given("logged in user and avatar uri") {
-        println(coroutineContext.toString())
         val avatarBytes = "test data".toByteArray()
         val displayNameEnabledObserver: Observer<Boolean> = mockk(relaxUnitFun = true)
         val passwordEnabledObserver: Observer<Boolean> = mockk(relaxUnitFun = true)
