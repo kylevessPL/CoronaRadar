@@ -1,4 +1,5 @@
 import librosa
+import librosa.display
 import numpy as np
 import os
 import tflite_runtime.interpreter as tflite
@@ -9,10 +10,13 @@ from matplotlib import pyplot as plt
 def generate_spectrogram(audio_path):
     img_path = os.path.dirname(audio_path) + '/spec.png'
     x, sr = librosa.load(audio_path, mono=True, sr=16000)
-    plt.specgram(x, NFFT=2048, Fs=2, Fc=0, noverlap=128, cmap='inferno', sides='default',
-                 mode='default', scale='dB')
+    s = librosa.feature.melspectrogram(x, sr=sr, n_mels=128)
+    log_s = librosa.power_to_db(s, ref=np.max)
+    plt.figure()
+    librosa.display.specshow(log_s, sr=sr)
     plt.axis('off')
-    plt.savefig(img_path)
+    plt.savefig(img_path, bbox_inches='tight', pad_inches=0)
+    plt.clf()
     return img_path
 
 
