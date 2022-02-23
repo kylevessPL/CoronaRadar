@@ -94,7 +94,7 @@ dependencies {
     def materialVersion = "1.4.0"
     def firebaseVersion = "29.0.0"
     def appCheckVersion = "16.0.0-beta04"
-    def facebookSdkVersion = "12.3.0"
+    def facebookSdkVersion = "13.0.0"
     def gmsAuthVersion = "20.0.0"
     def appCompatVersion = "1.4.0"
     def coreVersion = "1.7.0"
