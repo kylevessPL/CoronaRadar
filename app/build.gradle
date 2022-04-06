@@ -120,7 +120,7 @@ dependencies {
     def surveyKitVersion = "2.0.0-alpha-4"
     def mpAndroidChartVersion = "v3.1.0"
     def dotsIndicatorVersion = "4.2"
-    def coroutinesVersion = "1.6.0"
+    def coroutinesVersion = "1.6.1"
     def serializationPropertiesVersion = "1.3.2"
     def koTestVersion = "5.2.2"
     def espressoVersion = "3.4.0"
