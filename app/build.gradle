@@ -111,7 +111,7 @@ dependencies {
     def mockkVersion = "1.12.3"
     def hiltVersion = "2.41"
     def hiltFragmentTestingVersion = "1.3.0"
-    def glideVersion = "4.13.1"
+    def glideVersion = "4.13.2"
     def kPermissionsVersion = "3.3.0"
     def waveRecorderVersion = "1.6.0"
     def waveAnimationVersion = "1.0.0"
