@@ -21,7 +21,7 @@ buildscript {
         val firebasePerfPluginVersion = "1.4.1"
         val firebaseAppDistributionVersion = "3.0.1"
         val ktLintVersion = "10.3.0"
-        val hiltPluginVersion = "2.41"
+        val hiltPluginVersion = "2.42"
         val chaquopyVersion = "10.0.1"
 
         classpath("com.android.tools.build:gradle:$gradleBuildToolsVersion")
