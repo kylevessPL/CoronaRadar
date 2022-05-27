@@ -13,7 +13,7 @@ buildscript {
     }
 
     dependencies {
-        val gradleBuildToolsVersion = "7.2.0"
+        val gradleBuildToolsVersion = "7.2.1"
         val gradlePluginVersion = "1.5.31"
         val kotlinVersion = "1.6.21"
         val safeArgsVersion = "2.5.0-rc01"
