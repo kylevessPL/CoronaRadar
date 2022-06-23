@@ -17,7 +17,7 @@ buildscript {
         val gradlePluginVersion = "1.5.31"
         val kotlinVersion = "1.6.21"
         val safeArgsVersion = "2.5.0-rc01"
-        val googleServicesVersion = "4.3.10"
+        val googleServicesVersion = "4.3.12"
         val firebasePerfPluginVersion = "1.4.1"
         val firebaseAppDistributionVersion = "3.0.2"
         val ktLintVersion = "10.3.0"
