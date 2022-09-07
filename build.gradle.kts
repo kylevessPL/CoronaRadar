@@ -19,7 +19,7 @@ buildscript {
         val safeArgsVersion = "2.6.0-alpha01"
         val googleServicesVersion = "4.3.13"
         val firebasePerfPluginVersion = "1.4.1"
-        val firebaseAppDistributionVersion = "3.0.2"
+        val firebaseAppDistributionVersion = "3.0.3"
         val ktLintVersion = "11.0.0"
         val hiltPluginVersion = "2.43.2"
         val chaquopyVersion = "12.0.1"
